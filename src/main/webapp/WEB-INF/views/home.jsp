@@ -9,6 +9,10 @@
 	Hello world!  
 </h1>
 
-<P>  The time on the server is ${serverTime}. </P>
+<!--<P>  The time on the server is ${serverTime}. </P>-->
+
+<c:forEach items="${articles}" var="article">
+	<p>${article.id}</p>
+</c:forEach>
 </body>
 </html>
