@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class UserValidate
@@ -35,15 +34,9 @@ public class UserValidate extends HttpServlet {
 			/*
 			 * Attention Needed: set attributes for first and last name to be displayed on home screen
 			 */
-			UserModel um = new UserModel();
-			um.setUser(request.getParameter("uemail"));
-			HttpSession session = request.getSession();
-			session.setMaxInactiveInterval(30*60);
-			session.setAttribute("user_id", um.getUserId());
 			request.setAttribute("user","true"); //temp attr
 			request.setAttribute("alertMessage","<Strong>Welcome!!</strong> You have successfully logged in.");
 			request.setAttribute("alertType","success" );
-			request.setAttribute("user_id", session.getAttribute("user_id"));
 			response.setHeader("Location", "home");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("home");
 			dispatcher.forward(request, response);

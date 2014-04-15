@@ -77,7 +77,7 @@ public class DatabaseController {
 	}  
 	
 	//Execute insert query
-	public int insertData(String table,String[][] columnData ) {
+	public int insertData(String table,Object[][] columnData ) {
 		String sql ="INSERT INTO ";
 		sql += "`"+table+"`";
 		sql += "(";
@@ -101,8 +101,17 @@ public class DatabaseController {
 		try {
 			//Prepare statement to avoid problem like SQL injection.
 			PreparedStatement insertSql = conn.prepareStatement(sql);
-			for(int i=1;i<=columnData[1].length;i++)
-				insertSql.setString(i, columnData[1][i-1]);
+			for(int i=1;i<=columnData[1].length;i++){
+				String typeName = columnData[1][i-1].getClass().getName();
+				if(typeName.equals("java.lang.String"))
+					insertSql.setString(i, (String)columnData[1][i-1]);
+				else if(typeName.equals("java.lang.Integer"))
+					insertSql.setInt(i, (Integer)columnData[1][i-1]);
+				else if(typeName.equals("java.util.Date"))
+					insertSql.setDate(i, (Date)columnData[1][i-1]);
+				else if(typeName.equals("java.security.Timestamp"))
+					insertSql.setTimestamp(i, (Timestamp)columnData[1][i-1]);
+			}
 			// Execute SQL query 
 			int res = insertSql.executeUpdate();
 			return res; 

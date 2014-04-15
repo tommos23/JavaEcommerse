@@ -12,6 +12,5 @@ public class UserController {
 		umodel = new UserModel();
 		return umodel.setUser(uemail, upsw, ufname, ulname);		
 	}
-	
 	UserModel umodel;
 }

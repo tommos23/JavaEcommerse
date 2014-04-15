@@ -2,15 +2,18 @@ import java.sql.*;
 
 public class UserModel {
 	private int id;
+	private int role_id;
 	private String email;
 	private String password;
-	private String fname;
-	private String lname;
+	private String firstname;
+	private String surname;
+	private Date created_at;
+	private Timestamp last_login;
 
 	public boolean setUser(String email,String password,String fname,String lname) {
 		DatabaseController dbcon = new DatabaseController();
 		dbcon.setConnection();
-		String[][] data = {{"email","password", "fname", "lname"},{email,password,fname,lname}};
+		Object[][] data = {{"email","password", "fname", "lname"},{email,password,fname,lname}};
 
 		// Extract data from result set
 		try {
@@ -38,9 +41,11 @@ public class UserModel {
 				id  = rs.getInt("id");
 				this.email = email;
 				password = rs.getString("password");
-				fname = rs.getString("fname");
-				lname = rs.getString("lname");
-
+				firstname = rs.getString("fname");
+				surname = rs.getString("lname");
+				role_id = rs.getInt("role_id");
+				created_at =  rs.getDate("created_at");
+				last_login =  rs.getTimestamp("last_login");
 				// Clean-up Resources
 				rs.close();
 				dbcon.closeConnection();
@@ -60,20 +65,30 @@ public class UserModel {
 		return password;
 	}
 	// Get User First Name
-	public String getUserFirstName(){
-		return fname;
+	public String getUserFirstname(){
+		return firstname;
 	}
-	//Get User Lastname
-	public String getUserlastName(){
-		return lname;
+	//Get User Surname
+	public String getUserSurname(){
+		return surname;
 	}
 	//Get User Email
 	public String getUserEmail(){
 		return email;
 	}
 	//Get User ID
-	public int getUserId(){
+	public int getUserID(){
 		return id;
+	}
+	//Get user role id
+	public int getUserRoleID(){
+		return role_id;
+	}
+	public Timestamp getLastLogin(){
+		return last_login;
+	}
+	public Date getCreatedDate(){
+		return created_at;
 	}
 
 
