@@ -28,10 +28,10 @@ public class UserModel {
 			return false;
 		}
 	}
-	public boolean setUser(String email){		
+	public boolean setUser(String emailORid){		
 		DatabaseController dbcon = new DatabaseController();
 		dbcon.setConnection();
-		String[] conditions = new String[]{"`email` = \""+email+"\""};
+		String[] conditions = new String[]{"`email` = \""+emailORid+"\" OR `id` ="+emailORid};
 
 		// Extract data from result set
 		try {
@@ -39,7 +39,7 @@ public class UserModel {
 			if(rs.next()){
 				//Retrieve by column name
 				id  = rs.getInt("id");
-				this.email = email;
+				email = rs.getString("email");
 				password = rs.getString("password");
 				firstname = rs.getString("firstname");
 				surname = rs.getString("surname");
@@ -59,6 +59,7 @@ public class UserModel {
 			return false;
 		}
 	}
+	
 
 	//Get User Password
 	public String getUserPassword() {

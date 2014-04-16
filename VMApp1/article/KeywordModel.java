@@ -55,7 +55,7 @@ public class KeywordModel {
 
 	//Get Keyword
 	public String getKeyword() {
-		return password;
+		return keyword;
 	}
 
 	//Get Keyowrd ID
@@ -75,7 +75,7 @@ public class KeywordModel {
 			ArrayList<ArticleModel> articles = new ArrayList<ArticleModel>();
 			while(rs.next()){
 				ArticleModel am = new ArticleModel();
-				am.setKeyword(rs.getInt("article_id"));
+				am.setArticle(rs.getInt("article_id"));
 				articles.add(am);
 			}
 			return articles;
@@ -88,7 +88,7 @@ public class KeywordModel {
 	
 	
 	//Get users for keyword
-	public ArrayList<UserModel> getKeywordArticles() {
+	public ArrayList<UserModel> getKeywordUsers() {
 		DatabaseController dbcon = new DatabaseController();
 		dbcon.setConnection();
 		String[] conditions = new String[]{"`keyword_id` = \""+id+"\""};
@@ -99,7 +99,7 @@ public class KeywordModel {
 			ArrayList<UserModel> users = new ArrayList<UserModel>();
 			while(rs.next()){
 				UserModel um = new UserModel();
-				um.setUser(rs.getInt("user_id"));
+				um.setUser(String.valueOf(rs.getInt("user_id")));
 				users.add(um);
 			}
 			return users;

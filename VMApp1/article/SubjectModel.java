@@ -51,7 +51,7 @@ public class SubjectModel {
 
 	//Get Article ID
 	public int getArticleID() {
-		return password;
+		return id;
 	}
 	
 	//Get Article Title

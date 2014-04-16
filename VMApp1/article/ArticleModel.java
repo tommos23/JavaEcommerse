@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class ArticleModel {
 	private int id;
@@ -93,7 +94,7 @@ public class ArticleModel {
 		// Extract data from result set
 		try {
 			ResultSet rs = dbcon.getResult("article_keywords",null,conditions);
-			ArrayList<KeywordsModel> keywords = new ArrayList<KeywordsModel>();
+			ArrayList<KeywordModel> keywords = new ArrayList<KeywordModel>();
 			while(rs.next()){
 				KeywordModel kwm = new KeywordModel();
 				kwm.setKeyword(rs.getInt("keyword_id"));
@@ -131,7 +132,7 @@ public class ArticleModel {
 	}
 	
 	//Get reviews for article
-	public ArrayList<ReviewModel> getArticleVersions() {
+	public ArrayList<ReviewModel> getArticleReviews() {
 		DatabaseController dbcon = new DatabaseController();
 		dbcon.setConnection();
 		String[] conditions = new String[]{"`article_id` = \""+id+"\""};
@@ -142,7 +143,7 @@ public class ArticleModel {
 			ArrayList<ReviewModel> reviews = new ArrayList<ReviewModel>();
 			while(rs.next()){
 				ReviewModel rm = new ReviewModel();
-				rm.setKeyword(rs.getInt("id"));
+				rm.setReview(rs.getInt("id"));
 				reviews.add(rm);
 			}
 			return reviews;

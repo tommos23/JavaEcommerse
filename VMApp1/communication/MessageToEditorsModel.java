@@ -83,7 +83,7 @@ public class MessageToEditorsModel {
 	// Get user model for message
 	public UserModel getUserModel() {
 		UserModel user = new UserModel();
-		user.setUser(user_id);
+		user.setUser(String.valueOf(user_id));
 		return user;
 	}
 	// Get review model for comment

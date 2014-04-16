@@ -29,7 +29,7 @@ public class CommentModel {
 	public boolean setComment(int id){	
 		DatabaseController dbcon = new DatabaseController();
 		dbcon.setConnection();
-		String[] conditions = new String[]{"`id` = \""+id+"\""};
+		String[] conditions = new String[]{"`id` = "+id};
 
 		// Extract data from result set
 		try {
@@ -82,7 +82,7 @@ public class CommentModel {
 	// Get user model for comment
 	public UserModel getUserModel() {
 		UserModel user = new UserModel();
-		user.setUser(user_id);
+		user.setUser(String.valueOf(user_id));
 		return user;
 	}
 	// Get review model for comment

@@ -1,8 +1,6 @@
 
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,19 +38,27 @@ public class UserRegister extends HttpServlet {
 		session.setAttribute("lname", lname);
 		session.setAttribute("email", email);
 		boolean result = false;
+		int res=0;
 		String alertMessage;
 		String alertType ="info";
 		try{
-			result = um.setUser(email, request.getParameter("upsw"),fname,lname);		
+			if(um.setUser(email))
+				res = 2;
+			else {			
+				result = um.setUser(email, request.getParameter("upsw"),fname,lname);
+				if(result){
+					res = 1;
+				}
+				else{
+					res = 999;
+				}
+			}
 		}catch (Exception e){
-			session.setAttribute("user","false");
-			alertMessage = "<Strong>Oops!!</strong> Something went wrong.";
-			alertType = "danger";
-			session.setAttribute("alertMessage",alertMessage);
-			session.setAttribute("alertType",alertType );
-			response.sendRedirect("welcome");
+			res = 999;
 		}
-		if(result){
+		
+		switch(res){
+		case 1:
 			session.setAttribute("falseAttempt",null);
 			session.setAttribute("user_id", um.getUserID());
 			session.setAttribute("user","true");
@@ -63,14 +69,23 @@ public class UserRegister extends HttpServlet {
 			session.setAttribute("alertMessage",alertMessage);
 			session.setAttribute("alertType",alertType );
 			response.sendRedirect("home");
-		}
-		else{
+			break;
+		case 2:
+			session.setAttribute("user","false");
+			alertMessage = "<Strong>This eamil is already registerd with us. Try using sign-in.";
+			alertType = "warning";
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			response.sendRedirect("welcome");
+			break;
+		default:
 			session.setAttribute("user","false");
 			alertMessage = "<Strong>Oops!!</strong> Something went wrong.";
 			alertType = "danger";
 			session.setAttribute("alertMessage",alertMessage);
 			session.setAttribute("alertType",alertType );
 			response.sendRedirect("welcome");
+			break;
 		}
 	}
 

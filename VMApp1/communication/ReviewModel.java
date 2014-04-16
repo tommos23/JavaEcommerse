@@ -100,14 +100,14 @@ public class ReviewModel {
 	}
 	//Get status
 	public int getStatus(){
-		return expertise;
+		return status;
 	}
 
 	// Object retrieval methods
 	// Get user model for review
 	public UserModel getUserModel() {
 		UserModel user = new UserModel();
-		user.setUser(reviewer_id);
+		user.setUser(String.valueOf(reviewer_id));
 		return user;
 	}
 	// Get article for review
@@ -151,7 +151,7 @@ public class ReviewModel {
 			ArrayList<MessageToEditorsModel> messages = new ArrayList<MessageToEditorsModel>();
 			while(rs.next()){
 				MessageToEditorsModel message = new MessageToEditorsModel();
-				message.setComment(rs.getInt("id"));
+				message.setMessageToEditors(rs.getInt("id"));
 				messages.add(message);
 			}
 			return messages;

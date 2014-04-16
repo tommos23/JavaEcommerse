@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class VersionModel {
 	private int id;
@@ -7,7 +8,7 @@ public class VersionModel {
 	private String title;
 	private String abs;
 	private int subject_id;
-	private Date created_at
+	private Date created_at;
 	
 	VersionModel() {
 	
@@ -104,10 +105,10 @@ public class VersionModel {
 			ArrayList<SubjectModel> subjects = new ArrayList<SubjectModel>();
 			while(rs.next()){
 				SubjectModel sm = new SubjectModel();
-				sm.setKeyword(rs.getInt("subject_id"));
-				reviews.add(sm);
+				sm.setSubject(rs.getInt("subject_id"));
+				subjects.add(sm);
 			}
-			return reviews;
+			return subjects;
 		} catch (SQLException e) {
 			//Handles errors with resultset
 			e.printStackTrace();
