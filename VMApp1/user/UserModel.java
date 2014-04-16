@@ -31,7 +31,17 @@ public class UserModel {
 	public boolean setUser(String emailORid){		
 		DatabaseController dbcon = new DatabaseController();
 		dbcon.setConnection();
-		String[] conditions = new String[]{"`email` = \""+emailORid+"\" OR `id` ="+emailORid};
+		String[] conditions;
+		if(emailORid.contains("@"))
+			conditions = new String[]{"`email` = \""+emailORid+"\""};
+		else {
+			try { 
+				conditions = new String[]{"`id` = "+Integer.parseInt(emailORid)}; 
+		    } catch(NumberFormatException e) { 
+		        return false; 
+		    }
+		}
+			
 
 		// Extract data from result set
 		try {
