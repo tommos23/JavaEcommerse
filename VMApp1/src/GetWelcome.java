@@ -1,6 +1,7 @@
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
@@ -32,7 +33,18 @@ public Template handleRequest( HttpServletRequest request,
       }
       //-----End of Alert Message Code---------
       try {
-         template = getTemplate("user/login.vm"); 
+    	  if(request.getAttribute("fname")!=null)
+    		  context.put("fname", request.getAttribute("fname").toString());
+    	  if(request.getAttribute("lname")!=null)
+    		  context.put("lname", request.getAttribute("lname").toString());
+    	  if(request.getAttribute("email")!=null)
+    		  context.put("email", request.getAttribute("email").toString());
+         template = getTemplate("user/signup.vm"); 
+      } catch(Exception e ) {
+         System.out.println("Error " + e);
+      }
+      try {
+         template = getTemplate("index.vm"); 
       } catch(Exception e ) {
          System.out.println("Error " + e);
       }

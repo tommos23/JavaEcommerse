@@ -1,0 +1,23 @@
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+   		<div class="modal-content">
+      		<form name="signupform" id="signupform" action="register" form="register" method="post">
+    		<div class="modal-header">
+      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      			<h4 class="modal-title">Get Access</h4>
+   			 </div>
+    		<div class="modal-body">
+					<input class="form-control" type="text" name="ufname" placeholder="First Name" #if($fname) value=$fname #end required/><br>
+					<input class="form-control" type="text" name="ulname" placeholder="Last Name" #if($lname) value= $lname #end required/><br>
+					<input class="form-control" type="text" name="uemail" placeholder="E-mail"  #if($email) value=$email #end required/><br>
+					<input class="form-control" type="password" name="upsw" placeholder="Password" required/><br>
+					<input class="form-control" type="password" name="cnf-upsw" placeholder="Re-Enter Password" required/><br>
+    		</div>
+    		<div class="modal-footer">
+     			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+     			<input class="btn btn-success submit-btn" type="submit" value="Submit">
+    		</div>
+    		</form>
+   		</div><!-- /.modal-content -->
+ 	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

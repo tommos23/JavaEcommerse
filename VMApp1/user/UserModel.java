@@ -13,7 +13,7 @@ public class UserModel {
 	public boolean setUser(String email,String password,String fname,String lname) {
 		DatabaseController dbcon = new DatabaseController();
 		dbcon.setConnection();
-		Object[][] data = {{"email","password", "fname", "lname"},{email,password,fname,lname}};
+		Object[][] data = {{"email","password", "firstname", "surname"},{email,password,fname,lname}};
 
 		// Extract data from result set
 		try {
@@ -41,8 +41,8 @@ public class UserModel {
 				id  = rs.getInt("id");
 				this.email = email;
 				password = rs.getString("password");
-				firstname = rs.getString("fname");
-				surname = rs.getString("lname");
+				firstname = rs.getString("firstname");
+				surname = rs.getString("surname");
 				role_id = rs.getInt("role_id");
 				created_at =  rs.getDate("created_at");
 				last_login =  rs.getTimestamp("last_login");

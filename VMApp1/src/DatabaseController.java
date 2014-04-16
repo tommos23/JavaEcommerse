@@ -101,6 +101,7 @@ public class DatabaseController {
 		try {
 			//Prepare statement to avoid problem like SQL injection.
 			PreparedStatement insertSql = conn.prepareStatement(sql);
+			
 			for(int i=1;i<=columnData[1].length;i++){
 				String typeName = columnData[1][i-1].getClass().getName();
 				if(typeName.equals("java.lang.String"))

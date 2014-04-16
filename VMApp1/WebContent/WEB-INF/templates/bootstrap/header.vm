@@ -8,12 +8,17 @@
 						<li>
 							<a href="welcome" title="Sign-out"><span class="glyphicon glyphicon-log-out"></span> Sign-Out</a>
 						</li>
-					#else
+					#else						
 						<li>
-							<a href="signup" title="Register"><span class="glyphicon glyphicon-new-window"></span> Register</a>
+							<a href="#" title="Sign-In" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Sign-In</a>
+						</li>
+						<li>
+							<a href="#" title="Register" data-toggle="modal" data-target="#registerModal"><span class="glyphicon glyphicon-new-window"></span> Register</a>
 						</li>
 					#end
 				</ul>
 			</div>
 		</div>
 	</nav>
+	#include( "/user/loginmd.html" )
+	#parse( "/user/registermd.vm" )

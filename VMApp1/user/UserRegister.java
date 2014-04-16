@@ -44,8 +44,9 @@ public class UserRegister extends HttpServlet {
 			alertType = "danger";
 			request.setAttribute("alertMessage",alertMessage);
 			request.setAttribute("alertType",alertType );
-			RequestDispatcher dispatcher = request.getRequestDispatcher("signup");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("welcome");
 			dispatcher.forward(request, response);
+			System.out.println("Error " + e);
 		}
 		if(result){
 			request.setAttribute("user","true"); //temp attr
@@ -54,7 +55,7 @@ public class UserRegister extends HttpServlet {
 			alertType =  "success";
 			request.setAttribute("alertMessage",alertMessage);
 			request.setAttribute("alertType",alertType );
-			response.setHeader("Location", "home");
+			response.setHeader("location", "home");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("home");
 			dispatcher.forward(request, response);
 		}
@@ -63,8 +64,8 @@ public class UserRegister extends HttpServlet {
 			alertType = "danger";
 			request.setAttribute("alertMessage",alertMessage);
 			request.setAttribute("alertType",alertType );
-			response.setHeader("Location", "signup");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("signup");
+			response.setHeader("location", "welcome");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("welcome");
 			dispatcher.forward(request, response);
 		}
 	}
