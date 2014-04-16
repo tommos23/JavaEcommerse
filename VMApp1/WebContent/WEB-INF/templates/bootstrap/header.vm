@@ -20,5 +20,5 @@
 			</div>
 		</div>
 	</nav>
-	#include( "/user/loginmd.html" )
+	#parse( "/user/loginmd.vm" )
 	#parse( "/user/registermd.vm" )

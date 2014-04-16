@@ -45,7 +45,7 @@ public class UserValidate extends HttpServlet {
 				if(um.getUserPassword().equals(request.getParameter("upwd")))
 					result = true;				
 			if(result){
-				session.setAttribute("falseAttempt",null);
+				session.removeAttribute("falseAttempt");
 				session.setAttribute("user_id", um.getUserID());
 				session.setAttribute("user","true");
 				session.setAttribute("fname",um.getUserFirstname());
@@ -56,6 +56,7 @@ public class UserValidate extends HttpServlet {
 			}
 			else{
 				session.setAttribute("user","false"); //temp attr
+				session.setAttribute("existemail",request.getParameter("uemail"));
 				if (session.isNew())
 					session.setAttribute("falseAttempt",1);			
 				else{

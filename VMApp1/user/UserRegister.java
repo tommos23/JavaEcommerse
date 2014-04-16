@@ -33,10 +33,7 @@ public class UserRegister extends HttpServlet {
 		UserModel um = new UserModel();
 		String email = request.getParameter("uemail");
 		String fname = request.getParameter("ufname");
-		String lname = request.getParameter("ulname");
-		session.setAttribute("fname", fname);
-		session.setAttribute("lname", lname);
-		session.setAttribute("email", email);
+		String lname = request.getParameter("ulname");		
 		boolean result = false;
 		int res=0;
 		String alertMessage;
@@ -44,14 +41,15 @@ public class UserRegister extends HttpServlet {
 		try{
 			if(um.setUser(email))
 				res = 2;
-			else {			
+			else {
+				session.setAttribute("fname", fname);
+				session.setAttribute("lname", lname);
+				session.setAttribute("email", email);
 				result = um.setUser(email, request.getParameter("upsw"),fname,lname);
-				if(result){
+				if(result)
 					res = 1;
-				}
-				else{
+				else
 					res = 999;
-				}
 			}
 		}catch (Exception e){
 			res = 999;
@@ -59,7 +57,6 @@ public class UserRegister extends HttpServlet {
 		
 		switch(res){
 		case 1:
-			session.setAttribute("falseAttempt",null);
 			session.setAttribute("user_id", um.getUserID());
 			session.setAttribute("user","true");
 			session.setAttribute("fname",um.getUserFirstname());
@@ -72,6 +69,7 @@ public class UserRegister extends HttpServlet {
 			break;
 		case 2:
 			session.setAttribute("user","false");
+			session.setAttribute("existemail",email);
 			alertMessage = "<Strong>This eamil is already registerd with us. Try using sign-in.";
 			alertType = "warning";
 			session.setAttribute("alertMessage",alertMessage);

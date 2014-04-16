@@ -7,7 +7,7 @@
 	      			<h4 class="modal-title">Get Access</h4>
 	   			 </div>
 	    		<div class="modal-body">
-					<input class="form-control" type="text" name="uemail" placeholder="E-mail" required/><br>
+					<input class="form-control" type="text" name="uemail" #if($existemail) value= $existemail #end placeholder="E-mail" required/><br>
 					<input class="form-control" type="password" name="upwd" placeholder="Password" required/><br>				
 	    		</div>
 	    		<div class="modal-footer">

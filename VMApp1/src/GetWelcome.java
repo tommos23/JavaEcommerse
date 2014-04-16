@@ -29,8 +29,8 @@ public class GetWelcome extends VelocityViewServlet
 				context.put("alertType",session.getAttribute("alertType").toString());
 			else
 				context.put("alertType", "info");
-			session.setAttribute("alertMessage", null);
-			session.setAttribute("alertType", null);
+			session.removeAttribute("alertMessage");
+			session.removeAttribute("alertType");
 		}
 		//-----End of Alert Message Code---------
 		/* get the template */
@@ -45,24 +45,26 @@ public class GetWelcome extends VelocityViewServlet
 						e.printStackTrace();
 					}
 				}
+				if(session.getAttribute("fname")!=null){
+					context.put("fname", session.getAttribute("fname").toString());					
+					session.removeAttribute("fname");
+				}
+				if(session.getAttribute("lname")!=null){
+					context.put("lname", session.getAttribute("lname").toString());
+					session.removeAttribute("lname");
+				}
+				if(session.getAttribute("email")!=null){
+					context.put("email", session.getAttribute("email").toString());
+					session.removeAttribute("email");
+				}
+				if(session.getAttribute("existemail")!=null){
+					context.put("existemail", session.getAttribute("existemail").toString());
+					session.removeAttribute("existemail");
+				}
 			}
 		}
-		else {
-			context.put("application", "Login Application");
-			//if(session.getAttribute("user") != null)
-			//	context.put("user",session.getAttribute("user").toString());
-			try {
-				if(request.getAttribute("fname")!=null)
-					context.put("fname", request.getAttribute("fname").toString());
-				if(request.getAttribute("lname")!=null)
-					context.put("lname", request.getAttribute("lname").toString());
-				if(request.getAttribute("email")!=null)
-					context.put("email", request.getAttribute("email").toString());
-			} catch(Exception e ) {
-				System.out.println("Error " + e);
-			}
 
-		}
+		context.put("application", "Login Application");
 		try {
 			template = getTemplate("index.vm"); 
 		} catch(Exception e ) {
