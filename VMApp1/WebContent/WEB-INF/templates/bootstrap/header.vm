@@ -6,7 +6,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					#if($user=="true")
 						<li>
-							<a href="welcome" title="Sign-out"><span class="glyphicon glyphicon-log-out"></span> Sign-Out</a>
+							<a href="signout" title="Sign-out"><span class="glyphicon glyphicon-log-out"></span> Sign-Out</a>
 						</li>
 					#else						
 						<li>

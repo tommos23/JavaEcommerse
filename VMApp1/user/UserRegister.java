@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class UserRegister
@@ -21,52 +22,54 @@ public class UserRegister extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.sendRedirect("welcome");
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		UserController uc = new UserController();
+		HttpSession session = request.getSession(true);		
+		session.setMaxInactiveInterval(30*60);
+		UserModel um = new UserModel();
 		String email = request.getParameter("uemail");
 		String fname = request.getParameter("ufname");
 		String lname = request.getParameter("ulname");
-		request.setAttribute("fname", fname);
-		request.setAttribute("lname", lname);
-		request.setAttribute("email", email);
+		session.setAttribute("fname", fname);
+		session.setAttribute("lname", lname);
+		session.setAttribute("email", email);
 		boolean result = false;
 		String alertMessage;
 		String alertType ="info";
 		try{
-			result = uc.add_user(email, request.getParameter("upsw"),fname,lname);		
+			result = um.setUser(email, request.getParameter("upsw"),fname,lname);		
 		}catch (Exception e){
+			session.setAttribute("user","false");
 			alertMessage = "<Strong>Oops!!</strong> Something went wrong.";
 			alertType = "danger";
-			request.setAttribute("alertMessage",alertMessage);
-			request.setAttribute("alertType",alertType );
-			RequestDispatcher dispatcher = request.getRequestDispatcher("welcome");
-			dispatcher.forward(request, response);
-			System.out.println("Error " + e);
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			response.sendRedirect("welcome");
 		}
 		if(result){
-			request.setAttribute("user","true"); //temp attr
-			
+			session.setAttribute("falseAttempt",null);
+			session.setAttribute("user_id", um.getUserID());
+			session.setAttribute("user","true");
+			session.setAttribute("fname",um.getUserFirstname());
+			session.setAttribute("lname",um.getUserSurname());			
 			alertMessage =  "<Strong>Congratulations!!</strong> You have successfully registred.";
 			alertType =  "success";
-			request.setAttribute("alertMessage",alertMessage);
-			request.setAttribute("alertType",alertType );
-			response.setHeader("location", "home");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("home");
-			dispatcher.forward(request, response);
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
 		}
 		else{
+			session.setAttribute("user","false");
 			alertMessage = "<Strong>Oops!!</strong> Something went wrong.";
 			alertType = "danger";
-			request.setAttribute("alertMessage",alertMessage);
-			request.setAttribute("alertType",alertType );
-			response.setHeader("location", "welcome");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("welcome");
-			dispatcher.forward(request, response);
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			response.sendRedirect("welcome");;
 		}
 	}
 

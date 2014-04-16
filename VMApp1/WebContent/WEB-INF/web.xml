@@ -77,4 +77,14 @@ org.apache.velocity.tools.view.servlet.VelocityViewServlet
     <servlet-name>UserRegister</servlet-name>
     <url-pattern>/register</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserSignOut</display-name>
+    <servlet-name>UserSignOut</servlet-name>
+    <servlet-class>UserSignOut</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserSignOut</servlet-name>
+    <url-pattern>/signout</url-pattern>
+  </servlet-mapping>
 </web-app>

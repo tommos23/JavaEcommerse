@@ -1,9 +1,13 @@
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
 
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
@@ -11,36 +15,52 @@ import org.apache.velocity.tools.view.VelocityViewServlet;
 
 public class UserHome extends VelocityViewServlet 
 {
-   /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-public Template handleRequest( HttpServletRequest request, 
-      HttpServletResponse response, Context context )
-   { 
-      /* get the template */
-      Template template = null;
-      context.put("application", "Test Application");
-      if(request.getAttribute("fname")!=null)
-    	  context.put("fname", request.getAttribute("fname").toString());
-      if(request.getAttribute("lname")!=null)
-    	  context.put("fname", request.getAttribute("lname").toString());
-      //------Code to display alert message------
-      if(request.getAttribute("alertMessage")!=null){
-    	  context.put("alertMessage",request.getAttribute("alertMessage").toString());
-    	  context.put("showAlert", "true");
-    	  if(request.getAttribute("alertType") != null)
-    		  context.put("alertType",request.getAttribute("alertType").toString());
-    	  else
-    		  context.put("alertType", "info");
-      }
-      //-----End of Alert Message Code---------
-      try {
-         template = getTemplate("user/home.vm"); 
-      } catch(Exception e ) {
-         System.out.println("Error " + e);
-      }
-      return template;
-   }
+	public Template handleRequest( HttpServletRequest request, 
+			HttpServletResponse response, Context context )
+	{     
+		HttpSession session = request.getSession(true);
+		//------Code to display alert message------
+		if(session.getAttribute("alertMessage")!=null){
+			context.put("alertMessage",session.getAttribute("alertMessage").toString());
+			context.put("showAlert", "true");
+			if(session.getAttribute("alertType") != null)
+				context.put("alertType",session.getAttribute("alertType").toString());
+			else
+				context.put("alertType", "info");
+			session.setAttribute("alertMessage", null);
+			session.setAttribute("alertType", null);
+		}
+		//-----End of Alert Message Code---------
+
+		/* get the template */
+		Template template = null;
+		boolean user = false;
+		if(session.getAttribute("user") != null){
+			if(session.getAttribute("user").equals("true"))
+				user = true;
+		}
+
+		if (!user){
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else{		
+
+			context.put("application", "Test Application");
+		}		
+		try {
+			template = getTemplate("user/home.vm"); 
+		} catch(Exception e ) {
+			System.out.println("Error " + e);
+		}
+		return template;
+	}
 }

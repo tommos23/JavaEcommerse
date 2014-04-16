@@ -4,7 +4,7 @@ public class UserModel {
 	private int id;
 	private int role_id;
 	private String email;
-	private String password;
+	private String password; 
 	private String firstname;
 	private String surname;
 	private Date created_at;
