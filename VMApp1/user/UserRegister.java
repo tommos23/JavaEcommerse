@@ -62,6 +62,7 @@ public class UserRegister extends HttpServlet {
 			alertType =  "success";
 			session.setAttribute("alertMessage",alertMessage);
 			session.setAttribute("alertType",alertType );
+			response.sendRedirect("home");
 		}
 		else{
 			session.setAttribute("user","false");
@@ -69,7 +70,7 @@ public class UserRegister extends HttpServlet {
 			alertType = "danger";
 			session.setAttribute("alertMessage",alertMessage);
 			session.setAttribute("alertType",alertType );
-			response.sendRedirect("welcome");;
+			response.sendRedirect("welcome");
 		}
 	}
 
