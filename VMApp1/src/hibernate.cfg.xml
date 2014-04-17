@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+   <session-factory>
+   <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+   <property name="connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk:3306/team130</property>
+   <property name="connection.username">team130</property>
+   <property name="connection.password">60dd53ae</property>
+   
+   <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+   <property name="connection.pool_size">1</property>
+   <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+   <property name="show_sql">true</property>
+   <property name="hbm2ddl.auto">validate</property>
+     
+   <mapping class="com.jg.Model.Article"/>
+   <mapping class="com.jg.Model.Comment"/>
+   <mapping class="com.jg.Model.Global"/>
+   <mapping class="com.jg.Model.Keyword"/>
+   <mapping class="com.jg.Model.LetterToEditor"/>
+   <mapping class="com.jg.Model.MessageToEditor"/>
+   <mapping class="com.jg.Model.Review"/>
+   <mapping class="com.jg.Model.Subject"/>
+   <mapping class="com.jg.Model.Template"/>
+   <mapping class="com.jg.Model.Versions"/>
+   <mapping class="com.jg.Model.Role"/>
+</session-factory>
+</hibernate-configuration>
