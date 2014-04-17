@@ -46,10 +46,12 @@ public class UserValidate extends HttpServlet {
 					result = true;				
 			if(result){
 				session.removeAttribute("falseAttempt");
-				session.setAttribute("user_id", um.getUserID());
 				session.setAttribute("user","true");
-				session.setAttribute("fname",um.getUserFirstname());
-				session.setAttribute("lname",um.getUserSurname());
+				session.setAttribute("user_id", um.getUserID());
+				session.setAttribute("user_id",um.getUserID());
+				session.setAttribute("user_fname",um.getUserFirstname());
+				session.setAttribute("user_lname",um.getUserSurname());
+				session.setAttribute("user_email",um.getUserEmail());
 				session.setAttribute("alertMessage","<Strong>Welcome!!</strong> You have successfully logged in.");
 				session.setAttribute("alertType","success" );
 				response.sendRedirect("home");

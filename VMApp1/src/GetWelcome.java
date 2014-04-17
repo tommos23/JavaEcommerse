@@ -62,6 +62,12 @@ public class GetWelcome extends VelocityViewServlet
 					session.removeAttribute("existemail");
 				}
 			}
+			else{
+				session.setAttribute("user", "false");
+			}
+		}
+		else{
+			session.setAttribute("user", "false");
 		}
 
 		context.put("application", "Login Application");

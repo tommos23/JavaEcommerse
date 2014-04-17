@@ -8,8 +8,10 @@
 <div class="container">
 		<div class="row">
 			<div class="col-lg-22">
-				#if($showAlert=="true")
-					#parse( "/bootstrap/alert.vm" )
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
 				#end
 				<div class="panel panel-default">
 					<div class="panel-heading">Welcome</div>

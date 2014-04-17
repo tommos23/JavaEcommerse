@@ -44,6 +44,9 @@ public class UserHome extends VelocityViewServlet
 			if(session.getAttribute("user").equals("true"))
 				user = true;
 		}
+		else{
+			session.setAttribute("user", "false");
+		}
 
 		if (!user){
 			try {

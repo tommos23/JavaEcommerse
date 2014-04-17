@@ -57,10 +57,12 @@ public class UserRegister extends HttpServlet {
 		
 		switch(res){
 		case 1:
-			session.setAttribute("user_id", um.getUserID());
 			session.setAttribute("user","true");
-			session.setAttribute("fname",um.getUserFirstname());
-			session.setAttribute("lname",um.getUserSurname());			
+			session.setAttribute("user_id", um.getUserID());
+			session.setAttribute("user_id",um.getUserID());
+			session.setAttribute("user_fname",um.getUserFirstname());
+			session.setAttribute("user_lname",um.getUserSurname());
+			session.setAttribute("user_email",um.getUserEmail());
 			alertMessage =  "<Strong>Congratulations!!</strong> You have successfully registred.";
 			alertType =  "success";
 			session.setAttribute("alertMessage",alertMessage);
