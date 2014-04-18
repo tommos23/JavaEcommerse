@@ -8,6 +8,19 @@ import javax.persistence.*;
 @Table(name="users")
 public class User {
 	
+	public User(){
+		super();
+	}
+	public User(String firstname,String surname,String email,String password,String affiliations,Date createdate,Date  lastlogin){
+		this.firstname=firstname;
+		this.surname=surname;
+		this.email=email;
+		this.password=password;
+		this.affiliations=affiliations;
+		this.createdate=createdate;
+		this.lastlogin=lastlogin;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -45,10 +58,10 @@ public class User {
 		this.surname = surname;
 	}
 	public Date getCreatedat() {
-		return createdat;
+		return createdate;
 	}
-	public void setCreatedat(Date createdat) {
-		this.createdat = createdat;
+	public void setCreatedat(Date createdate) {
+		this.createdate = createdate;
 	}
 	public Date getLastlogin() {
 		return lastlogin;
@@ -85,9 +98,9 @@ public class User {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
-	private Date createdat;
+	private Date createdate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_login")
-	private Date  lastlogin;
+	private Date lastlogin;
 }
