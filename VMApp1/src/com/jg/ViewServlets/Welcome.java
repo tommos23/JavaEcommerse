@@ -1,4 +1,4 @@
-
+package com.jg.ViewServlets;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +9,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-public class GetWelcome extends VelocityViewServlet 
+public class Welcome extends VelocityViewServlet 
 {
 	/**
 	 * 

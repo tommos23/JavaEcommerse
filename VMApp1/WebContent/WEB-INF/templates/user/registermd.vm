@@ -10,8 +10,8 @@
 					<input class="form-control" type="text" name="ufname" placeholder="First Name" #if($fname) value=$fname #end required/><br>
 					<input class="form-control" type="text" name="ulname" placeholder="Last Name" #if($lname) value= $lname #end required/><br>
 					<input class="form-control" type="text" name="uemail" placeholder="E-mail"  #if($email) value=$email #end required/><br>
-					<input class="form-control" type="password" name="upsw" placeholder="Password" required/><br>
-					<input class="form-control" type="password" name="cnf-upsw" placeholder="Re-Enter Password" required/><br>
+					<input class="form-control" type="password" name="upwd" placeholder="Password" required/><br>
+					<input class="form-control" type="password" name="cnf-upwd" placeholder="Re-Enter Password" required/><br>
     		</div>
     		<div class="modal-footer">
      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

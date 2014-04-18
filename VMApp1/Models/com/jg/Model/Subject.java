@@ -2,6 +2,7 @@ package com.jg.Model;
 
 import javax.persistence.*;
 
+@Entity
 @Table(name="subjects")
 public class Subject {
 	public int getId() {
@@ -13,5 +14,6 @@ public class Subject {
 	
 	@Id @GeneratedValue
 	private int id;
+	@Column(columnDefinition = "TEXT")
 	private String title;
 }

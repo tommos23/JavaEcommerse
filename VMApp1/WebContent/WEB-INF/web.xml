@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>VMApp1</display-name>
+  <display-name>journal</display-name>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>GetWelcome</display-name>
+    <display-name>Welcome</display-name>
     <servlet-name>Welcome</servlet-name>
-    <servlet-class>GetWelcome</servlet-class>
+    <servlet-class>com.jg.ViewServlets.Welcome</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Welcome</servlet-name>
@@ -21,9 +16,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>velocity</servlet-name>
-    <servlet-class>
-org.apache.velocity.tools.view.servlet.VelocityViewServlet
-</servlet-class>
+    <servlet-class>org.apache.velocity.tools.view.servlet.VelocityViewServlet</servlet-class>
     <init-param>
       <param-name>org.apache.velocity.toolbox</param-name>
       <param-value>/WEB-INF/toolbox.xml</param-value>
@@ -41,7 +34,7 @@ org.apache.velocity.tools.view.servlet.VelocityViewServlet
     <description></description>
     <display-name>UserHome</display-name>
     <servlet-name>UserHome</servlet-name>
-    <servlet-class>UserHome</servlet-class>
+    <servlet-class>com.jg.ViewServlets.UserHome</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserHome</servlet-name>
@@ -51,7 +44,7 @@ org.apache.velocity.tools.view.servlet.VelocityViewServlet
     <description></description>
     <display-name>UserValidate</display-name>
     <servlet-name>UserValidate</servlet-name>
-    <servlet-class>UserValidate</servlet-class>
+    <servlet-class>com.jg.OperationServlets.UserValidate</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserValidate</servlet-name>
@@ -59,19 +52,9 @@ org.apache.velocity.tools.view.servlet.VelocityViewServlet
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>UserSignUp</display-name>
-    <servlet-name>UserSignUp</servlet-name>
-    <servlet-class>UserSignUp</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UserSignUp</servlet-name>
-    <url-pattern>/signup</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>UserRegister</display-name>
     <servlet-name>UserRegister</servlet-name>
-    <servlet-class>UserRegister</servlet-class>
+    <servlet-class>com.jg.OperationServlets.UserRegister</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserRegister</servlet-name>
@@ -81,7 +64,7 @@ org.apache.velocity.tools.view.servlet.VelocityViewServlet
     <description></description>
     <display-name>UserSignOut</display-name>
     <servlet-name>UserSignOut</servlet-name>
-    <servlet-class>UserSignOut</servlet-class>
+    <servlet-class>com.jg.OperationServlets.UserSignOut</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserSignOut</servlet-name>

@@ -1,8 +1,8 @@
 package com.jg.Model;
-import java.sql.*;
-import java.util.*;
+
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -50,7 +50,9 @@ public class Version {
 	@Id @GeneratedValue
 	private int id;
 	private int articles_id;
+	@Column(columnDefinition = "TEXT")
 	private String title;
+	@Column(columnDefinition = "TEXT")
 	private String abs;
 	private int subject_id;
 	@Temporal(TemporalType.TIMESTAMP)

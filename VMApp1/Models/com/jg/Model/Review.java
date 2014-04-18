@@ -1,14 +1,16 @@
 package com.jg.Model;
-import java.sql.*;
-import java.util.Date;
-import java.util.ArrayList;
 
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+@Entity
 @Table(name="reviews")
 public class Review {
 	public int getId() {
@@ -73,7 +75,9 @@ public class Review {
 	private int position;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
+	@Column(columnDefinition = "TEXT")
 	private String contribution;
+	@Column(columnDefinition = "TEXT")
 	private String critism;
 	private int expertise;
 	private int status;

@@ -1,6 +1,7 @@
 package com.jg.Model;
 
 import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -68,16 +69,16 @@ public class User {
 	@Column(name="role_id")
 	private int roleid;
 	
-	@Column(nullable=false)
+	@Column(nullable=false, length = 50)
 	private String firstname;
 	
-	@Column(nullable=false)
+	@Column(nullable=false, length = 50)
 	private String surname;
 	
-	@Column(nullable=false)
+	@Column(nullable=false, columnDefinition = "TEXT")
 	private String email;
 	
-	@Column(nullable=false)
+	@Column(nullable=false, length = 50)
 	private String password;
 	
 	private String affiliations;

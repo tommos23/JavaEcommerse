@@ -1,9 +1,11 @@
 package com.jg.Model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Entity
 @Table(name="keywords")
 public class Keyword {
 	public int getId() {

@@ -2,6 +2,9 @@ package com.jg.Model;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Type;
+
+@Entity
 @Table(name="roles")
 public class Role {
 	public int getId() {
@@ -31,11 +34,18 @@ public class Role {
 	
 	@Id @GeneratedValue
 	int id;
+	@Column(length = 50)
 	String name;
+	@Type(type="true_false")
 	boolean can_read_published;
+	@Type(type="true_false")
 	boolean can_read_unpublished;
+	@Type(type="true_false")
 	boolean can_write;
+	@Type(type="true_false")
 	boolean can_review;
+	@Type(type="true_false")
 	boolean can_edit;
+	@Type(type="true_false")
 	boolean can_publish;
 }

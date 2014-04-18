@@ -1,10 +1,12 @@
 package com.jg.Model;
-import java.sql.*;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Column;
 
+@Entity
 @Table(name="global")
 public class Global {
 
@@ -34,8 +36,11 @@ public class Global {
 	}
 	@Id @GeneratedValue
 	private int id;
+	@Column(columnDefinition = "TEXT")
 	private String name;
+	@Column(columnDefinition = "TEXT")
 	private String goals;
+	@Column(columnDefinition = "TEXT")
 	private String submission_guidelines;
 
 }

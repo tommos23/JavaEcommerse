@@ -1,14 +1,17 @@
 package com.jg.Model;
-import java.sql.*;
+
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Table(name="message_to_editor")
+@Entity
+@Table(name="messages_to_editor")
 public class MessageToEditor {
 	public String getComment() {
 		return comment;
@@ -36,6 +39,7 @@ public class MessageToEditor {
 	private int id;
 	private int user_id;
 	private int review_id;
+	@Column(columnDefinition = "TEXT")
 	private String comment;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;

@@ -1,4 +1,4 @@
-
+package com.jg.ViewServlets;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;

@@ -1,15 +1,17 @@
 package com.jg.Model;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Table(name="letter_to_editor")
+@Entity
+@Table(name="letters_to_editor")
 public class LetterToEditor {
 	public int getId() {
 		return id;
@@ -53,10 +55,10 @@ public class LetterToEditor {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getPublish_edition() {
+	public int getPublish_edition() {
 		return publish_edition;
 	}
-	public void setPublish_edition(String publish_edition) {
+	public void setPublish_edition(int publish_edition) {
 		this.publish_edition = publish_edition;
 	}
 	public Date getCreated_at() {
@@ -81,11 +83,15 @@ public class LetterToEditor {
 	private int id;
 	private int user_id;
 	private int article_id;
+	@Column(columnDefinition = "TEXT")
 	private String text;
+	@Column(columnDefinition = "TEXT")
 	private String edited_text;
+	@Column(columnDefinition = "TEXT")
 	private String reply_text;
+	@Column(length = 50)
 	private String status;
-	private String publish_edition;
+	private int publish_edition;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
 	@Temporal(TemporalType.TIMESTAMP)
