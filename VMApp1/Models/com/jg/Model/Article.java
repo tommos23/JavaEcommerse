@@ -22,11 +22,11 @@ public class Article {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public User getUser() {
-		return user;
+	public User getMainAuthor() {
+		return main_author;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setMainAuthor(User user) {
+		this.main_author = user;
 	}
 	public Edition getEdition() {
 		return edition;
@@ -49,7 +49,7 @@ public class Article {
 	@Id @GeneratedValue
 	private int id;
 	@ManyToOne(cascade = CascadeType.ALL)
-	private User user; //int main_author_id;
+	private User main_author; //int main_author_id;
 	@Column(nullable=false)
 	private int status;
 	@ManyToOne(cascade = CascadeType.ALL)

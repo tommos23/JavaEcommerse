@@ -19,11 +19,11 @@ public class Version {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getArticles_id() {
-		return articles_id;
+	public Article getArticle() {
+		return article;
 	}
-	public void setArticles_id(int articles_id) {
-		this.articles_id = articles_id;
+	public void setArticle(Article article) {
+		this.article = article;
 	}
 	public String getTitle() {
 		return title;
@@ -52,7 +52,7 @@ public class Version {
 	@Id @GeneratedValue
 	private int id;
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Article article;// int articles_id;
+	private Article article;// int articles_id
 	@Column(columnDefinition = "TEXT")
 	private String title;
 	@Column(columnDefinition = "TEXT")

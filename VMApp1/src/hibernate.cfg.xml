@@ -17,6 +17,7 @@
      
    <mapping class="com.jg.Model.Article"/>
    <mapping class="com.jg.Model.Comment"/>
+   <mapping class="com.jg.Model.Edition"/>
    <mapping class="com.jg.Model.Global"/>
    <mapping class="com.jg.Model.Keyword"/>
    <mapping class="com.jg.Model.LetterToEditor"/>
@@ -27,5 +28,6 @@
    <mapping class="com.jg.Model.Template"/>   
    <mapping class="com.jg.Model.User"/>
    <mapping class="com.jg.Model.Version"/>
+   <mapping class="com.jg.Model.Volume"/>
 </session-factory>
 </hibernate-configuration>

@@ -21,11 +21,11 @@ public class Review {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public User getUser() {
-		return user;
+	public User getReviewer() {
+		return reviewer;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setReviewer(User user) {
+		this.reviewer = user;
 	}
 	public Article getArticle() {
 		return article;
@@ -73,7 +73,7 @@ public class Review {
 	@Id @GeneratedValue
 	private int id;
 	@ManyToOne(cascade = CascadeType.ALL)
-	private User user;//int reviewer_id;
+	private User reviewer;//int reviewer_id;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Article article;//int article_id;
 	private int position;
