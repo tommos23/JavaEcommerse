@@ -2,23 +2,24 @@ package com.jg.Controller;
 
 import java.util.Date;
 import java.util.List;
-
 import com.jg.Model.*;
-
 import org.hibernate.*;
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.criterion.Restrictions;
 
-@SuppressWarnings("deprecation")
-public class UserController {
-
-
-
+public class UserController extends Controller{
 	public validateResponse validate(String email,String password){
 		try{
 			if(isExist(email).equals(entryResponse.EXIST)){
-				if(user.getPassword().equals(password))
+				if(user.getPassword().equals(password)){
+					if(!isSessionReady()) throw new Exception();
+					session = sessionFactory.openSession();				
+					session.beginTransaction();
+					user.setOldLastlogin(user.getNewLastlogin());
+					user.setNewLastlogin(new Date());
+					session.update(user);
+					session.getTransaction().commit();
 					return validateResponse.VALID;
+				}
 				else
 					return validateResponse.INVALID;
 			}
@@ -29,20 +30,29 @@ public class UserController {
 		catch(Exception e){
 			e.printStackTrace();
 			return validateResponse.DB_ERROR;
-		}		
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
 	}
 
 	public entryResponse addNew(String firstname,String surname,String email,String password){
 		if(isExist(email).equals(entryResponse.EXIST))
 			return entryResponse.EXIST;
 		else{
-			SessionFactory sf = null;
-			Session session = null;
-			try{				
-				user= new User(firstname,surname,email,password,"na",new Date(),new Date());
-				sf = new AnnotationConfiguration().configure().buildSessionFactory();
-				session = sf.openSession();				
-				session.beginTransaction();				
+			try{
+				if(!isSessionReady()) throw new Exception();
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				
+				user= new User(firstname,surname,email,password,"na",new Date(),new Date(),new Date());
+				Criteria cr = session.createCriteria(Role.class);
+				cr.add(Restrictions.eq("name", "reader"));
+				List result = cr.list();
+				user.setRole((Role)result.get(0));
+				
 				session.save(user);
 				session.getTransaction().commit();
 
@@ -53,28 +63,24 @@ public class UserController {
 				return entryResponse.DB_ERROR;
 			}
 			finally{
-				session.close();
-				sf.close();
+				if(session.isOpen())
+					session.close();
+				System.out.println("session closed.");
 			}
 		}
 	}
 
 	private entryResponse isExist(String email){
-		SessionFactory sf = null;
-		Session session = null;
 		try{				
-			sf = new AnnotationConfiguration().configure().buildSessionFactory();
-			session = sf.openSession();				
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(User.class);
 			cr.add(Restrictions.eq("email", email));
 			List results = cr.list();				
-			session.getTransaction().commit();
-			session.close();
-			sf.close();
+			session.getTransaction().commit();			
 			if(!results.isEmpty()){
 				user = (User)results.get(0);
-				System.out.println(((User)results.get(0)).getEmail()+" size "+results.size());
 				return entryResponse.EXIST;
 			}
 			else
@@ -83,8 +89,12 @@ public class UserController {
 		catch(Exception e){
 			e.printStackTrace();
 			session.close();
-			sf.close();
 			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
 		}
 	}
 
@@ -95,4 +105,5 @@ public class UserController {
 	public static enum validateResponse {VALID,INVALID,DB_ERROR}
 	public static enum entryResponse {EXIST,NOT_EXIST,SUCCESS,DB_ERROR}
 	private User user;
+	Session session = null;
 }

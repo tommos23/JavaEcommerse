@@ -47,6 +47,7 @@ public class UserValidate extends HttpServlet {
 		String email = request.getParameter("uemail");
 		String pwd = request.getParameter("upwd");
 		UserController uc = new UserController();
+		uc.startSession();
 		switch(uc.validate(email, pwd)){
 		case VALID:
 			session.removeAttribute("falseAttempt");
@@ -55,6 +56,7 @@ public class UserValidate extends HttpServlet {
 			session.setAttribute("user_fname",uc.getUser().getFirstname());
 			session.setAttribute("user_lname",uc.getUser().getSurname());
 			session.setAttribute("user_email",uc.getUser().getEmail());
+			session.setAttribute("last_login", uc.getUser().getOldLastlogin().toLocaleString());
 			session.setAttribute("alertMessage","<Strong>Welcome!!</strong> You have successfully logged in.");
 			session.setAttribute("alertType","success" );
 			response.sendRedirect("home");
@@ -84,6 +86,8 @@ public class UserValidate extends HttpServlet {
 			response.sendRedirect("welcome");
 			break;
 		}
+		if(uc.isSessionReady())
+			uc.endSession();
 	}
 
 }

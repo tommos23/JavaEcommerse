@@ -2,10 +2,12 @@ package com.jg.Model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,16 +31,25 @@ public class Comment {
 	public int getId() {
 		return id;
 	}
-	public int getReview_id() {
-		return review_id;
+	public Review getReview() {
+		return review;
 	}
-	public int getUser_id() {
-		return user_id;
+	public void setReview(Review review) {
+		this.review = review;
 	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	@Id @GeneratedValue
 	private int id;
-	private int review_id;
-	private int user_id;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Review review;//int review_id;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private User user;// int user_id;
 	@Column(columnDefinition = "TEXT")
 	private String text;
 	@Temporal(TemporalType.TIMESTAMP)

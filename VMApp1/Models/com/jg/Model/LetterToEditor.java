@@ -2,10 +2,12 @@ package com.jg.Model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,17 +21,17 @@ public class LetterToEditor {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUser_id() {
-		return user_id;
+	public User getUser() {
+		return user;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	public int getArticle_id() {
-		return article_id;
+	public Article getArticle() {
+		return article;
 	}
-	public void setArticle_id(int article_id) {
-		this.article_id = article_id;
+	public void setArticle(Article article) {
+		this.article = article;
 	}
 	public String getText() {
 		return text;
@@ -81,8 +83,10 @@ public class LetterToEditor {
 	}
 	@Id @GeneratedValue
 	private int id;
-	private int user_id;
-	private int article_id;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private User user;// int user_id;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Article article;// int article_id;
 	@Column(columnDefinition = "TEXT")
 	private String text;
 	@Column(columnDefinition = "TEXT")

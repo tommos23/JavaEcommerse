@@ -2,43 +2,34 @@ package com.jg.Model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="articles")
-public class Article {
-
+@Table(name="volumes")
+public class Volume {
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public Edition getEdition() {
-		return edition;
-	}
-	public void setEdition(Edition edition) {
-		this.edition = edition;
-	}
 	public int getStatus() {
 		return status;
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public Date getCreated_at() {
 		return created_at;
@@ -48,13 +39,11 @@ public class Article {
 	}
 	@Id @GeneratedValue
 	private int id;
-	@ManyToOne(cascade = CascadeType.ALL)
-	private User user; //int main_author_id;
 	@Column(nullable=false)
 	private int status;
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Edition edition;//int edition_id;
+	@Column(nullable=false, columnDefinition = "TEXT")
+	private String description;
+	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
-
 }

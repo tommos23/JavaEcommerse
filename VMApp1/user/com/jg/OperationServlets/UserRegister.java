@@ -40,7 +40,7 @@ public class UserRegister extends HttpServlet {
 		String alertMessage;
 		String alertType ="info";
 		UserController uc = new UserController();
-		//UserController.registerResponse res = UserController.registerResponse.EXIST;
+		uc.startSession();
 		switch(uc.addNew(fname,lname,email,pwd)){
 		case SUCCESS:
 			session.setAttribute("user","true");
@@ -48,6 +48,7 @@ public class UserRegister extends HttpServlet {
 			session.setAttribute("user_fname",uc.getUser().getFirstname());
 			session.setAttribute("user_lname",uc.getUser().getSurname());
 			session.setAttribute("user_email",uc.getUser().getEmail());
+			session.setAttribute("last_login", "na");
 			alertMessage =  "<Strong>Congratulations!!</strong> You have successfully registred.";
 			alertType =  "success";
 			session.setAttribute("alertMessage",alertMessage);
@@ -72,6 +73,8 @@ public class UserRegister extends HttpServlet {
 			response.sendRedirect("welcome");
 			break;
 		}
+		if(uc.isSessionReady())
+			uc.endSession();
 	}
 
 }

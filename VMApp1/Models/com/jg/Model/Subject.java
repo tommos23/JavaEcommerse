@@ -11,7 +11,6 @@ public class Subject {
 	public String getTitle() {
 		return title;
 	}
-	
 	@Id @GeneratedValue
 	private int id;
 	@Column(columnDefinition = "TEXT")

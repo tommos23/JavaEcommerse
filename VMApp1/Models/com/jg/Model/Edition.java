@@ -1,9 +1,9 @@
 package com.jg.Model;
 
 import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -11,37 +11,32 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Table(name="versions")
-public class Version {
+@Entity
+@Table(name="editions")
+public class Edition {
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getArticles_id() {
-		return articles_id;
+	public int getStatus() {
+		return status;
 	}
-	public void setArticles_id(int articles_id) {
-		this.articles_id = articles_id;
+	public void setStatus(int status) {
+		this.status = status;
 	}
-	public String getTitle() {
-		return title;
+	public String getDescription() {
+		return description;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public String getAbs() {
-		return abs;
+	public Volume getVolume() {
+		return volume;
 	}
-	public void setAbs(String abs) {
-		this.abs = abs;
-	}
-	public int getSubject_id() {
-		return subject_id;
-	}
-	public void setSubject_id(int subject_id) {
-		this.subject_id = subject_id;
+	public void setVolume(Volume volume) {
+		this.volume = volume;
 	}
 	public Date getCreated_at() {
 		return created_at;
@@ -51,14 +46,13 @@ public class Version {
 	}
 	@Id @GeneratedValue
 	private int id;
+	@Column(nullable=false)
+	private int status;
+	@Column(nullable=false, columnDefinition = "TEXT")
+	private String description;
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Article article;// int articles_id;
-	@Column(columnDefinition = "TEXT")
-	private String title;
-	@Column(columnDefinition = "TEXT")
-	private String abs;
-	private int subject_id;
+	private Volume volume;//int edition_id;
+	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
-	
 }

@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 @Entity
 @Table(name="roles")
 public class Role {
+
 	public int getId() {
 		return id;
 	}
@@ -31,21 +32,21 @@ public class Role {
 	public boolean isCan_publish() {
 		return can_publish;
 	}
-	
+
 	@Id @GeneratedValue
 	int id;
 	@Column(length = 50)
 	String name;
 	@Type(type="true_false")
-	boolean can_read_published;
+	private boolean can_read_published;
 	@Type(type="true_false")
-	boolean can_read_unpublished;
+	private boolean can_read_unpublished;
 	@Type(type="true_false")
-	boolean can_write;
+	private boolean can_write;
 	@Type(type="true_false")
-	boolean can_review;
+	private boolean can_review;
 	@Type(type="true_false")
-	boolean can_edit;
+	private boolean can_edit;
 	@Type(type="true_false")
-	boolean can_publish;
+	private boolean can_publish;
 }

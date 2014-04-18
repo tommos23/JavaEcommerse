@@ -11,14 +11,15 @@ public class User {
 	public User(){
 		super();
 	}
-	public User(String firstname,String surname,String email,String password,String affiliations,Date createdate,Date  lastlogin){
+	public User(String firstname,String surname,String email,String password,String affiliations,Date createdate,Date newLastlogin,Date oldLastlogin){
 		this.firstname=firstname;
 		this.surname=surname;
 		this.email=email;
 		this.password=password;
 		this.affiliations=affiliations;
 		this.createdate=createdate;
-		this.lastlogin=lastlogin;
+		this.newLastlogin=newLastlogin;
+		this.oldLastlogin = oldLastlogin;
 	}
 	
 	public int getId() {
@@ -26,12 +27,18 @@ public class User {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}	
+	public Role getRole() {
+		return role;
 	}
-	public int getRoleid() {
-		return roleid;
+	public void setRole(Role role) {
+		this.role = role;
 	}
-	public void setRoleid(int roleid) {
-		this.roleid = roleid;
+	public Date getCreatedate() {
+		return createdate;
+	}
+	public void setCreatedate(Date createdate) {
+		this.createdate = createdate;
 	}
 	public String getEmail() {
 		return email;
@@ -63,11 +70,17 @@ public class User {
 	public void setCreatedat(Date createdate) {
 		this.createdate = createdate;
 	}
-	public Date getLastlogin() {
-		return lastlogin;
+	public Date getNewLastlogin() {
+		return newLastlogin;
 	}
-	public void setLastlogin(Date lastlogin) {
-		this.lastlogin = lastlogin;
+	public void setNewLastlogin(Date newLastlogin) {
+		this.newLastlogin = newLastlogin;
+	}
+	public Date getOldLastlogin() {
+		return oldLastlogin;
+	}
+	public void setOldLastlogin(Date oldLastlogin) {
+		this.oldLastlogin = oldLastlogin;
 	}
 	public String getAffiliations() {
 		return affiliations;
@@ -79,16 +92,16 @@ public class User {
 	@Id @GeneratedValue
 	private int id;
 	
-	@Column(name="role_id")
-	private int roleid;
-	
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Role role;
+
 	@Column(nullable=false, length = 50)
 	private String firstname;
 	
 	@Column(nullable=false, length = 50)
 	private String surname;
 	
-	@Column(nullable=false, columnDefinition = "TEXT")
+	@Column(nullable=false, unique=true, columnDefinition = "TEXT")
 	private String email;
 	
 	@Column(nullable=false, length = 50)
@@ -99,8 +112,12 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
 	private Date createdate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="new_last_login")
+	private Date newLastlogin;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="last_login")
-	private Date lastlogin;
+	@Column(name="old_last_login")
+	private Date oldLastlogin;
 }
