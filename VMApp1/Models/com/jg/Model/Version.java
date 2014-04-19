@@ -1,16 +1,21 @@
 package com.jg.Model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+@Entity
 @Table(name="versions")
 public class Version {
 	public int getId() {
@@ -37,11 +42,11 @@ public class Version {
 	public void setAbs(String abs) {
 		this.abs = abs;
 	}
-	public int getSubject_id() {
-		return subject_id;
+	public Set<Subject> getSubjects() {
+		return subjects;
 	}
-	public void setSubject_id(int subject_id) {
-		this.subject_id = subject_id;
+	public void setSubjects(Set<Subject> subjects) {
+		this.subjects = subjects;
 	}
 	public Date getCreated_at() {
 		return created_at;
@@ -55,9 +60,10 @@ public class Version {
 	private Article article;// int articles_id
 	@Column(columnDefinition = "TEXT")
 	private String title;
-	@Column(columnDefinition = "TEXT")
+	@Column(name = "abstract", columnDefinition = "TEXT")
 	private String abs;
-	private int subject_id;
+	@ManyToMany(cascade = CascadeType.ALL)
+	private Set<Subject> subjects = new HashSet<Subject>(0);
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
 	

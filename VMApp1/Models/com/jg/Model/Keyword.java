@@ -1,5 +1,6 @@
 package com.jg.Model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,6 +9,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name="keywords")
 public class Keyword {
+	
+	public Keyword(){
+		super();
+	}
+	public Keyword(String word){
+		setKeyword(word);
+	}
 	public int getId() {
 		return id;
 	}
@@ -22,5 +30,6 @@ public class Keyword {
 	}
 	@Id @GeneratedValue
 	private int id;
+	@Column(nullable = false, unique=true)
 	private String keyword;	
 }

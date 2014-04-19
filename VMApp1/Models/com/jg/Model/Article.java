@@ -1,12 +1,15 @@
 package com.jg.Model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,6 +30,12 @@ public class Article {
 	}
 	public void setMainAuthor(User user) {
 		this.main_author = user;
+	}
+	public Set<Keyword> getKeywords() {
+		return keywords;
+	}
+	public void setKeywords(Set<Keyword> keywords) {
+		this.keywords = keywords;
 	}
 	public Edition getEdition() {
 		return edition;
@@ -56,5 +65,8 @@ public class Article {
 	private Edition edition;//int edition_id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
+	@ManyToMany(cascade = CascadeType.ALL)
+	private Set<Keyword> keywords = new HashSet<Keyword>(0);
+
 
 }

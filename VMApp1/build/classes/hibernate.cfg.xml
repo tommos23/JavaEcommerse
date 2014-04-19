@@ -12,8 +12,8 @@
    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
    <property name="connection.pool_size">1</property>
    <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-   <property name="show_sql">true</property>
-   <property name="hbm2ddl.auto">validate</property>
+   <property name="show_sql">true</property>   
+   <property name="hbm2ddl.auto">validate</property><!-- CAUTION: Do not change value for this property. It may flush database or change its structure -->
      
    <mapping class="com.jg.Model.Article"/>
    <mapping class="com.jg.Model.Comment"/>

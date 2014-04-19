@@ -1,0 +1,48 @@
+//****** SAMPLE CODE TO ADD AN ARTICLE IN SYSTEM ******//
+This code can add article, keywords, version, subject at same time.
+
+//CODE:*********************************************
+
+/*
+ *	Always extend controllers with controller class 
+ *	which will add default methods to start and close session factory into controller.
+ *	Use these methods in servlets in which controller will be initialized.
+ *	isSessionReady() will reflect status(open/close) of session factory.
+ */
+//Check if session factory is ready or not
+if(!isSessionReady()) throw new Exception();
+
+//Start Session
+session = sessionFactory.openSession();				
+session.beginTransaction();
+
+//Create an object
+Article a = new Article();
+a.setCreated_at(new Date());
+a.setMainAuthor(user); // Requires a user object before calling this
+Set<Keyword> tempkey = new HashSet<Keyword>(0);
+tempkey.add(new Keyword("Science"));
+tempkey.add(new Keyword("Technology"));
+a.setKeywords(tempkey);
+a.setStatus(0);
+Version ver = new Version();
+ver.setArticle(a);
+ver.setCreated_at(a.getCreated_at());
+ver.setTitle("Importance of Computer Science & Information Technology");
+ver.setAbs("This is first article/keyowrds/version/subjects addition into database with the help of hibernate");
+Set<Subject> sub = new HashSet<Subject>(0);
+sub.add(new Subject("Computer Science"));
+sub.add(new Subject("Information Technology"));
+ver.setSubjects(sub);
+
+//Store object in session
+session.save(ver);
+
+//complete transaction
+session.getTransaction().commit();
+
+
+//Always use above code in try-catch block and close session in finally block
+session.close();
+
+//*****************************************************
