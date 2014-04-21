@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -55,6 +56,14 @@ public class Article {
 	public void setCreated_at(Date created_at) {
 		this.created_at = created_at;
 	}
+	public Version getLatestVersion() {
+		return latest_version;
+	}
+	public void setLatestVersion(Version latest_version) {
+		this.latest_version = latest_version;
+	}
+
+	
 	@Id @GeneratedValue
 	private int id;
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -67,6 +76,8 @@ public class Article {
 	private Date created_at;
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<Keyword> keywords = new HashSet<Keyword>(0);
+	@OneToOne (cascade = CascadeType.ALL)
+	private Version latest_version;
 
 
 }
