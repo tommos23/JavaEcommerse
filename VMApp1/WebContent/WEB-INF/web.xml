@@ -70,4 +70,14 @@
     <servlet-name>UserSignOut</servlet-name>
     <url-pattern>/signout</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PublishedArticle</display-name>
+    <servlet-name>PublishedArticle</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedArticle</servlet-name>
+    <url-pattern>/PublishedArticle</url-pattern>
+  </servlet-mapping>
 </web-app>

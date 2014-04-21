@@ -1,12 +1,8 @@
 package com.jg.Controller;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import com.jg.Model.*;
-import com.jg.Model.Version;
 
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
@@ -52,7 +48,7 @@ public class UserController extends Controller{
 				session = sessionFactory.openSession();				
 				session.beginTransaction();
 				
-				user= new User(firstname,surname,email,password,"na",new Date(),new Date(),new Date());
+				user= new User(firstname,surname,email,password,"n/a",new Date(),new Date(),new Date());
 				Criteria cr = session.createCriteria(Role.class);
 				cr.add(Restrictions.eq("name", "reader"));
 				List result = cr.list();
@@ -102,24 +98,10 @@ public class UserController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-	public list<Article> getArticles(){
-		try{
-			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
-			session.beginTransaction();
-			
-			session.getTransaction().commit();
-			
-		}
-		catch(Exception e){
-			
-		}
-		return 
-	}
+
 	public User getUser() {
 		return user;
 	}
-
 
 	private User user;
 	Session session = null;
