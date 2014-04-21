@@ -102,13 +102,25 @@ public class UserController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-
+	public list<Article> getArticles(){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			
+			session.getTransaction().commit();
+			
+		}
+		catch(Exception e){
+			
+		}
+		return 
+	}
 	public User getUser() {
 		return user;
 	}
 
-	public static enum validateResponse {VALID,INVALID,DB_ERROR}
-	public static enum entryResponse {EXIST,NOT_EXIST,SUCCESS,DB_ERROR}
+
 	private User user;
 	Session session = null;
 }
