@@ -40,11 +40,12 @@ public class ArticleController extends Controller{
 	public entryResponse approveUpload(int id){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
-			session.beginTransaction();
 			if (isExist(id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
 				article.setStatus(1);
 				session.update(article);
+				session.getTransaction().commit();
 				return entryResponse.SUCCESS;
 			}
 			else
