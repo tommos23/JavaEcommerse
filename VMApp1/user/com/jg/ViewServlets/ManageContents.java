@@ -44,16 +44,16 @@ public class ManageContents extends VelocityViewServlet
 				session.setAttribute("user", "false");
 		}
 		Template template = null;
+		ArticleController ac = new ArticleController();
 		try {
 			template = getTemplate("articles/UnapprovedArticles.vm"); 
-			ArticleController ac = new ArticleController();
 			ac.startSession();
 			context.put("articles", ac.getAllArticles(0));
-			
-			ac.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}
+		if(ac.isSessionReady())
+			ac.endSession();
 		return template;
 	}
 
