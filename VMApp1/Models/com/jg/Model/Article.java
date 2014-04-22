@@ -78,6 +78,4 @@ public class Article {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Version latest_version;
 
-
-
 }

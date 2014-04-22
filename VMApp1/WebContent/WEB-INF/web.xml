@@ -78,6 +78,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PublishedArticle</servlet-name>
-    <url-pattern>/PublishedArticle</url-pattern>
+    <url-pattern>/articles</url-pattern>
   </servlet-mapping>
 </web-app>

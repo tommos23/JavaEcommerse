@@ -28,7 +28,6 @@
 					#end
 					</table>
 					</div>
-					<div class="panel-footer">Last visited at: #if($last_login)$last_login #end </div>
 				</div>						
 			</div>
 		</div>

@@ -2,7 +2,11 @@
 		<div class="container">
 			<div class="navbar-header"></div>
 				<div class="nav collapse navbar-collapse">
-				<ul class="nav navbar-nav"></ul>
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="articles" title="Articles"><span class="glyphicon glyphicon-book"></span> Articles</a>
+					</li>
+				</ul>
 				<ul class="nav navbar-nav navbar-right">
 				#if($user)
 					#if($user=="true")

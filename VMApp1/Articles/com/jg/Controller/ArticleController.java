@@ -1,6 +1,5 @@
 package com.jg.Controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -11,6 +10,7 @@ import com.jg.Model.Article;
 
 public class ArticleController extends Controller{
 
+	@SuppressWarnings("unchecked")
 	public List<Article> getAllArticles()
 	{
 		List<Article> articles = null;
