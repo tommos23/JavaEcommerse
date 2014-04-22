@@ -70,4 +70,14 @@
     <servlet-name>UserSignOut</servlet-name>
     <url-pattern>/signout</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>View the authors uploads</description>
+    <display-name>Uploads</display-name>
+    <servlet-name>Uploads</servlet-name>
+    <servlet-class>com.jg.ViewServlets.Uploads</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Uploads</servlet-name>
+    <url-pattern>/Uploads</url-pattern>
+  </servlet-mapping>
 </web-app>
