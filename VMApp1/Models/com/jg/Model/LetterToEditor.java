@@ -51,10 +51,10 @@ public class LetterToEditor {
 	public void setReply_text(String reply_text) {
 		this.reply_text = reply_text;
 	}
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	public int getPublish_edition() {
@@ -93,8 +93,7 @@ public class LetterToEditor {
 	private String edited_text;
 	@Column(columnDefinition = "TEXT")
 	private String reply_text;
-	@Column(length = 50)
-	private String status;
+	private int status;
 	private int publish_edition;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;

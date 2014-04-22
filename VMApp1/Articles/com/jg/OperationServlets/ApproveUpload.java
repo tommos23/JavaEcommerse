@@ -21,7 +21,6 @@ public class ApproveUpload extends HttpServlet {
 	 */
 	public ApproveUpload() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);		

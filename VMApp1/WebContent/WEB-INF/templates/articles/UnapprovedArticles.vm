@@ -24,7 +24,7 @@
 					<td>$i</td>#set($i=$i+1)
 					<td><a data-toggle="modal" data-target="#article$article.getId()">$article.getLatestVersion().getTitle()</a></td> 
 					<td>$article.getMainAuthor().getFirstname() $article.getMainAuthor().getSurname()</td>
-					<td><a class="btn btn-success" href="Uploads?id=$article.getId()">Approve</a></td>
+					<td><a class="btn btn-success" href="approve?id=$article.getId()">Approve</a></td>
 					</tr>
 					#end
 					</table>

@@ -20,7 +20,6 @@ public class UserRegister extends HttpServlet {
 	 */
 	public UserRegister() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.sendRedirect("welcome");
@@ -29,7 +28,6 @@ public class UserRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(true);		
 		session.setMaxInactiveInterval(30*60);
 

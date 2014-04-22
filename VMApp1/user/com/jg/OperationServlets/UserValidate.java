@@ -21,7 +21,6 @@ public class UserValidate extends HttpServlet {
 	 */
 	public UserValidate() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);		

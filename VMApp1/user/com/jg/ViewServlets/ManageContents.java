@@ -24,13 +24,6 @@ public class ManageContents extends VelocityViewServlet
 	{
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);
-		if (session.isNew()){
-			session.setAttribute("user", "false");
-			System.out.println("false");
-		}
-		else if(session.getAttribute("user") == null){
-				session.setAttribute("user", "false");
-		}
 		//------Code to display alert message------
 		if(session.getAttribute("alertMessage")!=null){
 			context.put("alertMessage",session.getAttribute("alertMessage").toString());
@@ -39,12 +32,17 @@ public class ManageContents extends VelocityViewServlet
 				context.put("alertType",session.getAttribute("alertType").toString());
 			else
 				context.put("alertType", "info");
-			session.setAttribute("alertMessage", null);
-			session.setAttribute("alertType", null);
+			session.removeAttribute("alertMessage");
+			session.removeAttribute("alertType");
 		}
 		//-----End of Alert Message Code---------
-
-		/* get the template */
+		if (session.isNew()){
+			session.setAttribute("user", "false");
+			System.out.println("false");
+		}
+		else if(session.getAttribute("user") == null){
+				session.setAttribute("user", "false");
+		}
 		Template template = null;
 		try {
 			template = getTemplate("articles/UnapprovedArticles.vm"); 

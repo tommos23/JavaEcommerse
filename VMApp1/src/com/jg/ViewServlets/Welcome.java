@@ -40,7 +40,6 @@ public class Welcome extends VelocityViewServlet
 					try {
 						response.sendRedirect("home");
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

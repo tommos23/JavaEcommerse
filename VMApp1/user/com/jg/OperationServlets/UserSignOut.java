@@ -20,7 +20,6 @@ public class UserSignOut extends HttpServlet {
      */
     public UserSignOut() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -33,7 +32,6 @@ public class UserSignOut extends HttpServlet {
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
