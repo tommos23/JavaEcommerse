@@ -71,10 +71,10 @@
     <url-pattern>/signout</url-pattern>
   </servlet-mapping>
   <servlet>
-    <description>View the authors uploads</description>
-    <display-name>Uploads</display-name>
-    <servlet-name>Uploads</servlet-name>
-    <servlet-class>com.jg.ViewServlets.Uploads</servlet-class>
+    <description>Approve authors uploads</description>
+    <display-name>ApproveUpload</display-name>
+    <servlet-name>ApproveUpload</servlet-name>
+    <servlet-class>com.jg.OperationServlets.ApproveUpload</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Uploads</servlet-name>
@@ -89,5 +89,15 @@
   <servlet-mapping>
     <servlet-name>PublishedArticle</servlet-name>
     <url-pattern>/articles</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ManageContents</display-name>
+    <servlet-name>ManageContents</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ManageContents</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ManageContents</servlet-name>
+    <url-pattern>/manage</url-pattern>
   </servlet-mapping>
 </web-app>

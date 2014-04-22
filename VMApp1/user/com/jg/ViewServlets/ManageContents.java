@@ -12,7 +12,7 @@ import com.jg.Controller.ArticleController;
 /**
  * Servlet implementation class PublishedArticle
  */
-public class PublishedArticle extends VelocityViewServlet 
+public class ManageContents extends VelocityViewServlet 
 {
 	/**
 	 * 
@@ -47,10 +47,10 @@ public class PublishedArticle extends VelocityViewServlet
 		/* get the template */
 		Template template = null;
 		try {
-			template = getTemplate("articles/PublishedArticles.vm"); 
+			template = getTemplate("articles/UnapprovedArticles.vm"); 
 			ArticleController ac = new ArticleController();
 			ac.startSession();
-			context.put("articles", ac.getAllArticles(4));
+			context.put("articles", ac.getAllArticles(0));
 			
 			ac.endSession();
 		} catch(Exception e ) {

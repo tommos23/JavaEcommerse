@@ -6,6 +6,10 @@
 					<li>
 						<a href="articles" title="Articles"><span class="glyphicon glyphicon-book"></span> Articles</a>
 					</li>
+					<!-- later on we can add validation for this link -->
+					<li>
+						<a href="manage" title="Manage Contents"><span class="glyphicon glyphicon-list-alt"></span> Manage</a>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 				#if($user)
