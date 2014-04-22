@@ -80,4 +80,14 @@
     <servlet-name>Uploads</servlet-name>
     <url-pattern>/Uploads</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PublishedArticle</display-name>
+    <servlet-name>PublishedArticle</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedArticle</servlet-name>
+    <url-pattern>/articles</url-pattern>
+  </servlet-mapping>
 </web-app>

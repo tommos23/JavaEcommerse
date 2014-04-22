@@ -24,5 +24,7 @@ public class Controller {
 	}
 	protected SessionFactory sessionFactory = null;
 	private boolean sessionReady = false;
-	
+
+	public static enum validateResponse {VALID,INVALID,DB_ERROR}
+	public static enum entryResponse {EXIST,NOT_EXIST,SUCCESS,DB_ERROR}
 }

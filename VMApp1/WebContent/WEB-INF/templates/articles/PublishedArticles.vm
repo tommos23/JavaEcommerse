@@ -1,0 +1,57 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE> Login Page </TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+			#if($showAlert)
+				#if($showAlert == "true")
+					#parse( "/bootstrap/alert.vm" )
+				#end
+			#end
+				<div class="panel panel-default">
+					<div class="panel-heading">Articles</div>
+					<div class="panel-body">
+					<table class="table">
+					<tr><th>#</th><th>Title</th><th>Author</th></tr>
+					#set($i=1)
+					#foreach ($article in $articles)
+					<tr>
+					<td>$i</td>#set($i=$i+1)
+					<td><a data-toggle="modal" data-target="#article$article.getId()">$article.getLatestVersion().getTitle()</a></td> 
+					<td>$article.getMainAuthor().getFirstname()</td>
+					</tr>
+					#end
+					</table>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+	#foreach($article in $articles)
+		<div class="modal fade" id="article$article.getId()" tabindex="-1" role="dialog" aria-labelledby="#article#{$article.getId()}Label" aria-hidden="true"> 
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        				<h4 class="modal-title">$article.getLatestVersion().getTitle()</h4>
+      				</div>
+      				<div class="modal-body">
+        				<table>
+        					<tr><td><b>Author</b></td><td>$article.getMainAuthor().getFirstname() $article.getMainAuthor().getSurname()</td></tr>
+        					<tr><td><b>Abstract</b></td><td>$article.getLatestVersion().getAbs()</td></tr>
+        					<tr><td></td><td><a href="$article.getLatestVersion().getUrl()"><i class="fa fa-download"></i><b>Download Article</b></a></td></tr>
+        				</table>
+      				</div>
+    			</div><!-- /.modal-content -->
+  			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+	#end
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>
