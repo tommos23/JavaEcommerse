@@ -100,4 +100,34 @@
     <servlet-name>ManageContents</servlet-name>
     <url-pattern>/manage</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Mark approved articles for publishing</description>
+    <display-name>ApproveArticles</display-name>
+    <servlet-name>ApproveArticles</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ApproveArticles</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApproveArticles</servlet-name>
+    <url-pattern>/ApproveArticles</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>See all letters that have not been posted to an author</description>
+    <display-name>ViewUnpostedLetters</display-name>
+    <servlet-name>ViewUnpostedLetters</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewUnpostedLetters</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewUnpostedLetters</servlet-name>
+    <url-pattern>/ViewUnpostedLetters</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>View a letter and post edited text to the author</description>
+    <display-name>ViewUnpostedLetter</display-name>
+    <servlet-name>ViewUnpostedLetter</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewUnpostedLetter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewUnpostedLetter</servlet-name>
+    <url-pattern>/ViewUnpostedLetter</url-pattern>
+  </servlet-mapping>
 </web-app>
