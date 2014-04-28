@@ -37,6 +37,34 @@ public class LettersToEditorsController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
+	
+	public LetterToEditor get(int id) {
+		List<LetterToEditor> LetterToEditor = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(LetterToEditor.class);
+			cr.add(Restrictions.eq("id", id));
+			LetterToEditor = cr.list();
+			session.getTransaction().commit();
+			if (LetterToEditor.size() > 0) {
+				return LetterToEditor.get(0);
+			}
+			else {
+				return null;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
 
 	public entryResponse postLetter(int id, String editedText){
 		try{

@@ -1,7 +1,6 @@
 package com.jg.ViewServlets;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,7 +24,7 @@ import com.jg.Model.*;
 /**
  * Servlet implementation class Uploads
  */
-public class ViewUnpostedLetters extends VelocityViewServlet {
+public class ViewUnpostedLetter extends VelocityViewServlet {
 	private static final long serialVersionUID = 1L;
 
 	public Template handleRequest( HttpServletRequest request, 
@@ -53,13 +52,24 @@ public class ViewUnpostedLetters extends VelocityViewServlet {
 		}
 		//-----End of Alert Message Code---------
 		
+		String id = request.getParameter("id");
+		if (id == null) {
+			session.setAttribute("alertMessage", "danger");
+			session.setAttribute("alertType", "Letter not found");
+			try {
+				response.sendRedirect("UnpostedLetters");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		/* get the template */
 		Template template = null;
 		try {
-			template = getTemplate("letters/submittedletters.vm"); 
+			template = getTemplate("letters/submittedletter.vm"); 
 			LettersToEditorsController ltec = new LettersToEditorsController();
 			ltec.startSession();
-			context.put("letters", ltec.getAllLettersToEditors(0));
+			context.put("letter", ltec.get(Integer.parseInt(id)));
 			
 			ltec.endSession();
 		} catch(Exception e ) {

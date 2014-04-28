@@ -34,18 +34,18 @@ public class ApproveUpload extends HttpServlet {
 		case SUCCESS:
 			session.setAttribute("alertMessage","Article is successfully approved.");
 			session.setAttribute("alertType","success" );
-			response.sendRedirect("manage");
+			response.sendRedirect("ApproveArticles");
 			break;
 		case FAIL:
 			session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Please check article number.");
 			session.setAttribute("alertType","danger" );
-			response.sendRedirect("manage");
+			response.sendRedirect("ApproveArticles");
 			break;
 		case DB_ERROR:
 			session.setAttribute("user","false");
 			session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
 			session.setAttribute("alertType","danger" );
-			response.sendRedirect("manage");
+			response.sendRedirect("ApproveArticles");
 			break;
 		}
 		if(ac.isSessionReady())

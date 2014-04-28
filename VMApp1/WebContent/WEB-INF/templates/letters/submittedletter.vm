@@ -17,7 +17,7 @@
 					<div class="panel-heading">Submitted Letter</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
-							<form method="POST" action="ViewUnpostedLetters">
+							<form method="POST" action="PostLetter">
 								<label>To Author</label>
 								<p>$letter.getArticle().getMainAuthor().getFirstname() $letter.getArticle().getMainAuthor().getSurname()</p>
 								<label>From</label>

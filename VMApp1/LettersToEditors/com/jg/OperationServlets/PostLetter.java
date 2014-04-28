@@ -22,7 +22,7 @@ public class PostLetter extends HttpServlet {
 	public PostLetter() {
 		super();
 	}
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);		
 		session.setMaxInactiveInterval(30*60);
 		int id = 0;
@@ -30,22 +30,22 @@ public class PostLetter extends HttpServlet {
 			id = Integer.parseInt(request.getParameter("id"));
 		LettersToEditorsController ltec = new LettersToEditorsController();
 		ltec.startSession();
-		switch(ltec.postLetter(id, request.getParameter("editText"))){
+		switch(ltec.postLetter(id, request.getParameter("editedText"))){
 		case SUCCESS:
-			session.setAttribute("alertMessage","Article is successfully approved.");
+			session.setAttribute("alertMessage","Letter is successfully posted.");
 			session.setAttribute("alertType","success" );
-			response.sendRedirect("manage");
+			response.sendRedirect("ViewUnpostedLetters");
 			break;
 		case FAIL:
 			session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Please check article number.");
 			session.setAttribute("alertType","danger" );
-			response.sendRedirect("manage");
+			response.sendRedirect("ViewUnpostedLetters");
 			break;
 		case DB_ERROR:
 			session.setAttribute("user","false");
 			session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
 			session.setAttribute("alertType","danger" );
-			response.sendRedirect("manage");
+			response.sendRedirect("ViewUnpostedLetters");
 			break;
 		}
 		if(ltec.isSessionReady())

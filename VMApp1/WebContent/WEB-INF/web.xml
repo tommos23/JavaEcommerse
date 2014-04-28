@@ -78,7 +78,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ApproveUpload</servlet-name>
-    <url-pattern>/approve</url-pattern>
+    <url-pattern>/ApproveUpload</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -129,5 +129,15 @@
   <servlet-mapping>
     <servlet-name>ViewUnpostedLetter</servlet-name>
     <url-pattern>/ViewUnpostedLetter</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Send edited letter on to article author</description>
+    <display-name>PostLetter</display-name>
+    <servlet-name>PostLetter</servlet-name>
+    <servlet-class>com.jg.OperationServlets.PostLetter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PostLetter</servlet-name>
+    <url-pattern>/PostLetter</url-pattern>
   </servlet-mapping>
 </web-app>

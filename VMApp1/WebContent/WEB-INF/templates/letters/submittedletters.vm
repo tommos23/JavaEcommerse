@@ -34,8 +34,8 @@
 											$letter.getUser().getFirstname() $letter.getUser().getSurname()
 										</td>
 										<td>
-											#if ($letter.getText().length >= 50)
-												$letter.getText().substring(50)+"..."
+											#if ($letter.getText().length() >= 40)
+												$letter.getText().substring(0,40)...
 											#else
 												$letter.getText()
 											#end

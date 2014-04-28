@@ -36,7 +36,7 @@
 											
 										</td>
 										<td>
-											<a href="Uploads?id=$article.getId()">Approve</a>
+											<a href="ApproveUpload?id=$article.getId()">Approve</a>
 										</td>
 									</tr>
 								#end

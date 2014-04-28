@@ -18,6 +18,7 @@ import org.hibernate.SharedSessionContract;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.jg.Controller.ArticleController;
 import com.jg.Model.*;
 
 /**
@@ -31,6 +32,13 @@ public class ApproveArticles extends VelocityViewServlet {
 	{
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);
+		if (session.isNew()){
+			session.setAttribute("user", "false");
+			System.out.println("false");
+		}
+		else if(session.getAttribute("user") == null){
+				session.setAttribute("user", "false");
+		}
 		//------Code to display alert message------
 		if(session.getAttribute("alertMessage")!=null){
 			context.put("alertMessage",session.getAttribute("alertMessage").toString());
@@ -39,66 +47,20 @@ public class ApproveArticles extends VelocityViewServlet {
 				context.put("alertType",session.getAttribute("alertType").toString());
 			else
 				context.put("alertType", "info");
-			session.removeAttribute("alertMessage");
-			session.removeAttribute("alertType");
+			session.setAttribute("alertMessage", null);
+			session.setAttribute("alertType", null);
 		}
 		//-----End of Alert Message Code---------
-		/* get the template */
-		SessionFactory factory;
-		
-		try{
-	         factory = new Configuration().configure().buildSessionFactory();
-	    }catch (Throwable ex) { 
-	         System.err.println("Failed to create sessionFactory object." + ex);
-	         throw new ExceptionInInitializerError(ex); 
-	    }
 
-	    String id = request.getParameter("id");
-		if (id != null) {
-			Session session3 = factory.openSession();
-		    Transaction tx = null;
-		    try{
-		        tx = session3.beginTransaction();
-		        List articles = session3.createQuery("FROM Article WHERE status = 3 AND id = "+id).list();
-		        if (articles.size() > 0) {
-		        	Article article = (Article) articles.get(0);
-		        	article.setStatus(4);
-		        	session3.save(article);
-		        	context.put("alertType", "info");
-		        	context.put("alertMessage","Article set for publishing");
-					context.put("showAlert", "true");
-		        }
-		        else {
-		        	context.put("alertType", "danger");
-		        	context.put("alertMessage","Article not set for publishing");
-					context.put("showAlert", "true");
-		        }
-		        tx.commit();
-		    }catch (HibernateException e) {
-		        if (tx!=null) tx.rollback();
-		        e.printStackTrace(); 
-		    }finally {
-		    	session3.close(); 
-		    }
-		}
-		
+		/* get the template */
 		Template template = null;
-		Session session2 = factory.openSession();
-	    Transaction tx = null;
-	    try{
-	        tx = session2.beginTransaction();
-	        List articles = session2.createQuery("FROM Article WHERE status = 3").list();
-	        context.put("articles", articles);
-	        tx.commit();
-	    }catch (HibernateException e) {
-	        if (tx!=null) tx.rollback();
-	        e.printStackTrace(); 
-	    }finally {
-	        session2.close(); 
-	    }
-		context.put("application", "View Approved");
 		try {
-			template = getTemplate("approved.vm"); 
+			template = getTemplate("articles/UploadedArticles.vm"); 
+			ArticleController ac = new ArticleController();
+			ac.startSession();
+			context.put("articles", ac.getAllArticles(0));
+			
+			ac.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}
