@@ -23,6 +23,7 @@
 							<p>$global.getGoals()</p>
 							<label>Submission Guidelines</label>
 							<p>$global.getSubmission_guidelines()</p>
+							<a href="EditGlobal" class="btn btn-primary">Edit</a>
 						</div>
 					</div>
 				</div>
