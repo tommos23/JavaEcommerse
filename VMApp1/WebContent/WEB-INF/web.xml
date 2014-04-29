@@ -170,4 +170,14 @@
     <servlet-name>PublishLetter</servlet-name>
     <url-pattern>/PublishLetter</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>View global journal settings</description>
+    <display-name>ViewGlobal</display-name>
+    <servlet-name>ViewGlobal</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewGlobal</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewGlobal</servlet-name>
+    <url-pattern>/ViewGlobal</url-pattern>
+  </servlet-mapping>
 </web-app>
