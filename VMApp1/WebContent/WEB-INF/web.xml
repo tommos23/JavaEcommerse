@@ -180,4 +180,24 @@
     <servlet-name>ViewGlobal</servlet-name>
     <url-pattern>/ViewGlobal</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Edit global journal settings</description>
+    <display-name>EditGlobal</display-name>
+    <servlet-name>EditGlobal</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditGlobal</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditGlobal</servlet-name>
+    <url-pattern>/EditGlobal</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Update global journal settings</description>
+    <display-name>UpdateGlobal</display-name>
+    <servlet-name>UpdateGlobal</servlet-name>
+    <servlet-class>com.jg.OperationServlets.UpdateGlobal</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateGlobal</servlet-name>
+    <url-pattern>/UpdateGlobal</url-pattern>
+  </servlet-mapping>
 </web-app>
