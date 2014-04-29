@@ -140,4 +140,34 @@
     <servlet-name>PostLetter</servlet-name>
     <url-pattern>/PostLetter</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Letters that have been responded to by authors</description>
+    <display-name>LettersWithReplies</display-name>
+    <servlet-name>LettersWithReplies</servlet-name>
+    <servlet-class>com.jg.ViewServlets.LettersWithReplies</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LettersWithReplies</servlet-name>
+    <url-pattern>/LettersWithReplies</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>View a letter with a reply</description>
+    <display-name>LetterWithReply</display-name>
+    <servlet-name>LetterWithReply</servlet-name>
+    <servlet-class>com.jg.ViewServlets.LetterWithReply</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LetterWithReply</servlet-name>
+    <url-pattern>/LetterWithReply</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Mark reply as ok and set letter for publishing</description>
+    <display-name>PublishLetter</display-name>
+    <servlet-name>PublishLetter</servlet-name>
+    <servlet-class>com.jg.OperationServlets.PublishLetter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishLetter</servlet-name>
+    <url-pattern>/PublishLetter</url-pattern>
+  </servlet-mapping>
 </web-app>
