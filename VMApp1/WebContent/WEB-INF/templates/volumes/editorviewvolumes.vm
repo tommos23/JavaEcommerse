@@ -1,0 +1,59 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE>$application</TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
+				#end
+				<div class="panel panel-default">
+					<div class="panel-heading">Volumes</div>
+					<div class="panel-body">
+						<div class="col-lg-12">
+							<table class="table">
+								<tr>
+									<th>Description</th>
+									<th>Created At</th>
+									<th>Status</th>
+									<th></th>
+								</tr>
+								#foreach($volume in $volumes)
+									<tr>
+										<td>
+											$volume.getDescription()
+										</td>
+										<td>
+											$volume.getCreated_at()
+										</td>
+										<td>
+											#if ($volume.getStatus() == 0)
+												Draft
+											#else
+												Published
+											#end
+										</td>
+										<td>
+											#if ($volume.getStatus() == 0)
+											<a href="PublishVolume?id=$volume.getId()">Publish</a>
+											#end
+										</td>
+									</tr>
+								#end
+							</table>
+						</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>

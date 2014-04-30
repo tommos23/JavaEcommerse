@@ -200,4 +200,34 @@
     <servlet-name>UpdateGlobal</servlet-name>
     <url-pattern>/UpdateGlobal</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Allows an editor to view all volumes and publish draft volumes</description>
+    <display-name>EditorViewVolumes</display-name>
+    <servlet-name>EditorViewVolumes</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditorViewVolumes</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorViewVolumes</servlet-name>
+    <url-pattern>/EditorViewVolumes</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Publish a volume</description>
+    <display-name>PublishVolume</display-name>
+    <servlet-name>PublishVolume</servlet-name>
+    <servlet-class>com.jg.OperationServlets.PublishVolume</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishVolume</servlet-name>
+    <url-pattern>/PublishVolume</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Allows an editor to view all editions in a volume</description>
+    <display-name>EditorViewEditions</display-name>
+    <servlet-name>EditorViewEditions</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditorViewEditions</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorViewEditions</servlet-name>
+    <url-pattern>/EditorViewEditions</url-pattern>
+  </servlet-mapping>
 </web-app>
