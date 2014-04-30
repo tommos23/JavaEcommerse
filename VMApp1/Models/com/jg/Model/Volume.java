@@ -13,6 +13,13 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="volumes")
 public class Volume {
+	public Volume(){
+		super();
+	}
+	public Volume(String description){
+		this.description = description;
+		this.created_at = new Date();
+	}
 	public int getId() {
 		return id;
 	}

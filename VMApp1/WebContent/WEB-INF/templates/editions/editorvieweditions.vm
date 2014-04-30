@@ -47,6 +47,7 @@
 									</tr>
 								#end
 							</table>
+							<a class="btn btn-primary" href="EditorNewEdition?id=$volume_id">Create Edition</a>
 						</div>
 					</div>
 				</div>						

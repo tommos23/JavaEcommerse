@@ -1,6 +1,7 @@
 package com.jg.Model;
 
 import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,14 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="editions")
 public class Edition {
+	public Edition() {
+		super();
+	}
+	public Edition(String description, Volume vol) {
+		this.description = description;
+		this.volume = vol;
+		this.created_at = new Date();
+	}
 	public int getId() {
 		return id;
 	}

@@ -1,21 +1,18 @@
 package com.jg.ViewServlets;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-import com.jg.Controller.EditionController;
+import com.jg.Controller.VolumeController;
 
 /**
  * Servlet implementation class PublishedArticle
  */
-public class EditorViewEditions extends VelocityViewServlet 
+public class EditorNewVolume extends VelocityViewServlet 
 {
 	/**
 	 * 
@@ -47,27 +44,15 @@ public class EditorViewEditions extends VelocityViewServlet
 		}
 		//-----End of Alert Message Code---------
 
-		String id = request.getParameter("id");
-		if (id == null) {
-			session.setAttribute("alertMessage", "Edition not found");
-			session.setAttribute("alertType", "danger");
-			try {
-				response.sendRedirect("EditorViewVolumes");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
 		/* get the template */
 		Template template = null;
 		try {
-			template = getTemplate("editions/editorvieweditions.vm"); 
-			EditionController ec = new EditionController();
-			ec.startSession();
-			context.put("editions", ec.getEditionsForVolume(Integer.parseInt(id)));
-			context.put("volume_id", id);
+			template = getTemplate("volumes/editornewvolume.vm"); 
+			VolumeController vc = new VolumeController();
+			vc.startSession();
+			context.put("volumes", vc.getAllVolumes());
 			
-			ec.endSession();
+			vc.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}

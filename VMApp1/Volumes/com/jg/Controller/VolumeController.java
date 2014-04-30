@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.Volume;
 
 public class VolumeController extends Controller{
@@ -35,17 +36,18 @@ public class VolumeController extends Controller{
 	}
 	
 	public Volume get(int id) {
-		List<Volume> edition = null;
+		List<Volume> volume = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Volume.class);
 			cr.add(Restrictions.eq("id", id));
-			edition = cr.list();
+			volume = cr.list();
+			System.out.println("get");
 			session.getTransaction().commit();
-			if (edition.size() > 0) {
-				return edition.get(0);
+			if (volume.size() > 0) {
+				return volume.get(0);
 			}
 			else {
 				return null;
@@ -62,19 +64,41 @@ public class VolumeController extends Controller{
 		}
 	}
 	
-	public entryResponse publish(int id){
+	public entryResponse publish(int id, int status){
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
 				session = sessionFactory.openSession();				
 				session.beginTransaction();
-				volume.setStatus(1);
+				volume.setStatus(status);
 				session.update(volume);
 				session.getTransaction().commit();
 				return entryResponse.SUCCESS;
 			}
 			else
 				return entryResponse.NOT_EXIST;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse create(String description){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();		
+			volume = new Volume(description);
+			session.save(volume);
+			session.getTransaction().commit();
+			return entryResponse.SUCCESS;
 		}
 		catch(Exception e){
 			e.printStackTrace();

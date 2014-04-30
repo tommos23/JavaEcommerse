@@ -10,12 +10,12 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-import com.jg.Controller.EditionController;
+import com.jg.Controller.VolumeController;
 
 /**
  * Servlet implementation class PublishedArticle
  */
-public class EditorViewEditions extends VelocityViewServlet 
+public class EditorNewEdition extends VelocityViewServlet 
 {
 	/**
 	 * 
@@ -46,28 +46,27 @@ public class EditorViewEditions extends VelocityViewServlet
 			session.setAttribute("alertType", null);
 		}
 		//-----End of Alert Message Code---------
-
+		
 		String id = request.getParameter("id");
 		if (id == null) {
-			session.setAttribute("alertMessage", "Edition not found");
+			session.setAttribute("alertMessage", "Edition must be created with a volume");
 			session.setAttribute("alertType", "danger");
 			try {
-				response.sendRedirect("EditorViewVolumes");
+				response.sendRedirect("EditorViewEditions");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		/* get the template */
 		Template template = null;
 		try {
-			template = getTemplate("editions/editorvieweditions.vm"); 
-			EditionController ec = new EditionController();
-			ec.startSession();
-			context.put("editions", ec.getEditionsForVolume(Integer.parseInt(id)));
+			template = getTemplate("editions/editornewedition.vm"); 
+			VolumeController vc = new VolumeController();
+			vc.startSession();
 			context.put("volume_id", id);
 			
-			ec.endSession();
+			vc.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}

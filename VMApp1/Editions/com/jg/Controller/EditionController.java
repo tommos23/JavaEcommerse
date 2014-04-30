@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.Edition;
 import com.jg.Model.Volume;
 
@@ -20,7 +21,7 @@ public class EditionController extends Controller{
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Edition.class);
-			cr.add(Restrictions.eq("volume_id", volume_id));
+			cr.add(Restrictions.eq("volume.id", volume_id));
 			Edition = cr.list();
 			session.getTransaction().commit();
 			return Edition;
@@ -56,6 +57,28 @@ public class EditionController extends Controller{
 		catch(Exception e){
 			e.printStackTrace();
 			return null;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse create(String description, Volume vol){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			edition = new Edition(description, vol);
+			session.save(edition);
+			session.getTransaction().commit();
+			return entryResponse.SUCCESS;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
 		}
 		finally{
 			if(session.isOpen())

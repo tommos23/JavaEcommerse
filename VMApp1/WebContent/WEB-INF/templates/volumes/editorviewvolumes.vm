@@ -27,7 +27,7 @@
 								#foreach($volume in $volumes)
 									<tr>
 										<td>
-											$volume.getDescription()
+											<a href="EditorViewEditions?id=$volume.getId()">$volume.getDescription()</a>
 										</td>
 										<td>
 											$volume.getCreated_at()
@@ -41,12 +41,15 @@
 										</td>
 										<td>
 											#if ($volume.getStatus() == 0)
-											<a href="PublishVolume?id=$volume.getId()">Publish</a>
+												<a href="PublishVolume?id=$volume.getId()&status=1">Publish</a>
+											#else
+												<a href="PublishVolume?id=$volume.getId()&status=0">Unpublish</a>
 											#end
 										</td>
 									</tr>
 								#end
 							</table>
+							<a class="btn btn-primary" href="EditorNewVolume">Create Volume</a>
 						</div>
 					</div>
 				</div>						
