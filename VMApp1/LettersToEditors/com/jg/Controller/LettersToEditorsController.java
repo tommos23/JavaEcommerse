@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import com.jg.Controller.Controller.entryResponse;
+import com.jg.Model.Edition;
 import com.jg.Model.LetterToEditor;
 import com.jg.Model.User;
 
@@ -95,13 +96,41 @@ public class LettersToEditorsController extends Controller{
 		}
 	}
 	
-	public entryResponse publishLetter(int id){
+	public entryResponse approveLetter(int id) {
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
 				session = sessionFactory.openSession();				
 				session.beginTransaction();
 				letter.setStatus(3);
+				session.update(letter);
+				session.getTransaction().commit();
+				return entryResponse.SUCCESS;
+			}
+			else
+				return entryResponse.NOT_EXIST;
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse publishLetter(int id, Edition edition){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			if (isExist(id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				letter.setStatus(4);
+				letter.setPublish_edition(edition.getId());
 				session.update(letter);
 				session.getTransaction().commit();
 				return entryResponse.SUCCESS;

@@ -226,6 +226,17 @@
   </servlet-mapping>
   
   <servlet>
+    <description>Publish a edition</description>
+    <display-name>PublishEdition</display-name>
+    <servlet-name>PublishEdition</servlet-name>
+    <servlet-class>com.jg.OperationServlets.PublishEdition</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishEdition</servlet-name>
+    <url-pattern>/PublishEdition</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <description>Allows an editor to view all editions in a volume</description>
     <display-name>EditorViewEditions</display-name>
     <servlet-name>EditorViewEditions</servlet-name>
@@ -269,7 +280,7 @@
     <url-pattern>/EditorNewEdition</url-pattern>
   </servlet-mapping>
   
-    <servlet>
+  <servlet>
     <description>Create an edition</description>
     <display-name>EditorCreateEdition</display-name>
     <servlet-name>EditorCreateEdition</servlet-name>
@@ -278,6 +289,17 @@
   <servlet-mapping>
     <servlet-name>EditorCreateEdition</servlet-name>
     <url-pattern>/EditorCreateEdition</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Review articles that have been waiting for a long time. List those articles</description>
+    <display-name>EditorArticlesForReview</display-name>
+    <servlet-name>EditorArticlesForReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditorArticlesForReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorArticlesForReview</servlet-name>
+    <url-pattern>/EditorArticlesForReview</url-pattern>
   </servlet-mapping>
   
 </web-app>

@@ -1,5 +1,7 @@
 package com.jg.Controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -8,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.Article;
+import com.jg.Model.Edition;
 import com.jg.Model.User;
 
 public class ArticleController extends Controller{
@@ -36,6 +39,35 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
+	
+	public List<Article> getAllArticlesForEditorReview()
+	{
+		List<Article> articles = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Article.class);
+			cr.add(Restrictions.eq("status", 1));
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date());
+			cal.add(Calendar.MONTH, -6);
+			Date date = cal.getTime();
+			cr.add(Restrictions.le("created_at", date));
+			articles = cr.list();
+			session.getTransaction().commit();
+			return articles;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return articles;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
 
 	public entryResponse approveUpload(int id){
 		try{
@@ -44,6 +76,34 @@ public class ArticleController extends Controller{
 				session = sessionFactory.openSession();				
 				session.beginTransaction();
 				article.setStatus(1);
+				session.update(article);
+				session.getTransaction().commit();
+				return entryResponse.SUCCESS;
+			}
+			else
+				return entryResponse.NOT_EXIST;
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse publishArticle(int id, Edition edition){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			if (isExist(id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				article.setStatus(5);
+				article.setEdition(edition);
 				session.update(article);
 				session.getTransaction().commit();
 				return entryResponse.SUCCESS;

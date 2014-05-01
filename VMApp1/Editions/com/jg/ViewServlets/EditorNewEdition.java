@@ -10,6 +10,8 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
+import com.jg.Controller.ArticleController;
+import com.jg.Controller.LettersToEditorsController;
 import com.jg.Controller.VolumeController;
 
 /**
@@ -65,8 +67,15 @@ public class EditorNewEdition extends VelocityViewServlet
 			VolumeController vc = new VolumeController();
 			vc.startSession();
 			context.put("volume_id", id);
-			
 			vc.endSession();
+			ArticleController ac = new ArticleController();
+			ac.startSession();
+			context.put("articles", ac.getAllArticles(4));
+			ac.endSession();
+			LettersToEditorsController lc = new LettersToEditorsController();
+			lc.startSession();
+			context.put("letters", lc.getAllLettersToEditors(3));
+			lc.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}

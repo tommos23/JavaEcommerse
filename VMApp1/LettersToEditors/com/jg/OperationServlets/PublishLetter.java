@@ -31,9 +31,9 @@ public class PublishLetter extends HttpServlet {
 			id = Integer.parseInt(request.getParameter("id"));
 		LettersToEditorsController ltec = new LettersToEditorsController();
 		ltec.startSession();
-		switch(ltec.publishLetter(id)){
+		switch(ltec.approveLetter(id)){
 		case SUCCESS:
-			session.setAttribute("alertMessage","Letter is successfully published.");
+			session.setAttribute("alertMessage","Letter is successfully approved.");
 			session.setAttribute("alertType","success" );
 			response.sendRedirect("LettersWithReplies");
 			break;

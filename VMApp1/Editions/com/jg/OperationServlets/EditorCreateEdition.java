@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.jg.Controller.ArticleController;
 import com.jg.Controller.EditionController;
+import com.jg.Controller.LettersToEditorsController;
 import com.jg.Controller.VolumeController;
+import com.jg.Model.Edition;
 import com.jg.Model.Volume;
 
 /**
@@ -75,7 +78,26 @@ public class EditorCreateEdition extends HttpServlet {
 			response.sendRedirect("EditorViewVolumes");
 			break;
 		}
+		Edition edition = ec.get(description, vol);
 		if(ec.isSessionReady())
 			ec.endSession();
+		
+		String[] articles = request.getParameterValues("articles");
+		ArticleController ac = new ArticleController();
+		ac.startSession();
+		for (int i = 0; i < articles.length; i++) {
+			ac.publishArticle(Integer.parseInt(articles[i]), edition);
+		}
+		if(ac.isSessionReady())
+			ac.endSession();
+		
+		String[] letters = request.getParameterValues("letters");
+		LettersToEditorsController ltec = new LettersToEditorsController();
+		ltec.startSession();
+		for (int i = 0; i < articles.length; i++) {
+			ltec.publishLetter(Integer.parseInt(letters[i]), edition);
+		}
+		if(ltec.isSessionReady())
+			ltec.endSession();
 	}
 }
