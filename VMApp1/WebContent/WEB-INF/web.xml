@@ -279,5 +279,15 @@
     <servlet-name>EditorCreateEdition</servlet-name>
     <url-pattern>/EditorCreateEdition</url-pattern>
   </servlet-mapping>
+      <servlet>
+    <description>SendEmail</description>
+    <display-name>SendEmail</display-name>
+    <servlet-name>SendEmail</servlet-name>
+    <servlet-class>SendEmail</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SendEmail</servlet-name>
+    <url-pattern>/sendemail</url-pattern>
+  </servlet-mapping>
   
 </web-app>
