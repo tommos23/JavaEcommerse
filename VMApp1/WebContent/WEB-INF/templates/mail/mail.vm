@@ -1,0 +1,31 @@
+<h1>Welcome to $welcomeTo</h1>
+    <div id="countdown">
+      #set($list = ["4", "3", "2", "1", "Blast Off!"])
+
+      #foreach($item in $list)
+        $item
+      #end
+
+    </div>
+    <h2>Products</h2>
+    <p>Buying $productList.size() products!</p>
+    #set( $count = 1 )
+
+    <TABLE>
+        #foreach( $prod in $productList )
+
+          <TR>
+            <TD>$count</TD>
+            <TD>$prod.product</TD>
+            <TD>$prod.price</TD>
+          </TR>
+          #set( $count = $count + 1 )
+        #end
+
+    </TABLE>
+    <h2>Billing address</h2>
+    <div id="billing-address">
+        Name: $userMap.name<br/>
+        Country: $userMap.country<br/>
+        City: $userMap.city<br/>
+    </div>
