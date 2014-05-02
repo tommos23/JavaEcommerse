@@ -40,6 +40,34 @@ public class ArticleController extends Controller{
 		}
 	}
 	
+	public Article get(int id) {
+		List<Article> article = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Article.class);
+			cr.add(Restrictions.eq("id", id));
+			article = cr.list();
+			session.getTransaction().commit();
+			if (article.size() > 0) {
+				return article.get(0);
+			}
+			else {
+				return null;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
 	public List<Article> getAllArticlesForEditorReview()
 	{
 		List<Article> articles = null;

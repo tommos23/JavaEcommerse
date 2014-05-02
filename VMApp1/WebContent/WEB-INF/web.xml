@@ -313,4 +313,15 @@
     <url-pattern>/EditorReview</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <description>Review an article that has been waiting a long time</description>
+    <display-name>EditorCreateReview</display-name>
+    <servlet-name>EditorCreateReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.EditorCreateReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorCreateReview</servlet-name>
+    <url-pattern>/EditorCreateReview</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

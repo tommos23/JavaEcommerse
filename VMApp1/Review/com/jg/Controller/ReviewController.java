@@ -1,5 +1,6 @@
 package com.jg.Controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -8,7 +9,9 @@ import org.hibernate.criterion.Restrictions;
 
 import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.Article;
+import com.jg.Model.Edition;
 import com.jg.Model.Review;
+import com.jg.Model.User;
 import com.jg.Model.Volume;
 
 public class ReviewController extends Controller{
@@ -57,6 +60,36 @@ public class ReviewController extends Controller{
 		catch(Exception e){
 			e.printStackTrace();
 			return null;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse create(String contribution, String critism, int expertise, int position, Article article, User reviewer){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			review = new Review();
+			review.setContribution(contribution);
+			review.setCritism(critism);
+			review.setCreated_at(new Date());
+			review.setStatus(0);
+			review.setReviewer(reviewer);
+			review.setExpertise(expertise);
+			review.setArticle(article);
+			review.setPosition(position);
+			session.save(review);
+			session.getTransaction().commit();
+			return entryResponse.SUCCESS;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
 		}
 		finally{
 			if(session.isOpen())
