@@ -302,4 +302,15 @@
     <url-pattern>/EditorArticlesForReview</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <description>Review an article that has been waiting a long time</description>
+    <display-name>EditorReview</display-name>
+    <servlet-name>EditorReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditorReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorReview</servlet-name>
+    <url-pattern>/EditorReview</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

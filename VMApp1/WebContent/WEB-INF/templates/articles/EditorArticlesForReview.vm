@@ -32,12 +32,11 @@
 											$article.getLatestVersion().getCreated_at()
 										</td>
 										<td>
-											<a href="ReviewArticle?id=$article.getId()">Review</a>
+											<a href="EditorReview?id=$article.getId()">Review</a>
 										</td>
 									</tr>
 								#end
 							</table>
-							<a class="btn btn-primary" href="EditorNewEdition?id=$volume_id">Create Edition</a>
 						</div>
 					</div>
 				</div>						
