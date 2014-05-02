@@ -51,7 +51,6 @@ public class EditorNewVolume extends VelocityViewServlet
 			VolumeController vc = new VolumeController();
 			vc.startSession();
 			context.put("volumes", vc.getAllVolumes());
-			
 			vc.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);

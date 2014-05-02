@@ -302,4 +302,59 @@
     <url-pattern>/EditorArticlesForReview</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <description>Create a document template</description>
+    <display-name>CreateDocumentTemplate</display-name>
+    <servlet-name>CreateDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.OperationServlets.CreateDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateDocumentTemplate</servlet-name>
+    <url-pattern>/CreateDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Update a document template</description>
+    <display-name>UpdateDocumentTemplate</display-name>
+    <servlet-name>UpdateDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.OperationServlets.UpdateDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateDocumentTemplate</servlet-name>
+    <url-pattern>/UpdateDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <description>View document templates</description>
+    <display-name>ViewDocumentTemplates</display-name>
+    <servlet-name>ViewDocumentTemplates</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewDocumentTemplates</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewDocumentTemplates</servlet-name>
+    <url-pattern>/ViewDocumentTemplates</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>New document template</description>
+    <display-name>NewDocumentTemplate</display-name>
+    <servlet-name>NewDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.ViewServlets.NewDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewDocumentTemplate</servlet-name>
+    <url-pattern>/NewDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Edit document template</description>
+    <display-name>EditDocumentTemplate</display-name>
+    <servlet-name>EditDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditDocumentTemplate</servlet-name>
+    <url-pattern>/EditDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
