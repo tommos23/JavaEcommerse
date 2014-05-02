@@ -2,6 +2,7 @@ package com.jg.Controller;
 
 import java.util.Date;
 import java.util.List;
+
 import com.jg.Model.*;
 
 import org.hibernate.*;
@@ -39,7 +40,7 @@ public class UserController extends Controller{
 		}
 	}
 
-	public entryResponse addNew(String firstname,String surname,String email,String password){
+	private entryResponse addNew(String firstname,String surname,String email,String password){
 		if(isExist(email).equals(entryResponse.EXIST))
 			return entryResponse.EXIST;
 		else{
@@ -71,7 +72,7 @@ public class UserController extends Controller{
 		}
 	}
 
-	private entryResponse isExist(String email){
+	public entryResponse isExist(String email){
 		try{				
 			if(!isSessionReady()) throw new Exception();
 			session = sessionFactory.openSession();				
@@ -101,6 +102,34 @@ public class UserController extends Controller{
 
 	public User getUser() {
 		return user;
+	}
+	
+	public User get(int id) {
+		List<User> user = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Edition.class);
+			cr.add(Restrictions.eq("id", id));
+			user = cr.list();
+			session.getTransaction().commit();
+			if (user.size() > 0) {
+				return user.get(0);
+			}
+			else {
+				return null;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
 	}
 
 	private User user;

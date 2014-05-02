@@ -303,6 +303,7 @@
   </servlet-mapping>
   
   <servlet>
+
     <description>Create a document template</description>
     <display-name>CreateDocumentTemplate</display-name>
     <servlet-name>CreateDocumentTemplate</servlet-name>
@@ -355,6 +356,29 @@
   <servlet-mapping>
     <servlet-name>EditDocumentTemplate</servlet-name>
     <url-pattern>/EditDocumentTemplate</url-pattern>
+  </servlet-mapping>
+    
+  <servlet>
+ 	<description>Review an article that has been waiting a long time</description>
+    <display-name>EditorReview</display-name>
+    <servlet-name>EditorReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditorReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorReview</servlet-name>
+    <url-pattern>/EditorReview</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Review an article that has been waiting a long time</description>
+    <display-name>EditorCreateReview</display-name>
+    <servlet-name>EditorCreateReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.EditorCreateReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorCreateReview</servlet-name>
+    <url-pattern>/EditorCreateReview</url-pattern>
+
   </servlet-mapping>
   
 </web-app>
