@@ -72,7 +72,7 @@ public class Review {
 	
 	@Id @GeneratedValue
 	private int id;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private User reviewer;//int reviewer_id;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Article article;//int article_id;

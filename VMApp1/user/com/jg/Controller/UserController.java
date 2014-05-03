@@ -40,7 +40,7 @@ public class UserController extends Controller{
 		}
 	}
 
-	private entryResponse addNew(String firstname,String surname,String email,String password){
+	public entryResponse addNew(String firstname,String surname,String email,String password){
 		if(isExist(email).equals(entryResponse.EXIST))
 			return entryResponse.EXIST;
 		else{
@@ -110,7 +110,7 @@ public class UserController extends Controller{
 			if(!isSessionReady()) throw new Exception();
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
-			Criteria cr = session.createCriteria(Edition.class);
+			Criteria cr = session.createCriteria(User.class);
 			cr.add(Restrictions.eq("id", id));
 			user = cr.list();
 			session.getTransaction().commit();

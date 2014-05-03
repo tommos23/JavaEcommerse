@@ -31,12 +31,6 @@ public class EditorCreateReview extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);
-		String description = request.getParameter("description");
-		if (description == null || description.equals("")){
-			session.setAttribute("alertMessage","Please write a description.");
-			session.setAttribute("alertType","danger" );
-			response.sendRedirect("EditorNewVolume");
-		}
 		ArticleController ac = new ArticleController();
 		ac.startSession();
 		Article article = ac.get(Integer.parseInt(request.getParameter("article_id")));
@@ -44,7 +38,7 @@ public class EditorCreateReview extends HttpServlet {
 			ac.endSession();
 		UserController uc = new UserController();
 		uc.startSession();
-		User reviewer = uc.get(Integer.parseInt((String)session.getAttribute("user_id")));
+		User reviewer = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 		if(uc.isSessionReady())
 			uc.endSession();
 		if (request.getParameter("contribution") != null && request.getParameter("critism") != null && article != null && reviewer != null && request.getParameter("expertise") != null && request.getParameter("position") != null) {
@@ -70,11 +64,13 @@ public class EditorCreateReview extends HttpServlet {
 			}
 			if(rc.isSessionReady())
 				rc.endSession();
+			return;
 		}
 		else {
 			session.setAttribute("alertMessage","<Strong>Review not created!</strong> All fields are required.");
 			session.setAttribute("alertType","danger" );
 			response.sendRedirect("EditorArticlesForReview");
+			return;
 		}
 	}
 }

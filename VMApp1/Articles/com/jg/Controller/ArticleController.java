@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.Article;
 import com.jg.Model.Edition;
+import com.jg.Model.Review;
 import com.jg.Model.User;
 
 public class ArticleController extends Controller{
@@ -85,6 +86,61 @@ public class ArticleController extends Controller{
 			articles = cr.list();
 			session.getTransaction().commit();
 			return articles;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return articles;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Article> getAllArticlesForReviewerReview(int id)
+	{
+		List<Article> articles = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			List<Review> reviews = null;
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Review.class);
+			cr.add(Restrictions.eq("status", 0));
+			System.out.println("ID=="+id);
+			cr.add(Restrictions.eq("reviewer.id", id));
+			System.out.println("ID1=="+id);
+			reviews = cr.list();
+			System.out.println("ID2=="+id);
+			session.getTransaction().commit();
+			System.out.println("size=="+reviews.size());
+			
+			if(reviews.size() < 3){
+				System.out.println("in here");
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				Criteria cr2 = session.createCriteria(Article.class);
+				cr2.add(Restrictions.eq("status", 1));
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(new Date());
+				cal.add(Calendar.MONTH, -6);
+				Date date = cal.getTime();
+				cr2.add(Restrictions.le("created_at", date));
+				articles = cr2.list();
+				session.getTransaction().commit();
+				return articles;
+			} else {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				for(int i = 0; i < reviews.size(); i++){
+					Review r = reviews.get(i);
+					articles.add(i, r.getArticle());
+				}
+				session.getTransaction().commit();
+				return articles;
+			}
 		}
 		catch(Exception e){
 			e.printStackTrace();

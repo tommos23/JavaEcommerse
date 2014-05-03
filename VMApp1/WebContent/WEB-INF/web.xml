@@ -303,7 +303,6 @@
   </servlet-mapping>
   
   <servlet>
-
     <description>Create a document template</description>
     <display-name>CreateDocumentTemplate</display-name>
     <servlet-name>CreateDocumentTemplate</servlet-name>
@@ -378,7 +377,40 @@
   <servlet-mapping>
     <servlet-name>EditorCreateReview</servlet-name>
     <url-pattern>/EditorCreateReview</url-pattern>
-
   </servlet-mapping>
+  
+  <servlet>
+ 	<description>Reviewer view articles to review</description>
+    <display-name>ReviewerArticlesForReview</display-name>
+    <servlet-name>ReviewerArticlesForReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviewerArticlesForReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerArticlesForReview</servlet-name>
+    <url-pattern>/ReviewerArticlesForReview</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+ 	<description>Reviewer review article</description>
+    <display-name>ReviwerReviewArticle</display-name>
+    <servlet-name>ReviwerReviewArticle</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviwerReviewArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviwerReviewArticle</servlet-name>
+    <url-pattern>/ReviwerReviewArticle</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Reviewer review an article</description>
+    <display-name>ReviewerCreateReview</display-name>
+    <servlet-name>ReviewerCreateReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.ReviewerCreateReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerCreateReview</servlet-name>
+    <url-pattern>/ReviewerCreateReview</url-pattern>
+  </servlet-mapping>
+  
   
 </web-app>
