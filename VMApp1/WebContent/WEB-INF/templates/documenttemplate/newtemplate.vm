@@ -17,15 +17,15 @@
 					<div class="panel-heading">New Template</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
-							<form method="POST" action="CreateDocumentTemplate">
+							<form method="POST" action="CreateDocumentTemplate" enctype="multipart/form-data">
 								<label>Name</label><br />
 								<input type="text" name="name" class="form-control"/><br />
 								<label>Description</label><br />
 								<input type="text" name="description" class="form-control"/><br />
 								<label>Format</label><br />
 								<input type="text" maxlength="5" name="format" class="form-control"/><br />
-								<label>URL</label><br />
-								<input type="text" name="url" class="form-control"/><br />
+								<label>Upload file</label><br />
+								<input type="file" name="file" size="50" class="form-control"/><br />
 								<input type="submit" value="Create" class="btn btn-primary"/><br />
 							</form>
 						</div>

@@ -53,10 +53,6 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 			if(session.getAttribute("user").equals("true"))
 				user = true;
 		}
-		else{
-			session.setAttribute("user", "false");
-		}
-
 		if (!user){
 			try {
 				response.sendRedirect("welcome");
@@ -74,7 +70,6 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 		}
 		try {
 			template = getTemplate("articles/ReviewerArticlesForReview.vm"); 
-			
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}
