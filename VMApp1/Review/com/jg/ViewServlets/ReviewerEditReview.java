@@ -15,7 +15,7 @@ import com.jg.Controller.ArticleController;
 /**
  * Servlet implementation class PublishedArticle
  */
-public class ReviwerReviewArticle extends VelocityViewServlet 
+public class ReviewerEditReview extends VelocityViewServlet 
 {
 	/**
 	 * 
@@ -61,7 +61,7 @@ public class ReviwerReviewArticle extends VelocityViewServlet
 		/* get the template */
 		Template template = null;
 		try {
-			template = getTemplate("reviews/ReviwerReviewArticle.vm"); 
+			template = getTemplate("reviews/ReviwerEditReview.vm"); 
 			ArticleController ac = new ArticleController();
 			ac.startSession();
 			context.put("articles", ac.get(Integer.parseInt(id)));

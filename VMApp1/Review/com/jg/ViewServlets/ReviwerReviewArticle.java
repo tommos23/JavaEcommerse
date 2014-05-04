@@ -15,7 +15,7 @@ import com.jg.Controller.ArticleController;
 /**
  * Servlet implementation class PublishedArticle
  */
-public class ReviewerArticlesForReview extends VelocityViewServlet 
+public class ReviwerReviewArticle extends VelocityViewServlet 
 {
 	/**
 	 * 
@@ -46,34 +46,27 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 			session.setAttribute("alertType", null);
 		}
 		//-----End of Alert Message Code---------
-		
-		Template template = null;
-		boolean user = false;		
-		if(session.getAttribute("user") != null){
-			if(session.getAttribute("user").equals("true"))
-				user = true;
-		}
-		else{
-			session.setAttribute("user", "false");
-		}
 
-		if (!user){
+		String id = request.getParameter("id");
+		if (id == null || id.equals("")) {
+			session.setAttribute("alertMessage", "No docment template setected to be edited");
+			session.setAttribute("alertType", "danger");
 			try {
-				response.sendRedirect("welcome");
+				response.sendRedirect("ReviewerArticlesForReview");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {
-			int id = Integer.parseInt(session.getAttribute("user_id").toString());
-			/* get the template */
+		}
+		
+		/* get the template */
+		Template template = null;
+		try {
+			template = getTemplate("reviews/ReviwerReviewArticle.vm"); 
 			ArticleController ac = new ArticleController();
 			ac.startSession();
-			context.put("reviewing_articles", ac.getAllArticlesReviewerReviewing(id));
-			context.put("articles", ac.getAllArticlesForReviewerReview(id));
-			ac.endSession();					
-		}
-		try {
-			template = getTemplate("articles/ReviewerArticlesForReview.vm"); 
+			context.put("articles", ac.get(Integer.parseInt(id)));
+			context.put("article_id", id);
+			ac.endSession();
 			
 		} catch(Exception e ) {
 			System.out.println("Error " + e);

@@ -2,6 +2,7 @@ package com.jg.Controller;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -98,10 +99,50 @@ public class ArticleController extends Controller{
 		}
 	}
 	
+	public List<Article> getAllArticlesReviewerReviewing(int id)
+	{
+		List<Article> articles = new LinkedList<Article>();;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			List<Review> reviews = null;
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Review.class);
+			cr.add(Restrictions.eq("status", 0));
+			System.out.println("ID=="+id);
+			cr.add(Restrictions.eq("reviewer.id", id));
+			System.out.println("ID1=="+id);
+			reviews = cr.list();
+			System.out.println("ID2=="+id);
+			session.getTransaction().commit();
+			System.out.println("size=="+reviews.size());
+			
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			System.out.println("REVIEWING 3");
+			for(int i = 0; i < reviews.size(); i++){
+				Review r = reviews.get(i);
+				articles.add(r.getArticle());
+			}
+			session.getTransaction().commit();
+			return articles;
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			return articles;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+		
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Article> getAllArticlesForReviewerReview(int id)
 	{
-		List<Article> articles = null;
+		List<Article> articles = new LinkedList<Article>();;
 		try{
 			if(!isSessionReady()) throw new Exception();
 			List<Review> reviews = null;
@@ -129,18 +170,31 @@ public class ArticleController extends Controller{
 				Date date = cal.getTime();
 				cr2.add(Restrictions.le("created_at", date));
 				articles = cr2.list();
-				session.getTransaction().commit();
-				return articles;
-			} else {
-				session = sessionFactory.openSession();				
-				session.beginTransaction();
-				for(int i = 0; i < reviews.size(); i++){
-					Review r = reviews.get(i);
-					articles.add(i, r.getArticle());
+				if(reviews.size() == 0){		
+					session.getTransaction().commit();		
+				} else {
+					for (int i = 0; i < reviews.size(); i++){
+						Review r = reviews.get(i);
+						for (int j = 0; j < reviews.size(); j++){
+							if(r.getArticle().getId() == articles.get(j).getId()){
+								articles.remove(j);
+							}
+						}
+					}
 				}
-				session.getTransaction().commit();
-				return articles;
-			}
+			} 
+			return articles;
+//				else {
+//				session = sessionFactory.openSession();				
+//				session.beginTransaction();
+//				System.out.println("REVIEWING 3");
+//				for(int i = 0; i < reviews.size(); i++){
+//					Review r = reviews.get(i);
+//					articles.add(r.getArticle());
+//				}
+//				session.getTransaction().commit();
+//				return articles;
+//			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
