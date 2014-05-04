@@ -109,8 +109,7 @@ public class DocumentTemplateController extends Controller{
 				session.update(template);
 				session.getTransaction().commit();
 				return entryResponse.SUCCESS;
-			}
-			else
+			} else
 				return entryResponse.NOT_EXIST;
 		}
 		catch(Exception e){

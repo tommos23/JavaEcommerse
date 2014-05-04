@@ -11,6 +11,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.ArticleController;
+import com.jg.Controller.ReviewController;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -60,15 +61,40 @@ public class ReviewerEditReview extends VelocityViewServlet
 		
 		/* get the template */
 		Template template = null;
-		try {
-			template = getTemplate("reviews/ReviwerEditReview.vm"); 
-			ArticleController ac = new ArticleController();
-			ac.startSession();
-			context.put("articles", ac.get(Integer.parseInt(id)));
-			context.put("article_id", id);
-			ac.endSession();
-		} catch(Exception e ) {
-			System.out.println("Error " + e);
+		boolean user = false;		
+		if(session.getAttribute("user") != null){
+			if(session.getAttribute("user").equals("true")){
+				user = true;
+			}
+		}
+		else{
+			session.setAttribute("user", "false");
+		}
+
+		if (!user){
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				template = getTemplate("reviews/ReviwerEditReview.vm"); 
+				ArticleController ac = new ArticleController();
+				ac.startSession();
+				context.put("articles", ac.get(Integer.parseInt(id)));
+				context.put("article_id", id);
+				ac.endSession();
+				ReviewController rc = new ReviewController();
+				rc.startSession();
+				int user_id = Integer.parseInt(session.getAttribute("user_id").toString());
+				System.out.println("USERid= " + user_id);
+				System.out.println("articleID= " + id);
+				context.put("review",rc.getUserReviewForArticle(Integer.parseInt(id),user_id));
+				rc.endSession();
+			} catch(Exception e ) {
+				System.out.println("Error " + e);
+			}
 		}
 		return template;
 	}

@@ -412,5 +412,25 @@
     <url-pattern>/ReviewerCreateReview</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+ 	<description>Reviewer edit review on an article</description>
+    <display-name>ReviewerEditReview</display-name>
+    <servlet-name>ReviewerEditReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviewerEditReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerEditReview</servlet-name>
+    <url-pattern>/ReviewerEditReview</url-pattern>
+  </servlet-mapping>
   
+  <servlet>
+    <description>Reviewer edit a review</description>
+    <display-name>ReviewerUpdateReview</display-name>
+    <servlet-name>ReviewerUpdateReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.ReviewerUpdateReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerUpdateReview</servlet-name>
+    <url-pattern>/ReviewerUpdateReview</url-pattern>
+  </servlet-mapping>
 </web-app>
