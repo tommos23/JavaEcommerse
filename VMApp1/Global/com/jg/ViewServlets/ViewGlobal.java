@@ -20,6 +20,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.jg.Controller.GlobalController;
+import com.jg.Controller.UserController;
 import com.jg.Model.*;
 
 /**
@@ -33,39 +34,61 @@ public class ViewGlobal extends VelocityViewServlet {
 	{
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);
-		if (session.isNew()){
-			session.setAttribute("user", "false");
-			System.out.println("false");
+		UserController uc = new UserController();
+		uc.startSession();
+		User thisUser = null;
+		if (session.getAttribute("user_id") != null) {
+			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 		}
-		else if(session.getAttribute("user") == null){
+		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
+			if (session.isNew()){
 				session.setAttribute("user", "false");
+				System.out.println("false");
+			}
+			else if(session.getAttribute("user") == null){
+					session.setAttribute("user", "false");
+			}
+			//------Code to display alert message------
+			if(session.getAttribute("alertMessage")!=null){
+				context.put("alertMessage",session.getAttribute("alertMessage").toString());
+				context.put("showAlert", "true");
+				if(session.getAttribute("alertType") != null)
+					context.put("alertType",session.getAttribute("alertType").toString());
+				else
+					context.put("alertType", "info");
+				session.setAttribute("alertMessage", null);
+				session.setAttribute("alertType", null);
+			}
+			//-----End of Alert Message Code---------
+			
+			try {
+				GlobalController gc = new GlobalController();
+				gc.startSession();
+				context.put("global", gc.getGlobal());
+				
+				gc.endSession();
+			} catch(Exception e ) {
+				System.out.println("Error " + e);
+			}
 		}
-		//------Code to display alert message------
-		if(session.getAttribute("alertMessage")!=null){
-			context.put("alertMessage",session.getAttribute("alertMessage").toString());
-			context.put("showAlert", "true");
-			if(session.getAttribute("alertType") != null)
-				context.put("alertType",session.getAttribute("alertType").toString());
-			else
-				context.put("alertType", "info");
-			session.setAttribute("alertMessage", null);
-			session.setAttribute("alertType", null);
+		else {
+			if (uc.isSessionReady())
+				uc.endSession();
+			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
+			String alertType = "danger";
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		//-----End of Alert Message Code---------
-		
 		/* get the template */
 		Template template = null;
-		try {
-			template = getTemplate("global/viewglobal.vm"); 
-			GlobalController gc = new GlobalController();
-			gc.startSession();
-			context.put("global", gc.getGlobal());
-			
-			gc.endSession();
-		} catch(Exception e ) {
-			System.out.println("Error " + e);
-		}
-		return template;
+		template = getTemplate("global/viewglobal.vm");
+		return template; 
 	}
 
 }

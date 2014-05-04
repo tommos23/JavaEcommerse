@@ -12,7 +12,9 @@ import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.ArticleController;
 import com.jg.Controller.LettersToEditorsController;
+import com.jg.Controller.UserController;
 import com.jg.Controller.VolumeController;
+import com.jg.Model.User;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -59,26 +61,47 @@ public class EditorNewEdition extends VelocityViewServlet
 				e.printStackTrace();
 			}
 		}
-
+		UserController uc = new UserController();
+		uc.startSession();
+		User thisUser = null;
+		if (session.getAttribute("user_id") != null) {
+			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		}
+		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
+			try {
+				VolumeController vc = new VolumeController();
+				vc.startSession();
+				context.put("volume_id", id);
+				vc.endSession();
+				ArticleController ac = new ArticleController();
+				ac.startSession();
+				context.put("articles", ac.getAllArticles(4));
+				ac.endSession();
+				LettersToEditorsController lc = new LettersToEditorsController();
+				lc.startSession();
+				context.put("letters", lc.getAllLettersToEditors(3));
+				lc.endSession();
+			} catch(Exception e ) {
+				System.out.println("Error " + e);
+			}
+		}
+		else {
+			if (uc.isSessionReady())
+				uc.endSession();
+			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
+			String alertType = "danger";
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		/* get the template */
 		Template template = null;
-		try {
-			template = getTemplate("editions/editornewedition.vm"); 
-			VolumeController vc = new VolumeController();
-			vc.startSession();
-			context.put("volume_id", id);
-			vc.endSession();
-			ArticleController ac = new ArticleController();
-			ac.startSession();
-			context.put("articles", ac.getAllArticles(4));
-			ac.endSession();
-			LettersToEditorsController lc = new LettersToEditorsController();
-			lc.startSession();
-			context.put("letters", lc.getAllLettersToEditors(3));
-			lc.endSession();
-		} catch(Exception e ) {
-			System.out.println("Error " + e);
-		}
+		template = getTemplate("editions/editornewedition.vm"); 
 		return template;
 	}
 
