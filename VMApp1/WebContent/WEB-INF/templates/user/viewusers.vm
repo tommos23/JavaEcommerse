@@ -56,7 +56,7 @@
 									</tr>
 								#end
 							</table>
-							$userid
+							$useremail
 						</div>
 					</div>
 				</div>						

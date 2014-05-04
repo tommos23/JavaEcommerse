@@ -477,5 +477,4 @@
     <servlet-name>ReviewerUpdateReview</servlet-name>
     <url-pattern>/ReviewerUpdateReview</url-pattern>
   </servlet-mapping>
->>>>>>> 17c93707d3d4c8c0cec394132cacb5b952809bc4
 </web-app>

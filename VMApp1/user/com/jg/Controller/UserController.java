@@ -186,7 +186,7 @@ public class UserController extends Controller{
 	public entryResponse changeRole(User user, Role role){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			if (isExist(user.getEmail()).equals(entryResponse.EXIST)) {
+			if (isExist(user.getEmail()) != null) {
 				session = sessionFactory.openSession();				
 				session.beginTransaction();
 				user.setRole(role);

@@ -58,7 +58,7 @@ public class ViewUsers extends VelocityViewServlet
 			uc.startSession();
 			List<User> users = uc.getUsers();
 			context.put("users", users);
-			context.put("thisuser", uc.get(Integer.parseInt((String) session.getAttribute("user_id"))));
+			context.put("useremail", (String)session.getAttribute("email"));
 //			context.put("userid", session.getAttribute("user_id"));
 			uc.endSession();
 		} catch(Exception e ) {
