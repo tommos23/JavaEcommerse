@@ -14,7 +14,7 @@
 					#end
 				#end
 				<div class="panel panel-default">
-					<div class="panel-heading">Editors</div>
+					<div class="panel-heading">Users</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
 							#set ($count = 0)
@@ -23,10 +23,14 @@
 									#set ($count = $count + 1)
 								#end
 							#end
-							#if ($count > 1)
-								<a href="Retire" class="btn btn-primary">Retire</a>
+							#if ($thisuser.getRole().getName().equals("editor"))
+								#if ($count > 1)
+									<a href="Retire" class="btn btn-primary">Retire</a>
+								#else
+									<p>There are not enough editors for you to retire!</p>
+								#end
 							#else
-								<p>There are not enough editors for you to retire!</p>
+								<p>You must make someone else the publisher before you can retire!</p>
 							#end
 							<table class="table">
 								<tr>
@@ -56,7 +60,6 @@
 									</tr>
 								#end
 							</table>
-							$useremail
 						</div>
 					</div>
 				</div>						

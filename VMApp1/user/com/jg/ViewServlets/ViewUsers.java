@@ -38,32 +38,51 @@ public class ViewUsers extends VelocityViewServlet
 		else if(session.getAttribute("user") == null){
 				session.setAttribute("user", "false");
 		}
-		//------Code to display alert message------
-		if(session.getAttribute("alertMessage")!=null){
-			context.put("alertMessage",session.getAttribute("alertMessage").toString());
-			context.put("showAlert", "true");
-			if(session.getAttribute("alertType") != null)
-				context.put("alertType",session.getAttribute("alertType").toString());
-			else
-				context.put("alertType", "info");
-			session.setAttribute("alertMessage", null);
-			session.setAttribute("alertType", null);
+		UserController uc = new UserController();
+		uc.startSession();
+		User thisUser = null;
+		if (session.getAttribute("user_id") != null) {
+			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 		}
-		//-----End of Alert Message Code---------
-		/* get the template */
-		Template template = null;
-		try {
-			template = getTemplate("user/viewusers.vm");
-			UserController uc = new UserController();
-			uc.startSession();
+		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
+			//------Code to display alert message------
+			if(session.getAttribute("alertMessage")!=null){
+				context.put("alertMessage",session.getAttribute("alertMessage").toString());
+				context.put("showAlert", "true");
+				if(session.getAttribute("alertType") != null)
+					context.put("alertType",session.getAttribute("alertType").toString());
+				else
+					context.put("alertType", "info");
+				session.setAttribute("alertMessage", null);
+				session.setAttribute("alertType", null);
+			}
+			//-----End of Alert Message Code---------
+			/* get the template */
+			if (!uc.isSessionReady()) {
+				uc.startSession();
+			}
 			List<User> users = uc.getUsers();
 			context.put("users", users);
-			context.put("useremail", (String)session.getAttribute("email"));
-//			context.put("userid", session.getAttribute("user_id"));
+			context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+	//		context.put("userid", session.getAttribute("user_id"));
 			uc.endSession();
-		} catch(Exception e ) {
-			System.out.println("Error " + e);
 		}
+		else {
+			if (uc.isSessionReady())
+				uc.endSession();
+			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
+			String alertType = "danger";
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		Template template = null;
+		template = getTemplate("user/viewusers.vm");
 		return template;
 	}
 
