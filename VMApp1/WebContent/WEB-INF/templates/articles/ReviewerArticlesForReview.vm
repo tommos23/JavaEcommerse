@@ -17,6 +17,28 @@
 					<div class="panel-heading">Articles for Editor Review</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
+							<h3>Reviewing</h3>
+							<table class="table">
+								<tr>
+									<th>Title</th>
+									<th>Created At</th>
+									<th></th>
+								</tr>
+								#foreach($reviewing in $reviewing_articles)
+									<tr>
+										<td>
+											$reviewing.getLatestVersion().getTitle()
+										</td>
+										<td>
+											$reviewing.getLatestVersion().getCreated_at()
+										</td>
+										<td>
+											<a href="ReviewerEditReview?id=$reviewing.getId()">Edit Review</a>
+										</td>
+									</tr>
+								#end
+							</table>
+							<h3>Available to review</h3>
 							<table class="table">
 								<tr>
 									<th>Title</th>
@@ -32,7 +54,7 @@
 											$article.getLatestVersion().getCreated_at()
 										</td>
 										<td>
-											<a href="EditorReview?id=$article.getId()">Review</a>
+											<a href="ReviwerReviewArticle?id=$article.getId()">Review</a>
 										</td>
 									</tr>
 								#end

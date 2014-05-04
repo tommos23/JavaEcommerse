@@ -303,7 +303,62 @@
   </servlet-mapping>
   
   <servlet>
-    <description>Review an article that has been waiting a long time</description>
+    <description>Create a document template</description>
+    <display-name>CreateDocumentTemplate</display-name>
+    <servlet-name>CreateDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.OperationServlets.CreateDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateDocumentTemplate</servlet-name>
+    <url-pattern>/CreateDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Update a document template</description>
+    <display-name>UpdateDocumentTemplate</display-name>
+    <servlet-name>UpdateDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.OperationServlets.UpdateDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateDocumentTemplate</servlet-name>
+    <url-pattern>/UpdateDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <description>View document templates</description>
+    <display-name>ViewDocumentTemplates</display-name>
+    <servlet-name>ViewDocumentTemplates</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewDocumentTemplates</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewDocumentTemplates</servlet-name>
+    <url-pattern>/ViewDocumentTemplates</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>New document template</description>
+    <display-name>NewDocumentTemplate</display-name>
+    <servlet-name>NewDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.ViewServlets.NewDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewDocumentTemplate</servlet-name>
+    <url-pattern>/NewDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Edit document template</description>
+    <display-name>EditDocumentTemplate</display-name>
+    <servlet-name>EditDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditDocumentTemplate</servlet-name>
+    <url-pattern>/EditDocumentTemplate</url-pattern>
+  </servlet-mapping>
+    
+  <servlet>
+ 	<description>Review an article that has been waiting a long time</description>
     <display-name>EditorReview</display-name>
     <servlet-name>EditorReview</servlet-name>
     <servlet-class>com.jg.ViewServlets.EditorReview</servlet-class>
@@ -367,5 +422,60 @@
     <servlet-name>Retire</servlet-name>
     <url-pattern>/Retire</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+ 	  <description>Reviewer view articles to review</description>
+    <display-name>ReviewerArticlesForReview</display-name>
+    <servlet-name>ReviewerArticlesForReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviewerArticlesForReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerArticlesForReview</servlet-name>
+    <url-pattern>/ReviewerArticlesForReview</url-pattern>
+  </servlet-mapping>
   
+   <servlet>
+ 	<description>Reviewer review article</description>
+    <display-name>ReviwerReviewArticle</display-name>
+    <servlet-name>ReviwerReviewArticle</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviwerReviewArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviwerReviewArticle</servlet-name>
+    <url-pattern>/ReviwerReviewArticle</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Reviewer review an article</description>
+    <display-name>ReviewerCreateReview</display-name>
+    <servlet-name>ReviewerCreateReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.ReviewerCreateReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerCreateReview</servlet-name>
+    <url-pattern>/ReviewerCreateReview</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Reviewer edit review on an article</description>
+    <display-name>ReviewerEditReview</display-name>
+    <servlet-name>ReviewerEditReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviewerEditReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerEditReview</servlet-name>
+    <url-pattern>/ReviewerEditReview</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Reviewer edit a review</description>
+    <display-name>ReviewerUpdateReview</display-name>
+    <servlet-name>ReviewerUpdateReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.ReviewerUpdateReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerUpdateReview</servlet-name>
+    <url-pattern>/ReviewerUpdateReview</url-pattern>
+  </servlet-mapping>
+>>>>>>> 17c93707d3d4c8c0cec394132cacb5b952809bc4
 </web-app>

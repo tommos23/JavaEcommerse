@@ -85,8 +85,10 @@ public class EditorCreateEdition extends HttpServlet {
 		String[] articles = request.getParameterValues("articles");
 		ArticleController ac = new ArticleController();
 		ac.startSession();
-		for (int i = 0; i < articles.length; i++) {
-			ac.publishArticle(Integer.parseInt(articles[i]), edition);
+		if(articles != null && articles.length != 0){
+			for (int i = 0; i < articles.length; i++) {
+				ac.publishArticle(Integer.parseInt(articles[i]), edition);
+			}
 		}
 		if(ac.isSessionReady())
 			ac.endSession();
@@ -94,8 +96,10 @@ public class EditorCreateEdition extends HttpServlet {
 		String[] letters = request.getParameterValues("letters");
 		LettersToEditorsController ltec = new LettersToEditorsController();
 		ltec.startSession();
-		for (int i = 0; i < articles.length; i++) {
-			ltec.publishLetter(Integer.parseInt(letters[i]), edition);
+		if(articles != null && articles.length != 0){
+			for (int i = 0; i < articles.length; i++) {
+				ltec.publishLetter(Integer.parseInt(letters[i]), edition);
+			}
 		}
 		if(ltec.isSessionReady())
 			ltec.endSession();

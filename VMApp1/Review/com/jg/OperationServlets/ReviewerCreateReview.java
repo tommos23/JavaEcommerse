@@ -18,13 +18,13 @@ import com.jg.Model.User;
 /**
  * Servlet implementation class UserValidate
  */
-public class EditorCreateReview extends HttpServlet {
+public class ReviewerCreateReview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public EditorCreateReview() {
+	public ReviewerCreateReview() {
 		super();
 	}
 	
@@ -62,11 +62,13 @@ public class EditorCreateReview extends HttpServlet {
 				response.sendRedirect("EditorArticlesForReview");
 				break;
 			}
+			System.out.println("here");
 			if(rc.isSessionReady())
 				rc.endSession();
-			return;
+				return;
 		}
 		else {
+			System.out.println("or here");
 			session.setAttribute("alertMessage","<Strong>Review not created!</strong> All fields are required.");
 			session.setAttribute("alertType","danger" );
 			response.sendRedirect("EditorArticlesForReview");

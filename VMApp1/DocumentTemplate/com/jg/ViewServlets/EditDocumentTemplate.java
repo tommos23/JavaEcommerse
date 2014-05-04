@@ -1,22 +1,21 @@
 package com.jg.ViewServlets;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-import com.jg.Controller.VolumeController;
+import com.jg.Controller.DocumentTemplateController;
 
 /**
- * Servlet implementation class PublishedArticle
+ * Servlet implementation class Uploads
  */
-public class EditorNewVolume extends VelocityViewServlet 
-{
-	/**
-	 * 
-	 */
+public class EditDocumentTemplate extends VelocityViewServlet {
 	private static final long serialVersionUID = 1L;
 
 	public Template handleRequest( HttpServletRequest request, 
@@ -43,15 +42,26 @@ public class EditorNewVolume extends VelocityViewServlet
 			session.setAttribute("alertType", null);
 		}
 		//-----End of Alert Message Code---------
-
+		
+		String id = request.getParameter("id");
+		if (id == null || id.equals("")) {
+			session.setAttribute("alertMessage", "No docment template setected to be edited");
+			session.setAttribute("alertType", "danger");
+			try {
+				response.sendRedirect("ViewDocumentTemplates");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		/* get the template */
 		Template template = null;
 		try {
-			template = getTemplate("volumes/editornewvolume.vm"); 
-			VolumeController vc = new VolumeController();
-			vc.startSession();
-			context.put("volumes", vc.getAllVolumes());
-			vc.endSession();
+			template = getTemplate("documenttemplate/edittemplate.vm"); 
+			DocumentTemplateController dtc = new DocumentTemplateController();
+			dtc.startSession();
+			context.put("template", dtc.get(Integer.parseInt(id)));
+			dtc.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}

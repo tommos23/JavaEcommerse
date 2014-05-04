@@ -3,16 +3,19 @@ package com.jg.ViewServlets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-import com.jg.Controller.VolumeController;
+import com.jg.Controller.DocumentTemplateController;
+
+
 
 /**
  * Servlet implementation class PublishedArticle
  */
-public class EditorNewVolume extends VelocityViewServlet 
+public class ViewDocumentTemplates extends VelocityViewServlet 
 {
 	/**
 	 * 
@@ -47,10 +50,11 @@ public class EditorNewVolume extends VelocityViewServlet
 		/* get the template */
 		Template template = null;
 		try {
-			template = getTemplate("volumes/editornewvolume.vm"); 
-			VolumeController vc = new VolumeController();
+			template = getTemplate("documenttemplate/viewtemplates.vm"); 
+			DocumentTemplateController vc = new DocumentTemplateController();
 			vc.startSession();
-			context.put("volumes", vc.getAllVolumes());
+			context.put("templates", vc.getAllTemplates());
+			
 			vc.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);

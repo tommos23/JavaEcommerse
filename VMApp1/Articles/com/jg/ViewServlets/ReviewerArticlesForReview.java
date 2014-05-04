@@ -1,18 +1,21 @@
 package com.jg.ViewServlets;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-import com.jg.Controller.VolumeController;
+import com.jg.Controller.ArticleController;
 
 /**
  * Servlet implementation class PublishedArticle
  */
-public class EditorNewVolume extends VelocityViewServlet 
+public class ReviewerArticlesForReview extends VelocityViewServlet 
 {
 	/**
 	 * 
@@ -43,15 +46,35 @@ public class EditorNewVolume extends VelocityViewServlet
 			session.setAttribute("alertType", null);
 		}
 		//-----End of Alert Message Code---------
-
-		/* get the template */
+		
 		Template template = null;
+		boolean user = false;		
+		if(session.getAttribute("user") != null){
+			if(session.getAttribute("user").equals("true"))
+				user = true;
+		}
+		else{
+			session.setAttribute("user", "false");
+		}
+
+		if (!user){
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			int id = Integer.parseInt(session.getAttribute("user_id").toString());
+			/* get the template */
+			ArticleController ac = new ArticleController();
+			ac.startSession();
+			context.put("reviewing_articles", ac.getAllArticlesReviewerReviewing(id));
+			context.put("articles", ac.getAllArticlesForReviewerReview(id));
+			ac.endSession();					
+		}
 		try {
-			template = getTemplate("volumes/editornewvolume.vm"); 
-			VolumeController vc = new VolumeController();
-			vc.startSession();
-			context.put("volumes", vc.getAllVolumes());
-			vc.endSession();
+			template = getTemplate("articles/ReviewerArticlesForReview.vm"); 
+			
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}

@@ -1,18 +1,21 @@
 package com.jg.ViewServlets;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-import com.jg.Controller.VolumeController;
+import com.jg.Controller.ArticleController;
 
 /**
  * Servlet implementation class PublishedArticle
  */
-public class EditorNewVolume extends VelocityViewServlet 
+public class ReviwerReviewArticle extends VelocityViewServlet 
 {
 	/**
 	 * 
@@ -44,14 +47,27 @@ public class EditorNewVolume extends VelocityViewServlet
 		}
 		//-----End of Alert Message Code---------
 
+		String id = request.getParameter("id");
+		if (id == null || id.equals("")) {
+			session.setAttribute("alertMessage", "No docment template setected to be edited");
+			session.setAttribute("alertType", "danger");
+			try {
+				response.sendRedirect("ReviewerArticlesForReview");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		/* get the template */
 		Template template = null;
 		try {
-			template = getTemplate("volumes/editornewvolume.vm"); 
-			VolumeController vc = new VolumeController();
-			vc.startSession();
-			context.put("volumes", vc.getAllVolumes());
-			vc.endSession();
+			template = getTemplate("reviews/ReviwerReviewArticle.vm"); 
+			ArticleController ac = new ArticleController();
+			ac.startSession();
+			context.put("articles", ac.get(Integer.parseInt(id)));
+			context.put("article_id", id);
+			ac.endSession();
+			
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}

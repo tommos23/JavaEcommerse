@@ -68,6 +68,30 @@ public class ReviewController extends Controller{
 		}
 	}
 	
+	public List<Review> getUserReviewForArticle(int article_id, int user_id) {
+		List<Review> review = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Review.class);
+			cr.add(Restrictions.eq("article.id", article_id));
+			cr.add(Restrictions.eq("reviewer.id", user_id));
+			review = cr.list();
+			session.getTransaction().commit();
+			return review;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
 	public entryResponse create(String contribution, String critism, int expertise, int position, Article article, User reviewer){
 		try{
 			if(!isSessionReady()) throw new Exception();
@@ -86,6 +110,41 @@ public class ReviewController extends Controller{
 			session.getTransaction().commit();
 			return entryResponse.SUCCESS;
 		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse update(String contribution, String critism, int expertise, int position, Article article, User reviewer, int review_id) {
+		try{
+			if(!isSessionReady()) throw new Exception();
+			if (isExist(review_id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				System.out.println("Cont:"+contribution);
+				System.out.println("critism:"+critism);
+				System.out.println("expertise:"+expertise);
+				review.setContribution(contribution);
+				review.setCritism(critism);
+				review.setStatus(0);
+				review.setReviewer(reviewer);
+				review.setExpertise(expertise);
+				review.setArticle(article);
+				review.setPosition(position);
+				session.update(review);
+				session.getTransaction().commit();
+			return entryResponse.SUCCESS;
+			} else {
+				return entryResponse.NOT_EXIST;
+			}
+		} 
 		catch(Exception e){
 			e.printStackTrace();
 			session.close();
@@ -128,5 +187,6 @@ public class ReviewController extends Controller{
 
 	Session session = null;
 	Review review;
+	
 
 }

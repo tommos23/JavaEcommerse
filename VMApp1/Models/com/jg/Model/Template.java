@@ -9,6 +9,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name="templates")
 public class Template {
+	public Template(){
+		super();
+	}
+	public Template(String name, String description, String format, String url){
+		this.name = name;
+		this.description = description;
+		this.format = format;
+		this.url = url;
+	}
 	public String getName() {
 		return name;
 	}
@@ -46,7 +55,7 @@ public class Template {
 	private String name;
 	@Column(columnDefinition = "TEXT")
 	private String description;
-	@Column(length =5)
+	@Column(length = 50)
 	private String format;
 	@Column(columnDefinition = "TEXT")
 	private String url;
