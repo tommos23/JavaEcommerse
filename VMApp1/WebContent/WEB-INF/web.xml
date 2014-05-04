@@ -380,7 +380,51 @@
   </servlet-mapping>
   
   <servlet>
- 	<description>Reviewer view articles to review</description>
+    <description>View users and set editors</description>
+    <display-name>ViewUsers</display-name>
+    <servlet-name>ViewUsers</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewUsers</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewUsers</servlet-name>
+    <url-pattern>/ViewUsers</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Make a user into an editor</description>
+    <display-name>MakeEditor</display-name>
+    <servlet-name>MakeEditor</servlet-name>
+    <servlet-class>com.jg.OperationServlets.MakeEditor</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MakeEditor</servlet-name>
+    <url-pattern>/MakeEditor</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Make the current user into an editor and the selected user the publisher</description>
+    <display-name>SwapPublisher</display-name>
+    <servlet-name>SwapPublisher</servlet-name>
+    <servlet-class>com.jg.OperationServlets.SwapPublisher</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SwapPublisher</servlet-name>
+    <url-pattern>/SwapPublisher</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>View users and set editors</description>
+    <display-name>Retire</display-name>
+    <servlet-name>Retire</servlet-name>
+    <servlet-class>com.jg.OperationServlets.Retire</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Retire</servlet-name>
+    <url-pattern>/Retire</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+ 	  <description>Reviewer view articles to review</description>
     <display-name>ReviewerArticlesForReview</display-name>
     <servlet-name>ReviewerArticlesForReview</servlet-name>
     <servlet-class>com.jg.ViewServlets.ReviewerArticlesForReview</servlet-class>
