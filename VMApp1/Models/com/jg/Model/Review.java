@@ -33,12 +33,6 @@ public class Review {
 	public void setArticle(Article article) {
 		this.article = article;
 	}
-	public Version getVersion() {
-		return version;
-	}
-	public void setVerion(Version version) {
-		this.version = version;
-	}
 	public int getPosition() {
 		return position;
 	}
@@ -82,8 +76,6 @@ public class Review {
 	private User reviewer;//int reviewer_id;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Article article;//int article_id;
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Version version;
 	private int position;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
