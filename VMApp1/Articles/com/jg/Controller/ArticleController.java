@@ -185,6 +185,8 @@ public class ArticleController extends Controller{
 			cr.add(Restrictions.eq("status", 0));
 			System.out.println("ID=="+id);
 			cr.add(Restrictions.eq("reviewer.id", id));
+			cr.add(Restrictions.eq("position",-1));
+			cr.add(Restrictions.eq("expertise",-1));
 			System.out.println("ID1=="+id);
 			reviews = cr.list();
 			System.out.println("ID2=="+id);
@@ -193,7 +195,7 @@ public class ArticleController extends Controller{
 			
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
-			System.out.println("REVIEWING 3");
+			System.out.println("REVIEWING: " + reviews.size());
 			for(int i = 0; i < reviews.size(); i++){
 				Review r = reviews.get(i);
 				articles.add(r.getArticle());
@@ -212,6 +214,41 @@ public class ArticleController extends Controller{
 		}
 		
 	}
+	
+	public List<Article> getAllArticlesReviewerReviewed(int id)
+	{
+		List<Article> articles = new LinkedList<Article>();;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			List<Review> reviews = null;
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Review.class);
+			cr.add(Restrictions.eq("status", 0));
+			cr.add(Restrictions.eq("reviewer.id", id));
+			cr.add(Restrictions.ne("position",-1));
+			reviews = cr.list();
+			session.getTransaction().commit();		
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			for(int i = 0; i < reviews.size(); i++){
+				Review r = reviews.get(i);
+				articles.add(r.getArticle());
+			}
+			session.getTransaction().commit();
+			return articles;
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			return articles;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}		
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public List<Article> getAllArticlesForReviewerReview(int id)
@@ -239,22 +276,26 @@ public class ArticleController extends Controller{
 				Criteria cr2 = session.createCriteria(Article.class);
 				cr2.add(Restrictions.eq("status", 1));
 				Calendar cal = Calendar.getInstance();
-				cal.setTime(new Date());
-				cal.add(Calendar.MONTH, -6);
-				Date date = cal.getTime();
-				cr2.add(Restrictions.le("created_at", date));
+//				cal.setTime(new Date());
+//				cal.add(Calendar.MONTH, -6);
+//				Date date = cal.getTime();
+//				cr2.add(Restrictions.le("created_at", date));
 				articles = cr2.list();
+				System.out.println("Article len: " + articles.size());
 				if(reviews.size() == 0){		
 					session.getTransaction().commit();		
 				} else {
 					for (int i = 0; i < reviews.size(); i++){
-						Review r = reviews.get(i);
-						for (int j = 0; j < reviews.size(); j++){
+						Review r = reviews.get(i);			
+						for (int j = 0; j < articles.size(); j++){
+							System.out.println("Review ID: " + r.getArticle().getId());
+							System.out.println("Article ID: " + articles.get(j).getId());
 							if(r.getArticle().getId() == articles.get(j).getId()){
 								articles.remove(j);
 							}
 						}
 					}
+					session.getTransaction().commit();
 				}
 			} 
 			return articles;

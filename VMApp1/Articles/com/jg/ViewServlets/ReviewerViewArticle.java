@@ -15,7 +15,7 @@ import com.jg.Controller.ArticleController;
 /**
  * Servlet implementation class PublishedArticle
  */
-public class ReviewerArticlesForReview extends VelocityViewServlet 
+public class ReviewerViewArticle extends VelocityViewServlet 
 {
 	/**
 	 * 
@@ -47,6 +47,17 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 		}
 		//-----End of Alert Message Code---------
 		
+		String article_id = request.getParameter("id");
+		if (article_id == null || article_id.equals("")) {
+			session.setAttribute("alertMessage", "No article selected");
+			session.setAttribute("alertType", "danger");
+			try {
+				response.sendRedirect("ReviewerArticlesForReview");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		Template template = null;
 		boolean user = false;		
 		if(session.getAttribute("user") != null){
@@ -64,13 +75,12 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 			/* get the template */
 			ArticleController ac = new ArticleController();
 			ac.startSession();
-			context.put("reviewing_articles", ac.getAllArticlesReviewerReviewing(id));
-			context.put("reviewed_articles", ac.getAllArticlesReviewerReviewed(id));
-			context.put("articles", ac.getAllArticlesForReviewerReview(id));
+			context.put("article", ac.get(Integer.parseInt(article_id)));
+			context.put("user_id",id);
 			ac.endSession();					
 		}
 		try {
-			template = getTemplate("articles/ReviewerArticlesForReview.vm"); 
+			template = getTemplate("articles/ReviewerViewArticle.vm"); 
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}

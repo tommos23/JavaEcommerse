@@ -500,4 +500,27 @@
          .\documentTemplates\
    	</param-value> 
   </context-param>
+  
+  <servlet>
+    <description>Reviewer select an article to review</description>
+    <display-name>ReviewerSelectToReview</display-name>
+    <servlet-name>ReviewerSelectToReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.ReviewerSelectToReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerSelectToReview</servlet-name>
+    <url-pattern>/ReviewerSelectToReview</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Reviewer can view an article and select if they wish to review it</description>
+    <display-name>ReviewerViewArticle</display-name>
+    <servlet-name>ReviewerViewArticle</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviewerViewArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerViewArticle</servlet-name>
+    <url-pattern>/ReviewerViewArticle</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
