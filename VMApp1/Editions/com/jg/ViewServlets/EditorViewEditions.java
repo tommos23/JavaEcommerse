@@ -72,6 +72,7 @@ public class EditorViewEditions extends VelocityViewServlet
 				ec.startSession();
 				context.put("editions", ec.getEditionsForVolume(Integer.parseInt(id)));
 				context.put("volume_id", id);
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				
 				ec.endSession();
 			} catch(Exception e ) {

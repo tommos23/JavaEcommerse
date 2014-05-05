@@ -74,6 +74,7 @@ public class LetterWithReply extends VelocityViewServlet {
 				LettersToEditorsController ltec = new LettersToEditorsController();
 				ltec.startSession();
 				context.put("letter", ltec.get(Integer.parseInt(id)));
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				
 				ltec.endSession();
 			} catch(Exception e ) {

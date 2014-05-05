@@ -13,6 +13,8 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
+import com.jg.Controller.UserController;
+
 public class UserHome extends VelocityViewServlet 
 {
 	/**
@@ -64,6 +66,11 @@ public class UserHome extends VelocityViewServlet
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}
+		UserController uc = new UserController();
+		uc.startSession();
+		context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+		if (uc.isSessionReady())
+			uc.endSession();
 		return template;
 	}
 }

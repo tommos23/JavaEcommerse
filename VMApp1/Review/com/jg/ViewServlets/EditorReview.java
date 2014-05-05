@@ -57,6 +57,7 @@ public class EditorReview extends VelocityViewServlet
 		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
 			try {
 				context.put("article_id", request.getParameter("id"));
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 			} catch(Exception e ) {
 				System.out.println("Error " + e);
 			}
