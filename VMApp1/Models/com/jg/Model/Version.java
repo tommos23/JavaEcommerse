@@ -69,7 +69,7 @@ public class Version {
 	private String title;
 	@Column(name = "abstract", columnDefinition = "TEXT")
 	private String abs;
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	private Set<Subject> subjects = new HashSet<Subject>(0);
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
