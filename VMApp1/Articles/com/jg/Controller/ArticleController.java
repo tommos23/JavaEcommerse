@@ -20,17 +20,22 @@ public class ArticleController extends Controller{
 
 	public entryResponse addNewArticle(String title,String abs,String keywords,String filepath,String email){
 		String[] words = new String[255];
-		System.out.println(keywords);
+		//System.out.println(keywords);
 		if(keywords.contains(" "))
 			words = keywords.split(" ");
 		else
 			words[0] = keywords;
 		Set<Keyword> tempkey = new HashSet<Keyword>(0);
-		for(String word : words){
-			if(word != null)
-				tempkey.add(new Keyword(word));
-		}
+		
 		try{
+			KeywordController kc = new KeywordController();
+			kc.startSession();
+			for(String word : words){
+				if(word != null){
+					tempkey.add(kc.isExist(word)? kc.getKeyword() :  new Keyword(word));
+				}					
+			}
+			kc.endSession();
 			//Check if session factory is ready or not
 			if(!isSessionReady()) throw new Exception();
 
@@ -62,11 +67,12 @@ public class ArticleController extends Controller{
 			ver.setArticle(a);
 
 			//Add objects of subject to it
+			/*
 			Set<Subject> sub = new HashSet<Subject>(0);
 			sub.add(new Subject("Computer Science"));
 			sub.add(new Subject("Information Technology"));
 			ver.setSubjects(sub);
-
+			*/
 			session.saveOrUpdate(ver);
 			session.getTransaction().commit();
 			return entryResponse.SUCCESS;

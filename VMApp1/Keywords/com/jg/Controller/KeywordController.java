@@ -6,35 +6,38 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.jg.Model.Article;
 import com.jg.Model.Keyword;
 
 public class KeywordController extends Controller{
 	
-	public entryResponse isExist(String key){
+	public boolean isExist(String key) throws Exception{
 		try{				
 			if(!isSessionReady()) throw new Exception();
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
-			Criteria cr = session.createCriteria(Article.class);
+			Criteria cr = session.createCriteria(Keyword.class);
 			cr.add(Restrictions.eq("keyword", key));
 			List results = cr.list();				
 			session.getTransaction().commit();			
 			if(!results.isEmpty())
-				return entryResponse.EXIST;
+				return true;
 			else
-				return entryResponse.NOT_EXIST;
+				return false;
 		}
 		catch(Exception e){
 			e.printStackTrace();
 			session.close();
-			return entryResponse.DB_ERROR;
+			throw new Exception();
 		}
 		finally{
 			if(session.isOpen())
 				session.close();
 			System.out.println("session closed.");
 		}
+	}
+	
+	public Keyword getKeyword(){
+		return keyword;
 	}
 	
 	Session session = null;
