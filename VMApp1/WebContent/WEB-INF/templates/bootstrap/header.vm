@@ -6,28 +6,28 @@
 					#if ($user == "true" && "$!thisuser" != "")
 						#if ($thisuser.getRole().getName().equals("editor") || $thisuser.getRole().getName().equals("publisher"))
 							<li>
-								<a href="ViewUnpostedLetters" title="Unposted Letter"><span class="glyphicon glyphicon-book"></span> Unposted Letters</a>
+								<a href="ViewUnpostedLetters" title="Unposted Letter"><span class="glyphicon glyphicon-envelope"></span> Unposted Letters</a>
 							</li>
 							<li>
-								<a href="LettersWithReplies" title="Letters with replies"><span class="glyphicon glyphicon-book"></span> Replies</a>
+								<a href="LettersWithReplies" title="Letters with replies"><span class="glyphicon glyphicon-envelope"></span> Replies</a>
 							</li>
 							<li>
-								<a href="ApproveArticles" title="Articles"><span class="glyphicon glyphicon-book"></span> Approve</a>
+								<a href="ApproveArticles" title="Articles"><span class="glyphicon glyphicon-list-alt"></span> Approve</a>
 							</li>
 							<li>
-								<a href="EditorArticlesForReview" title="Review"><span class="glyphicon glyphicon-book"></span> Review</a>
+								<a href="EditorArticlesForReview" title="Review"><span class="glyphicon glyphicon-list-alt"></span> Review</a>
 							</li>
 							<li>
-								<a href="ViewUsers" title="Users"><span class="glyphicon glyphicon-list-alt"></span> User</a>
+								<a href="ViewUsers" title="Users"><span class="glyphicon glyphicon-user"></span> User</a>
 							</li>
 							<li>
-								<a href="ViewDocumentTemplates" title="Templates"><span class="glyphicon glyphicon-list-alt"></span> Templates</a>
+								<a href="ViewDocumentTemplates" title="Templates"><span class="glyphicon glyphicon-file"></span> Templates</a>
 							</li>
 							<li>
-								<a href="EditorViewVolumes" title="Volumes"><span class="glyphicon glyphicon-list-alt"></span> Volumes</a>
+								<a href="EditorViewVolumes" title="Volumes"><span class="glyphicon glyphicon-book"></span> Volumes</a>
 							</li>
 							<li>
-								<a href="ViewGlobal" title="Global Settings"><span class="glyphicon glyphicon-list-alt"></span> Global Settings</a>
+								<a href="ViewGlobal" title="Global Settings"><span class="glyphicon glyphicon-cog"></span> Global Settings</a>
 							</li>
 						#end
 					#else
