@@ -225,6 +225,17 @@
     <url-pattern>/PublishVolume</url-pattern>
   </servlet-mapping>
   <servlet>
+    <description>Publish a edition</description>
+    <display-name>PublishEdition</display-name>
+    <servlet-name>PublishEdition</servlet-name>
+    <servlet-class>com.jg.OperationServlets.PublishEdition</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishEdition</servlet-name>
+    <url-pattern>/PublishEdition</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <description>Allows an editor to view all editions in a volume</description>
     <display-name>EditorViewEditions</display-name>
     <servlet-name>EditorViewEditions</servlet-name>
@@ -294,5 +305,199 @@
     <servlet-name>UploadDownloadArticle</servlet-name>
     <url-pattern>/uploadarticle</url-pattern>
     <url-pattern>/downloadarticle</url-pattern>
+  </servlet-mapping>  
+  <servlet>
+    <description>Review articles that have been waiting for a long time. List those articles</description>
+    <display-name>EditorArticlesForReview</display-name>
+    <servlet-name>EditorArticlesForReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditorArticlesForReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorArticlesForReview</servlet-name>
+    <url-pattern>/EditorArticlesForReview</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <description>Create a document template</description>
+    <display-name>CreateDocumentTemplate</display-name>
+    <servlet-name>CreateDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.OperationServlets.CreateDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateDocumentTemplate</servlet-name>
+    <url-pattern>/CreateDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Update a document template</description>
+    <display-name>UpdateDocumentTemplate</display-name>
+    <servlet-name>UpdateDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.OperationServlets.UpdateDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateDocumentTemplate</servlet-name>
+    <url-pattern>/UpdateDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <description>View document templates</description>
+    <display-name>ViewDocumentTemplates</display-name>
+    <servlet-name>ViewDocumentTemplates</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewDocumentTemplates</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewDocumentTemplates</servlet-name>
+    <url-pattern>/ViewDocumentTemplates</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>New document template</description>
+    <display-name>NewDocumentTemplate</display-name>
+    <servlet-name>NewDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.ViewServlets.NewDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewDocumentTemplate</servlet-name>
+    <url-pattern>/NewDocumentTemplate</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Edit document template</description>
+    <display-name>EditDocumentTemplate</display-name>
+    <servlet-name>EditDocumentTemplate</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditDocumentTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditDocumentTemplate</servlet-name>
+    <url-pattern>/EditDocumentTemplate</url-pattern>
+  </servlet-mapping>
+    
+  <servlet>
+ 	<description>Review an article that has been waiting a long time</description>
+    <display-name>EditorReview</display-name>
+    <servlet-name>EditorReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditorReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorReview</servlet-name>
+    <url-pattern>/EditorReview</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Review an article that has been waiting a long time</description>
+    <display-name>EditorCreateReview</display-name>
+    <servlet-name>EditorCreateReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.EditorCreateReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditorCreateReview</servlet-name>
+    <url-pattern>/EditorCreateReview</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>View users and set editors</description>
+    <display-name>ViewUsers</display-name>
+    <servlet-name>ViewUsers</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewUsers</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewUsers</servlet-name>
+    <url-pattern>/ViewUsers</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Make a user into an editor</description>
+    <display-name>MakeEditor</display-name>
+    <servlet-name>MakeEditor</servlet-name>
+    <servlet-class>com.jg.OperationServlets.MakeEditor</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MakeEditor</servlet-name>
+    <url-pattern>/MakeEditor</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Make the current user into an editor and the selected user the publisher</description>
+    <display-name>SwapPublisher</display-name>
+    <servlet-name>SwapPublisher</servlet-name>
+    <servlet-class>com.jg.OperationServlets.SwapPublisher</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SwapPublisher</servlet-name>
+    <url-pattern>/SwapPublisher</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>View users and set editors</description>
+    <display-name>Retire</display-name>
+    <servlet-name>Retire</servlet-name>
+    <servlet-class>com.jg.OperationServlets.Retire</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Retire</servlet-name>
+    <url-pattern>/Retire</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+ 	  <description>Reviewer view articles to review</description>
+    <display-name>ReviewerArticlesForReview</display-name>
+    <servlet-name>ReviewerArticlesForReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviewerArticlesForReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerArticlesForReview</servlet-name>
+    <url-pattern>/ReviewerArticlesForReview</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+ 	<description>Reviewer review article</description>
+    <display-name>ReviwerReviewArticle</display-name>
+    <servlet-name>ReviwerReviewArticle</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviwerReviewArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviwerReviewArticle</servlet-name>
+    <url-pattern>/ReviwerReviewArticle</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Reviewer review an article</description>
+    <display-name>ReviewerCreateReview</display-name>
+    <servlet-name>ReviewerCreateReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.ReviewerCreateReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerCreateReview</servlet-name>
+    <url-pattern>/ReviewerCreateReview</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Reviewer edit review on an article</description>
+    <display-name>ReviewerEditReview</display-name>
+    <servlet-name>ReviewerEditReview</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ReviewerEditReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerEditReview</servlet-name>
+    <url-pattern>/ReviewerEditReview</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>Reviewer edit a review</description>
+    <display-name>ReviewerUpdateReview</display-name>
+    <servlet-name>ReviewerUpdateReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.ReviewerUpdateReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewerUpdateReview</servlet-name>
+    <url-pattern>/ReviewerUpdateReview</url-pattern>
+  </servlet-mapping>
+  
+  <context-param> 
+    <description>Location to store uploaded file</description> 
+    <param-name>file-upload</param-name> 
+    <param-value>
+         .\documentTemplates\
+   	</param-value> 
+  </context-param>
 </web-app>
