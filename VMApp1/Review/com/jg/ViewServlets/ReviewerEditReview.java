@@ -50,7 +50,7 @@ public class ReviewerEditReview extends VelocityViewServlet
 
 		String id = request.getParameter("id");
 		if (id == null || id.equals("")) {
-			session.setAttribute("alertMessage", "No docment template setected to be edited");
+			session.setAttribute("alertMessage", "Review selected");
 			session.setAttribute("alertType", "danger");
 			try {
 				response.sendRedirect("EditorArticlesForReview");

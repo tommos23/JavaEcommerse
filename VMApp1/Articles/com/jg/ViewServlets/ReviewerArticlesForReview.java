@@ -64,6 +64,7 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 			/* get the template */
 			ArticleController ac = new ArticleController();
 			ac.startSession();
+			context.put("updated_articles", ac.getReviewerUpdatedArticles(id));
 			context.put("reviewing_articles", ac.getAllArticlesReviewerReviewing(id));
 			context.put("reviewed_articles", ac.getAllArticlesReviewerReviewed(id));
 			context.put("articles", ac.getAllArticlesForReviewerReview(id));
