@@ -56,6 +56,7 @@ public class EditGlobal extends VelocityViewServlet {
 				GlobalController gc = new GlobalController();
 				gc.startSession();
 				context.put("global", gc.getGlobal());
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				
 				gc.endSession();
 			} catch(Exception e ) {

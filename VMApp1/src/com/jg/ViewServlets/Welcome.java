@@ -1,5 +1,6 @@
 package com.jg.ViewServlets;
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -7,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
+
+import com.jg.Controller.UserController;
 
 public class Welcome extends VelocityViewServlet 
 {
@@ -67,7 +70,6 @@ public class Welcome extends VelocityViewServlet
 		else{
 			session.setAttribute("user", "false");
 		}
-
 		context.put("application", "Login Application");
 		try {
 			template = getTemplate("index.vm"); 

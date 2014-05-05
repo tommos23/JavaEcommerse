@@ -59,6 +59,7 @@ public class EditorArticlesForReview extends VelocityViewServlet
 				ArticleController ac = new ArticleController();
 				ac.startSession();
 				context.put("articles", ac.getAllArticlesForEditorReview());
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				
 				ac.endSession();
 			} catch(Exception e ) {

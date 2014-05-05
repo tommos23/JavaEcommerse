@@ -59,6 +59,7 @@ public class EditorViewVolumes extends VelocityViewServlet
 				VolumeController vc = new VolumeController();
 				vc.startSession();
 				context.put("volumes", vc.getAllVolumes());
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				
 				vc.endSession();
 			} catch(Exception e ) {
