@@ -4,6 +4,10 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <context-param>
+    <param-name>uploads.dir</param-name>
+    <param-value>uploads</param-value>
+  </context-param>
   <servlet>
     <description></description>
     <display-name>Welcome</display-name>
@@ -180,7 +184,6 @@
     <servlet-name>ViewGlobal</servlet-name>
     <url-pattern>/ViewGlobal</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Edit global journal settings</description>
     <display-name>EditGlobal</display-name>
@@ -191,7 +194,6 @@
     <servlet-name>EditGlobal</servlet-name>
     <url-pattern>/EditGlobal</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Update global journal settings</description>
     <display-name>UpdateGlobal</display-name>
@@ -202,7 +204,6 @@
     <servlet-name>UpdateGlobal</servlet-name>
     <url-pattern>/UpdateGlobal</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Allows an editor to view all volumes and publish draft volumes</description>
     <display-name>EditorViewVolumes</display-name>
@@ -213,7 +214,6 @@
     <servlet-name>EditorViewVolumes</servlet-name>
     <url-pattern>/EditorViewVolumes</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Publish a volume</description>
     <display-name>PublishVolume</display-name>
@@ -224,7 +224,6 @@
     <servlet-name>PublishVolume</servlet-name>
     <url-pattern>/PublishVolume</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Publish a edition</description>
     <display-name>PublishEdition</display-name>
@@ -246,7 +245,6 @@
     <servlet-name>EditorViewEditions</servlet-name>
     <url-pattern>/EditorViewEditions</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Create a volume</description>
     <display-name>EditorCreateVolume</display-name>
@@ -257,7 +255,6 @@
     <servlet-name>EditorCreateVolume</servlet-name>
     <url-pattern>/EditorCreateVolume</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Form to create new volume</description>
     <display-name>EditorNewVolume</display-name>
@@ -268,7 +265,6 @@
     <servlet-name>EditorNewVolume</servlet-name>
     <url-pattern>/EditorNewVolume</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Form to create new edition</description>
     <display-name>EditorNewEdition</display-name>
@@ -279,7 +275,6 @@
     <servlet-name>EditorNewEdition</servlet-name>
     <url-pattern>/EditorNewEdition</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description>Create an edition</description>
     <display-name>EditorCreateEdition</display-name>
@@ -290,7 +285,27 @@
     <servlet-name>EditorCreateEdition</servlet-name>
     <url-pattern>/EditorCreateEdition</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <description></description>
+    <display-name>BecomeAuthor</display-name>
+    <servlet-name>BecomeAuthor</servlet-name>
+    <servlet-class>com.jg.ViewServlets.BecomeAuthor</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BecomeAuthor</servlet-name>
+    <url-pattern>/newarticle</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UploadDownloadArticle</display-name>
+    <servlet-name>UploadDownloadArticle</servlet-name>
+    <servlet-class>com.jg.OperationServlets.UploadDownloadArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UploadDownloadArticle</servlet-name>
+    <url-pattern>/uploadarticle</url-pattern>
+    <url-pattern>/downloadarticle</url-pattern>
+  </servlet-mapping>  
   <servlet>
     <description>Review articles that have been waiting for a long time. List those articles</description>
     <display-name>EditorArticlesForReview</display-name>

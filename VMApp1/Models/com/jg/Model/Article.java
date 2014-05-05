@@ -73,7 +73,7 @@ public class Article {
 	private Edition edition;//int edition_id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	private Set<Keyword> keywords = new HashSet<Keyword>(0);
 	@OneToOne(cascade = CascadeType.ALL)
 	private Version latest_version;

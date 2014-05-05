@@ -1,0 +1,37 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE> Login Page </TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+			#if($showAlert)
+				#if($showAlert == "true")
+					#parse( "/bootstrap/alert.vm" )
+				#end
+			#end
+				<div class="panel panel-default">
+					<div class="panel-heading">Upload Article</div>
+					<div class="panel-body">
+						<div class="col-lg-9">
+							<form action="uploadarticle" method="post" enctype="multipart/form-data">
+								<input class="form-control" type="text" name="title" placeholder="Title"><br>
+								<textarea class="form-control"  name="abstract" placeholder="Abstract"></textarea><br>
+								<input class="form-control" class="form-control" type="text" name="keywords" placeholder="Keywords"><br>
+								<input class="form-control" type="file" name="file"><br>
+								<input class="btn btn-default" type="submit">
+							</form>
+						<div class="col-lg-3">					
+						</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>

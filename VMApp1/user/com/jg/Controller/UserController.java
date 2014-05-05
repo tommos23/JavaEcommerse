@@ -104,6 +104,12 @@ public class UserController extends Controller{
 	public User getUser() {
 		return user;
 	}
+	public User getUser(String email){
+		startSession();
+		isExist(email);
+		endSession();
+		return user;
+	}
 	
 	public User get(int id) {
 		List<User> user = null;
