@@ -13,12 +13,24 @@
 						#parse( "/bootstrap/alert.vm" )
 					#end
 				#end
+				<script>
+					#[[var $rows = $('#searchTable td');
+					$('#search').keyup(function() {
+					    var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+					
+					    $rows.show().filter(function() {
+					        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+					        return !~text.indexOf(val);
+					    }).hide();
+					});]]#
+				</script>
 				<div class="panel panel-default">
 					<div class="panel-heading">Edition Content</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
+							<input type="text" class="search" placeholder/>
 							<h2>Articles</h2>
-							<table class="table">
+							<table class="table searchTable">
 								<tr>
 									<th>Author</th>
 									<th>Title</th>
