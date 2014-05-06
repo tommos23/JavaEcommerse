@@ -29,14 +29,14 @@
 							<li>
 								<a href="ViewGlobal" title="Global Settings"><span class="glyphicon glyphicon-cog"></span> Global Settings</a>
 							</li>
+						#elseif ($thisuser.getRole().getName().equals("reader"))
+							<li>
+								<a href="PublishedVolumes" title="Volumes"><span class="glyphicon glyphicon-book"></span> Volumes</a>
+							</li>
 						#end
 					#else
 						<li>
-							<a href="articles" title="Articles"><span class="glyphicon glyphicon-book"></span> Articles</a>
-						</li>
-						<!-- later on we can add validation for this link -->
-						<li>
-							<a href="manage" title="Manage Contents"><span class="glyphicon glyphicon-list-alt"></span> Manage</a>
+							<a href="PublishedVolumes" title="Volumes"><span class="glyphicon glyphicon-book"></span> Volumes</a>
 						</li>
 					#end
 				</ul>
