@@ -578,4 +578,26 @@
     <url-pattern>/CreateReply</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+ 	<description>Published volumes for reader viewing</description>
+    <display-name>PublishedVolumes</display-name>
+    <servlet-name>PublishedVolumes</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedVolumes</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedVolumes</servlet-name>
+    <url-pattern>/PublishedVolumes</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Published editions in a published volume for reader viewing</description>
+    <display-name>PublishedEditions</display-name>
+    <servlet-name>PublishedEditions</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedEditions</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedEditions</servlet-name>
+    <url-pattern>/PublishedEditions</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
