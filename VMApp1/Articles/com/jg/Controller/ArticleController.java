@@ -195,6 +195,7 @@ public class ArticleController extends Controller{
 			
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
+						
 			System.out.println("REVIEWING: " + reviews.size());
 			for(int i = 0; i < reviews.size(); i++){
 				Review r = reviews.get(i);
@@ -202,7 +203,6 @@ public class ArticleController extends Controller{
 			}
 			session.getTransaction().commit();
 			return articles;
-			
 		} catch(Exception e){
 			e.printStackTrace();
 			return articles;
@@ -231,9 +231,12 @@ public class ArticleController extends Controller{
 			session.getTransaction().commit();		
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
+			
 			for(int i = 0; i < reviews.size(); i++){
 				Review r = reviews.get(i);
-				articles.add(r.getArticle());
+				if(r.getVersion() == r.getArticle().getLatestVersion()) {
+					articles.add(r.getArticle());
+				}
 			}
 			session.getTransaction().commit();
 			return articles;
@@ -249,6 +252,41 @@ public class ArticleController extends Controller{
 		}		
 	}
 	
+	public List<Article> getReviewerUpdatedArticles(int id) {
+		List<Article> articles = new LinkedList<Article>();;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			List<Review> reviews = null;
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Review.class);
+			cr.add(Restrictions.eq("status", 0));
+			cr.add(Restrictions.eq("reviewer.id", id));
+			cr.add(Restrictions.ne("position",-1));
+			reviews = cr.list();
+			session.getTransaction().commit();		
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			
+			for(int i = 0; i < reviews.size(); i++){
+				Review r = reviews.get(i);
+				if(r.getVersion() != r.getArticle().getLatestVersion()) {
+					articles.add(r.getArticle());
+				}
+			}
+			session.getTransaction().commit();
+			return articles;
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			return articles;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Article> getAllArticlesForReviewerReview(int id)
@@ -407,5 +445,6 @@ public class ArticleController extends Controller{
 
 	Session session = null;
 	Article article;
+	
 
 }

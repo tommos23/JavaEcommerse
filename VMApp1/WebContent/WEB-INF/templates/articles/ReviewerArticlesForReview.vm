@@ -17,12 +17,36 @@
 					<div class="panel-heading">Articles for Editor Review</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
-						#if($reviewing_articles.length() != 0)
+						#if($updated_articles.size() != 0)
+							<h3>Updated</h3>
+							<table class="table">
+								<tr>
+									<th>Title</th>
+									<th>Created At</th>
+									<th></th>
+								</tr>
+								#foreach($updated in $updated_articles)
+									<tr>
+										<td>
+											$updated.getLatestVersion().getTitle()
+										</td>
+										<td>
+											$updated.getLatestVersion().getCreated_at()
+										</td>
+										<td>
+											<a href="ReviewerEditReview?id=$reviewing.getId()">Update Review</a>
+										</td>
+									</tr>
+								#end
+							</table>
+						#end
+						#if($reviewing_articles.size() != 0)
 							<h3>Reviewing</h3>
 							<table class="table">
 								<tr>
 									<th>Title</th>
 									<th>Created At</th>
+									<th></th>
 								</tr>
 								#foreach($reviewing in $reviewing_articles)
 									<tr>
@@ -32,11 +56,14 @@
 										<td>
 											$reviewing.getLatestVersion().getCreated_at()
 										</td>
+										<td>
+											<a href="ReviewerEditReview?id=$reviewing.getId()">Create Review</a>
+										</td>
 									</tr>
 								#end
 							</table>
 						#end
-						#if($reviewed_articles.length() != 0)
+						#if($reviewed_articles.size() != 0)
 							<h3>Reviewed</h3>
 							<table class="table">
 								<tr>
