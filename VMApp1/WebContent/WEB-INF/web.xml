@@ -523,4 +523,59 @@
     <url-pattern>/ReviewerViewArticle</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+ 	<description>Reader, author or reviewer letter creation form</description>
+    <display-name>NewLetter</display-name>
+    <servlet-name>NewLetter</servlet-name>
+    <servlet-class>com.jg.ViewServlets.NewLetter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewLetter</servlet-name>
+    <url-pattern>/NewLetter</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Reader, author or reviewer create letter</description>
+    <display-name>CreateLetter</display-name>
+    <servlet-name>CreateLetter</servlet-name>
+    <servlet-class>com.jg.OperationServlets.CreateLetter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateLetter</servlet-name>
+    <url-pattern>/CreateLetter</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>List of letters an author can reply to</description>
+    <display-name>EditedLetters</display-name>
+    <servlet-name>EditedLetters</servlet-name>
+    <servlet-class>com.jg.ViewServlets.EditedLetters</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditedLetters</servlet-name>
+    <url-pattern>/EditedLetters</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Letter reply form for authors</description>
+    <display-name>NewReply</display-name>
+    <servlet-name>NewReply</servlet-name>
+    <servlet-class>com.jg.ViewServlets.NewReply</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewReply</servlet-name>
+    <url-pattern>/NewReply</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Create a reply to a letter</description>
+    <display-name>CreateReply</display-name>
+    <servlet-name>CreateReply</servlet-name>
+    <servlet-class>com.jg.OperationServlets.CreateReply</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateReply</servlet-name>
+    <url-pattern>/CreateReply</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

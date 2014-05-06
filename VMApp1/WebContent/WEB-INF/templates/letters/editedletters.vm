@@ -1,0 +1,63 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE>$application</TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
+				#end
+				<div class="panel panel-default">
+					<div class="panel-heading">Letters With Replies</div>
+					<div class="panel-body">
+						<div class="col-lg-12">
+							<table class="table">
+								<tr>
+									<th>From</th>
+									<th>Text</th>
+									<th>Created At</th>
+									<th>Edited At</th>
+									<th>Reply</th>
+								</tr>
+								#foreach($letter in $letters)
+									#if ($letter.getArticle().getMainAuthor().getId() == $thisuser.getId())
+										<tr>
+											<td>
+												$letter.getUser().getFirstname() $letter.getUser().getSurname()
+											</td>
+											<td>
+												#if ($letter.getEdited_text().length() >= 40)
+													$letter.getEdited_text().substring(0,40)...
+												#else
+													$letter.getText()
+												#end
+											</td>
+											<td>
+												$letter.getCreated_at()
+											</td>
+											<td>
+												$letter.getEdited_at()
+											</td>
+											<td>
+												<a href="NewReply?id=$letter.getId()">Reply</a>
+											</td>
+										</tr>
+									#end
+								#end
+							</table>
+						</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>
