@@ -1,0 +1,39 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE>$application</TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
+				#end
+				<div class="panel panel-default">
+					<div class="panel-heading">Create Letter to the Editors</div>
+					<div class="panel-body">
+						<div class="col-lg-12">
+							<form method="POST" action="CreateLetter">
+								<label>Article</label>
+								<p>$article.getLatestVersion().getTitle()</p>
+								<label>From</label>
+								<p>$thisuser.getFirstname() $thisuser.getSurname()</p>
+								<label>Text</label>
+								<textarea name="text"></textarea><br /><br />
+								<input type="hidden" name="id" value="$article.getId()" />
+								<input type="submit" name="submit" value="Send Letter" />
+							</form>
+						</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>

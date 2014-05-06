@@ -8,9 +8,11 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import com.jg.Controller.Controller.entryResponse;
+import com.jg.Model.Article;
 import com.jg.Model.Edition;
 import com.jg.Model.LetterToEditor;
 import com.jg.Model.User;
+import com.jg.Model.Volume;
 
 public class LettersToEditorsController extends Controller{
 
@@ -131,6 +133,63 @@ public class LettersToEditorsController extends Controller{
 				session.beginTransaction();
 				letter.setStatus(4);
 				letter.setPublish_edition(edition.getId());
+				session.update(letter);
+				session.getTransaction().commit();
+				return entryResponse.SUCCESS;
+			}
+			else
+				return entryResponse.NOT_EXIST;
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse create(Article article, User user, String text){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();		
+			letter = new LetterToEditor();
+			letter.setArticle(article);
+			letter.setUser(user);
+			letter.setCreated_at(new Date());
+			letter.setText(text);
+			letter.setPublish_edition(0);
+			letter.setStatus(0);
+			session.save(letter);
+			session.getTransaction().commit();
+			return entryResponse.SUCCESS;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse replyToLetter(int id, String replyText) {
+		try{
+			if(!isSessionReady()) throw new Exception();
+			if (isExist(id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				letter.setStatus(2);
+				letter.setReply_text(replyText);
+				letter.setReplyed_at(new Date());
 				session.update(letter);
 				session.getTransaction().commit();
 				return entryResponse.SUCCESS;
