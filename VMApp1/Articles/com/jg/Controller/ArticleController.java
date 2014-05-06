@@ -153,11 +153,11 @@ public class ArticleController extends Controller{
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Article.class);
 			cr.add(Restrictions.eq("status", 1));
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			cal.add(Calendar.MONTH, -6);
-			Date date = cal.getTime();
-			cr.add(Restrictions.le("created_at", date));
+//			Calendar cal = Calendar.getInstance();
+//			cal.setTime(new Date());
+//			cal.add(Calendar.MONTH, -6);
+//			Date date = cal.getTime();
+//			cr.add(Restrictions.le("created_at", date));
 			articles = cr.list();
 			session.getTransaction().commit();
 			return articles;
