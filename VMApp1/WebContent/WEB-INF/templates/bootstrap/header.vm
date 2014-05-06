@@ -42,6 +42,16 @@
 								<a href="PublishedVolumes" title="Volumes"><span class="glyphicon glyphicon-book"></span> Volumes</a>
 							</li>
 						#end
+					#elseif ($thisuser.getRole().getName().equals("activeauthor"))
+						<li>
+							<a href="articles" title="Articles"><span class="glyphicon glyphicon-book"></span> Articles</a>
+						</li>
+						<li>
+							<a href="manage" title="Manage Contents"><span class="glyphicon glyphicon-list-alt"></span> Manage</a>
+						</li>
+						<li>
+								<a href="ReviewerArticlesForReview" title="Review"><span class="glyphicon glyphicon-list-alt"></span> Review</a>
+						</li>
 					#else
 						<li>
 							<a href="PublishedVolumes" title="Volumes"><span class="glyphicon glyphicon-book"></span> Volumes</a>
