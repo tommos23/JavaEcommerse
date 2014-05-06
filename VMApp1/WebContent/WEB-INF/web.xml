@@ -523,4 +523,15 @@
     <url-pattern>/ReviewerViewArticle</url-pattern>
   </servlet-mapping>
   
+   <servlet>
+ 	<description>Editor can see all the articles revision history</description>
+    <display-name>ViewArticleRevisions</display-name>
+    <servlet-name>ViewArticleRevisions</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewArticleRevisions</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewArticleRevisions</servlet-name>
+    <url-pattern>/ViewArticleRevisions</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

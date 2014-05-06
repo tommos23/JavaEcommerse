@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.jg.Model.Article;
@@ -142,6 +143,32 @@ public class ArticleController extends Controller{
 				session.close();
 			System.out.println("session closed.");
 		}
+	}
+	
+	public List<Version> getAllVersionsForArticle(int article_id){
+		List<Version> versions = null;
+		
+		try{
+			if(!isSessionReady()) throw new Exception();
+			System.out.println("ARTICLE ID: " + article_id);
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Version.class);
+			cr.add(Restrictions.eq("article.id", article_id));
+			cr.addOrder(Order.desc("created_at"));
+			versions = cr.list();
+			session.getTransaction().commit();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+		return versions;
 	}
 	
 	public List<Article> getAllArticlesForEditorReview()
@@ -444,7 +471,6 @@ public class ArticleController extends Controller{
 	}
 
 	Session session = null;
-	Article article;
-	
+	Article article;	
 
 }
