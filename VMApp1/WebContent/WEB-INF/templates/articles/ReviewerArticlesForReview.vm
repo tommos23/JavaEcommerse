@@ -14,7 +14,7 @@
 					#end
 				#end
 				<div class="panel panel-default">
-					<div class="panel-heading">Articles for Editor Review</div>
+					<div class="panel-heading">Articles for Reviewer Review</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
 						#if($updated_articles.size() != 0)
@@ -99,7 +99,7 @@
 											$article.getLatestVersion().getCreated_at()
 										</td>
 										<td>
-											<a href="ReviwerReviewArticle?id=$article.getId()">Review</a>
+											<a href="ReviwerReviewArticle?id=$article.getId()">Select to review</a>
 										</td>
 									</tr>
 								#end
