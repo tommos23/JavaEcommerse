@@ -600,4 +600,15 @@
     <url-pattern>/PublishedEditions</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+ 	<description>Reader viewing content of a published edition</description>
+    <display-name>PublishedEditionContent</display-name>
+    <servlet-name>PublishedEditionContent</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedEditionContent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedEditionContent</servlet-name>
+    <url-pattern>/PublishedEditionContent</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
