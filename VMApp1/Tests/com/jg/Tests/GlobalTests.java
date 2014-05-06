@@ -14,9 +14,7 @@ import com.jg.Controller.GlobalController;
 import com.jg.Model.Global;
 
 /**
- * Tests for {@link Foo}.
- *
- * @author user@example.com (John Doe)
+ * @author aca10mg@shef.ac.uk (Mike Goddard)
  */
 @RunWith(JUnit4.class)
 public class GlobalTests {
