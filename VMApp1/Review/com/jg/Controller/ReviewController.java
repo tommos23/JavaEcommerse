@@ -184,9 +184,62 @@ public class ReviewController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
+	
+	public entryResponse approveReview(int review_id) {
+		try{
+			if(!isSessionReady()) throw new Exception();
+			if (isExist(review_id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				review.setStatus(1);
+				session.update(review);
+				session.getTransaction().commit();
+			return entryResponse.SUCCESS;
+			} else {
+				return entryResponse.NOT_EXIST;
+			}
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse disapproveReview(int review_id) {
+		try{
+			if(!isSessionReady()) throw new Exception();
+			if (isExist(review_id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				review.setStatus(0);
+				session.update(review);
+				session.getTransaction().commit();
+			return entryResponse.SUCCESS;
+			} else {
+				return entryResponse.NOT_EXIST;
+			}
+		} 
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
 
 	Session session = null;
 	Review review;
+	
 	
 
 }

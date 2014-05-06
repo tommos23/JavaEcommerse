@@ -611,4 +611,26 @@
     <url-pattern>/PublishedEditions</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+ 	<description>Approve a review</description>
+    <display-name>ApproveReview</display-name>
+    <servlet-name>ApproveReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.ApproveReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApproveReview</servlet-name>
+    <url-pattern>/ApproveReview</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>DisapproveReview a review</description>
+    <display-name>DisapproveReview</display-name>
+    <servlet-name>DisapproveReview</servlet-name>
+    <servlet-class>com.jg.OperationServlets.DisapproveReview</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisapproveReview</servlet-name>
+    <url-pattern>/DisapproveReview</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

@@ -28,8 +28,13 @@
 										#if($review.getVersion().getId() == $version.getId())
 											<div class="panel-footer">
 												<h5>Review $review.getId()</h5>
-												<p><b>Contribution</b>$review.getContribution()</p>
-												<p><b>Criticism</b>$review.getCritism()</p>
+												<p><b>Contribution </b>$review.getContribution()</p>
+												<p><b>Criticism </b>$review.getCritism()</p>
+												#if($review.getStatus() == 0)
+													<a href="ApproveReview?article_id=$article.getId()&review_id=$review.getId()">Approve Review</a>
+												#else
+													<a href="DisapproveReview?article_id=$article.getId()&review_id=$review.getId()">Disapprove Review</a>
+												#end
 											</div>
 										#end	
 									#end
