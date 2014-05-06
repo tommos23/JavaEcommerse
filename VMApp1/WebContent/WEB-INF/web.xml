@@ -86,13 +86,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>PublishedArticle</display-name>
-    <servlet-name>PublishedArticle</servlet-name>
-    <servlet-class>com.jg.ViewServlets.PublishedArticle</servlet-class>
+    <display-name>PublishedArticles</display-name>
+    <servlet-name>PublishedArticles</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedArticles</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PublishedArticle</servlet-name>
-    <url-pattern>/articles</url-pattern>
+    <servlet-name>PublishedArticles</servlet-name>
+    <url-pattern>/PublishedArticles</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -631,6 +631,38 @@
   <servlet-mapping>
     <servlet-name>DisapproveReview</servlet-name>
     <url-pattern>/DisapproveReview</url-pattern>
+  </servlet-mapping>
+  <servlet>
+ 	<description>Reader viewing content of a published edition</description>
+    <display-name>PublishedEditionContent</display-name>
+    <servlet-name>PublishedEditionContent</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedEditionContent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedEditionContent</servlet-name>
+    <url-pattern>/PublishedEditionContent</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Reader viewing a published article</description>
+    <display-name>PublishedArticle</display-name>
+    <servlet-name>PublishedArticle</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedArticle</servlet-name>
+    <url-pattern>/PublishedArticle</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Reader viewing a published letter</description>
+    <display-name>PublishedLetter</display-name>
+    <servlet-name>PublishedLetter</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedLetter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedLetter</servlet-name>
+    <url-pattern>/PublishedLetter</url-pattern>
   </servlet-mapping>
   
 </web-app>

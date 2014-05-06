@@ -26,7 +26,7 @@ import com.jg.Model.*;
 /**
  * Servlet implementation class Uploads
  */
-public class PublishedArticle extends VelocityViewServlet {
+public class PublishedLetter extends VelocityViewServlet {
 	private static final long serialVersionUID = 1L;
 
 	public Template handleRequest( HttpServletRequest request, 
@@ -63,11 +63,11 @@ public class PublishedArticle extends VelocityViewServlet {
 			int id = 0;
 			if (request.getParameter("id") != null) 
 				id = Integer.parseInt(request.getParameter("id"));
-			ArticleController ac = new ArticleController();
-			ac.startSession();
-			Article article = ac.get(id);
-			ac.endSession();
-			context.put("article", article);
+			LettersToEditorsController ltec = new LettersToEditorsController();
+			ltec.startSession();
+			LetterToEditor letter = ltec.get(id);
+			ltec.endSession();
+			context.put("letter", letter);
 			context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
@@ -76,7 +76,7 @@ public class PublishedArticle extends VelocityViewServlet {
 			uc.endSession();
 		/* get the template */
 		Template template = null;
-		template = getTemplate("articles/publishedarticle.vm"); 
+		template = getTemplate("letters/publishedletter.vm"); 
 		return template;
 	}
 
