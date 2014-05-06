@@ -14,11 +14,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 
+import com.jg.Controller.ArticleController;
 import com.jg.Controller.Controller;
 import com.jg.Controller.EditionController;
 import com.jg.Controller.GlobalController;
 import com.jg.Controller.LettersToEditorsController;
 import com.jg.Controller.Controller.entryResponse;
+import com.jg.Controller.UserController;
 import com.jg.Controller.VolumeController;
 import com.jg.Model.Article;
 import com.jg.Model.Edition;
@@ -42,8 +44,6 @@ public class LettersToEditorsTests {
 	private static int id;
 	private int status = 0;
 	private int publish_edition;
-	private Article article;
-	private User user;
 	
 	private LettersToEditorsController lteController;
 	
@@ -59,10 +59,29 @@ public class LettersToEditorsTests {
 			lteController.endSession();
 	}
 
-	// "Create" test
+	@Test
+	public void a_createLetter() {
+		ArticleController ac = new ArticleController();
+		ac.startSession();
+		List<Article> articles = ac.getAllArticles(5);
+		if (ac.isSessionReady())
+			ac.endSession();
+		if (articles.size() > 0) {
+			Article article = articles.get(0);
+			UserController uc = new UserController();
+			uc.startSession();
+			List<User> users = uc.getUsers();
+			if (uc.isSessionReady())
+				uc.endSession();
+			if (users.size() > 0) {
+				User user = users.get(0);
+				assertEquals("Create letter - DB Error", Controller.entryResponse.SUCCESS, lteController.create(article, user, text));
+			}
+		}
+	}
 	
     @Test
-    public void a_getAllLetters() {
+    public void b_getAllLetters() {
     	List<LetterToEditor> letters = lteController.getAllLettersToEditors(0);
     	assertNotNull("Letters list is null", letters);
     	if (letters.size() > 0) {
@@ -72,7 +91,7 @@ public class LettersToEditorsTests {
     }
     
     @Test
-    public void b_getLetter() {
+    public void c_getLetter() {
     	System.out.println("Letter id: "+id);
     	LetterToEditor letter = lteController.get(id);
     	System.out.println(letter.toString());
@@ -80,23 +99,30 @@ public class LettersToEditorsTests {
     }
 
     @Test
-    public void c_postLetter() {
+    public void d_postLetter() {
     	assertEquals("Post letter unsuccessful - DB Error", Controller.entryResponse.SUCCESS, lteController.postLetter(id, edited_text));
     	LetterToEditor letter = lteController.get(id);
-    	assertEquals("Post letter unsuccessful - persistant storage failed", 1, letter.getStatus());
+    	assertEquals("Post letter unsuccessful - persistant storage failed (status)", 1, letter.getStatus());
+    	assertEquals("Post letter unsuccessful - persistant storage failed (edited text)", edited_text, letter.getEdited_text());
     }
     
-    // Reply to letter test
+    @Test
+    public void e_replyToLetter() {
+    	assertEquals("Reply to letter unsuccessful - DB Error", Controller.entryResponse.SUCCESS, lteController.replyToLetter(id, reply_text));
+    	LetterToEditor letter = lteController.get(id);
+    	assertEquals("Reply to letter unsuccessful - persistant storage failed (status)", 2, letter.getStatus());
+    	assertEquals("Reply to letter unsuccessful - persistant storage failed (reply text)", reply_text, letter.getReply_text());
+    }
 
     @Test
-    public void d_approveLetter() {
+    public void f_approveLetter() {
     	assertEquals("Approve letter unsuccessful - DB Error", Controller.entryResponse.SUCCESS, lteController.approveLetter(id));
     	LetterToEditor letter = lteController.get(id);
     	assertEquals("Approve letter unsuccessful - persistant storage failed", 3, letter.getStatus());
     }
 
     @Test
-    public void e_publishLetter() {
+    public void g_publishLetter() {
     	VolumeController vc = new VolumeController();
     	vc.startSession();
     	List<Volume> volumes = vc.getAllVolumes();
