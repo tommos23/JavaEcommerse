@@ -1,8 +1,6 @@
 package com.jg.ViewServlets;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,22 +9,23 @@ import javax.servlet.http.HttpSession;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.SharedSessionContract;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 import com.jg.Controller.ArticleController;
+import com.jg.Controller.EditionController;
 import com.jg.Controller.LettersToEditorsController;
 import com.jg.Controller.UserController;
-import com.jg.Model.*;
+import com.jg.Controller.VolumeController;
+import com.jg.Model.Edition;
+import com.jg.Model.User;
 
 /**
- * Servlet implementation class Uploads
+ * Servlet implementation class PublishedArticle
  */
-public class PublishedArticle extends VelocityViewServlet {
+public class PublishedEditionContent extends VelocityViewServlet 
+{
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	public Template handleRequest( HttpServletRequest request, 
@@ -55,28 +54,46 @@ public class PublishedArticle extends VelocityViewServlet {
 		//-----End of Alert Message Code---------
 		UserController uc = new UserController();
 		uc.startSession();
-		User thisUser = null;
-		if (session.getAttribute("user_id") != null) {
-			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		int id = 0;
+		if (request.getParameter("id") != null)
+			id = Integer.parseInt(request.getParameter("id"));
+		else {
+			String alertMessage = "<Strong>Oops!!</strong> Edition not found.";
+			String alertType = "danger";
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		try {
-			int id = 0;
-			if (request.getParameter("id") != null) 
-				id = Integer.parseInt(request.getParameter("id"));
+			EditionController ec = new EditionController();
+			ec.startSession();
+			Edition edition = ec.get(id);
+			context.put("edition", edition);
+			ec.endSession();
 			ArticleController ac = new ArticleController();
 			ac.startSession();
-			Article article = ac.get(id);
+			context.put("articles", ac.getArticlesForEdition(edition));
 			ac.endSession();
-			context.put("article", article);
+			LettersToEditorsController ltec = new LettersToEditorsController();
+			ltec.startSession();
+			context.put("letters", ltec.getLettersForEdition(edition));
+			ltec.endSession();
 			context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+			
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}
-		if (uc.isSessionReady())
+		if (uc.isSessionReady()) {
 			uc.endSession();
+		}
 		/* get the template */
 		Template template = null;
-		template = getTemplate("articles/publishedarticle.vm"); 
+		template = getTemplate("editions/publishededitioncontent.vm"); 
 		return template;
 	}
 

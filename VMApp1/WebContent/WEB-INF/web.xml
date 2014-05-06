@@ -86,13 +86,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>PublishedArticle</display-name>
-    <servlet-name>PublishedArticle</servlet-name>
-    <servlet-class>com.jg.ViewServlets.PublishedArticle</servlet-class>
+    <display-name>PublishedArticles</display-name>
+    <servlet-name>PublishedArticles</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedArticles</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>PublishedArticle</servlet-name>
-    <url-pattern>/articles</url-pattern>
+    <servlet-name>PublishedArticles</servlet-name>
+    <url-pattern>/PublishedArticles</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -620,6 +620,28 @@
   <servlet-mapping>
     <servlet-name>PublishedEditionContent</servlet-name>
     <url-pattern>/PublishedEditionContent</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Reader viewing a published article</description>
+    <display-name>PublishedArticle</display-name>
+    <servlet-name>PublishedArticle</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedArticle</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedArticle</servlet-name>
+    <url-pattern>/PublishedArticle</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+ 	<description>Reader viewing a published letter</description>
+    <display-name>PublishedLetter</display-name>
+    <servlet-name>PublishedLetter</servlet-name>
+    <servlet-class>com.jg.ViewServlets.PublishedLetter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishedLetter</servlet-name>
+    <url-pattern>/PublishedLetter</url-pattern>
   </servlet-mapping>
   
 </web-app>

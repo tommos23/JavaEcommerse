@@ -200,6 +200,30 @@ public class ArticleController extends Controller{
 		}
 	}
 	
+	public List<Article> getArticlesForEdition(Edition edition)
+	{
+		List<Article> articles = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Article.class);
+			cr.add(Restrictions.eq("edition", edition));
+			articles = cr.list();
+			session.getTransaction().commit();
+			return articles;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return articles;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
 	public List<Article> getAllArticlesReviewerReviewing(int id)
 	{
 		List<Article> articles = new LinkedList<Article>();;

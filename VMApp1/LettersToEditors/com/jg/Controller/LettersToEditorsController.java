@@ -41,6 +41,30 @@ public class LettersToEditorsController extends Controller{
 		}
 	}
 	
+	public List<LetterToEditor> getLettersForEdition(Edition edition)
+	{
+		List<LetterToEditor> LetterToEditor = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(LetterToEditor.class);
+			cr.add(Restrictions.eq("publish_edition", edition.getId()));
+			LetterToEditor = cr.list();
+			session.getTransaction().commit();
+			return LetterToEditor;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return LetterToEditor;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
 	public LetterToEditor get(int id) {
 		List<LetterToEditor> LetterToEditor = null;
 		try{
