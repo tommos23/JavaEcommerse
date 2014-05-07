@@ -110,6 +110,8 @@ public class EditorCreateEdition extends HttpServlet {
 					ltec.publishLetter(Integer.parseInt(letters[i]), edition);
 				}
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(ltec.isSessionReady())
 				ltec.endSession();
 		}

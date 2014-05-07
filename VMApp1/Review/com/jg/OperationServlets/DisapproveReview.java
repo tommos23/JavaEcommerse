@@ -31,8 +31,6 @@ public class DisapproveReview extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);
-		ArticleController ac = new ArticleController();
-		ac.startSession();
 		int review_id = Integer.parseInt(request.getParameter("review_id"));
 		ReviewController rc = new ReviewController();
 		rc.startSession();
@@ -54,8 +52,8 @@ public class DisapproveReview extends HttpServlet {
 				response.sendRedirect("ViewArticleRevisions?article_id="+request.getParameter("article_id"));
 				break;
 			}
-			if(rc.isSessionReady())
-				rc.endSession();
-				return;
+		if(rc.isSessionReady())
+			rc.endSession();
+		return;
 	}
 }

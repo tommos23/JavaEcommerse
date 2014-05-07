@@ -61,6 +61,8 @@ public class EditorCreateVolume extends HttpServlet {
 				response.sendRedirect("EditorViewVolumes");
 				break;
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(vc.isSessionReady())
 				vc.endSession();
 		}

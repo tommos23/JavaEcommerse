@@ -63,6 +63,8 @@ public class PublishEdition extends HttpServlet {
 				response.sendRedirect("EditorViewEditions?id="+edition.getId());
 				break;
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(ec.isSessionReady())
 				ec.endSession();
 		}

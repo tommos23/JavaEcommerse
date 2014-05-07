@@ -69,11 +69,15 @@ public class EditorCreateReview extends HttpServlet {
 					response.sendRedirect("EditorArticlesForReview");
 					break;
 				}
+				if (uc.isSessionReady())
+					uc.endSession();
 				if(rc.isSessionReady())
 					rc.endSession();
 				return;
 			}
 			else {
+				if (uc.isSessionReady())
+					uc.endSession();
 				session.setAttribute("alertMessage","<Strong>Review not created!</strong> All fields are required.");
 				session.setAttribute("alertType","danger" );
 				response.sendRedirect("EditorArticlesForReview");

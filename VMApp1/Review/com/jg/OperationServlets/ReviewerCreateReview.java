@@ -63,11 +63,15 @@ public class ReviewerCreateReview extends HttpServlet {
 				break;
 			}
 			System.out.println("here");
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(rc.isSessionReady())
 				rc.endSession();
-				return;
+			return;
 		}
 		else {
+			if (uc.isSessionReady())
+				uc.endSession();
 			System.out.println("or here");
 			session.setAttribute("alertMessage","<Strong>Review not created!</strong> All fields are required.");
 			session.setAttribute("alertType","danger" );

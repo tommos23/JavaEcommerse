@@ -75,6 +75,8 @@ public class CreateLetter extends HttpServlet {
 				response.sendRedirect("NewLetter");
 				break;
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(ltec.isSessionReady())
 				ltec.endSession();
 		}

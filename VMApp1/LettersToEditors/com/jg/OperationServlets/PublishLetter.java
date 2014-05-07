@@ -58,6 +58,8 @@ public class PublishLetter extends HttpServlet {
 				response.sendRedirect("LettersWithReplies");
 				break;
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(ltec.isSessionReady())
 				ltec.endSession();
 		}

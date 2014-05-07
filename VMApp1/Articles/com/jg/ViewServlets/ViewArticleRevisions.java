@@ -82,6 +82,8 @@ public class ViewArticleRevisions extends VelocityViewServlet {
 			} catch(Exception e ) {
 				System.out.println("Error " + e);
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 		}
 		else {
 			if (uc.isSessionReady())

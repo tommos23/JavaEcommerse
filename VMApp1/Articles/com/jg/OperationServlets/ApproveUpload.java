@@ -57,6 +57,8 @@ public class ApproveUpload extends HttpServlet {
 				response.sendRedirect("ApproveArticles");
 				break;
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(ac.isSessionReady())
 				ac.endSession();
 		}

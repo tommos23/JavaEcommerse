@@ -58,6 +58,8 @@ public class PostLetter extends HttpServlet {
 				response.sendRedirect("ViewUnpostedLetters");
 				break;
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(ltec.isSessionReady())
 				ltec.endSession();
 		}

@@ -69,6 +69,8 @@ public class PublishedArticle extends VelocityViewServlet {
 			ac.endSession();
 			context.put("article", article);
 			context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+			if (uc.isSessionReady())
+				uc.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}

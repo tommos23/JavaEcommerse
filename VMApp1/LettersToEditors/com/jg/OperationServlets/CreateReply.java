@@ -65,6 +65,8 @@ public class CreateReply extends HttpServlet {
 				response.sendRedirect("NewReply?id="+id);
 				break;
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(ltec.isSessionReady())
 				ltec.endSession();
 		}

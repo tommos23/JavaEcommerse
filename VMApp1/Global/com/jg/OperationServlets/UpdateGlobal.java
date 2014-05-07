@@ -96,6 +96,8 @@ public class UpdateGlobal extends HttpServlet {
 			default:
 				break;
 			}
+			if (uc.isSessionReady())
+				uc.endSession();
 			if(gc.isSessionReady())
 				gc.endSession();
 		}
