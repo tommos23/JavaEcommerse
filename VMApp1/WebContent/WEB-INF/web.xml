@@ -664,5 +664,5 @@
     <servlet-name>PublishedLetter</servlet-name>
     <url-pattern>/PublishedLetter</url-pattern>
   </servlet-mapping>
-  
+    
 </web-app>
