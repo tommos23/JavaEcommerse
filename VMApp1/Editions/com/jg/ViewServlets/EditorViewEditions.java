@@ -11,6 +11,8 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.EditionController;
+import com.jg.Controller.UserController;
+import com.jg.Model.User;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -58,19 +60,44 @@ public class EditorViewEditions extends VelocityViewServlet
 			}
 		}
 		
+		UserController uc = new UserController();
+		uc.startSession();
+		User thisUser = null;
+		if (session.getAttribute("user_id") != null) {
+			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		}
+		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
+			try {
+				EditionController ec = new EditionController();
+				ec.startSession();
+				context.put("editions", ec.getEditionsForVolume(Integer.parseInt(id)));
+				context.put("volume_id", id);
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				
+				ec.endSession();
+			} catch(Exception e ) {
+				System.out.println("Error " + e);
+			}
+			if (uc.isSessionReady())
+				uc.endSession();
+		}
+		else {
+			if (uc.isSessionReady())
+				uc.endSession();
+			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
+			String alertType = "danger";
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		/* get the template */
 		Template template = null;
-		try {
-			template = getTemplate("editions/editorvieweditions.vm"); 
-			EditionController ec = new EditionController();
-			ec.startSession();
-			context.put("editions", ec.getEditionsForVolume(Integer.parseInt(id)));
-			context.put("volume_id", id);
-			
-			ec.endSession();
-		} catch(Exception e ) {
-			System.out.println("Error " + e);
-		}
+		template = getTemplate("editions/editorvieweditions.vm"); 
 		return template;
 	}
 

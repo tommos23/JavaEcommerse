@@ -8,8 +8,11 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import com.jg.Controller.Controller.entryResponse;
+import com.jg.Model.Article;
+import com.jg.Model.Edition;
 import com.jg.Model.LetterToEditor;
 import com.jg.Model.User;
+import com.jg.Model.Volume;
 
 public class LettersToEditorsController extends Controller{
 
@@ -23,6 +26,30 @@ public class LettersToEditorsController extends Controller{
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(LetterToEditor.class);
 			cr.add(Restrictions.eq("status", status));
+			LetterToEditor = cr.list();
+			session.getTransaction().commit();
+			return LetterToEditor;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return LetterToEditor;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public List<LetterToEditor> getLettersForEdition(Edition edition)
+	{
+		List<LetterToEditor> LetterToEditor = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(LetterToEditor.class);
+			cr.add(Restrictions.eq("publish_edition", edition.getId()));
 			LetterToEditor = cr.list();
 			session.getTransaction().commit();
 			return LetterToEditor;
@@ -95,13 +122,98 @@ public class LettersToEditorsController extends Controller{
 		}
 	}
 	
-	public entryResponse publishLetter(int id){
+	public entryResponse approveLetter(int id) {
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
 				session = sessionFactory.openSession();				
 				session.beginTransaction();
 				letter.setStatus(3);
+				session.update(letter);
+				session.getTransaction().commit();
+				return entryResponse.SUCCESS;
+			}
+			else
+				return entryResponse.NOT_EXIST;
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse publishLetter(int id, Edition edition){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			if (isExist(id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				letter.setStatus(4);
+				letter.setPublish_edition(edition.getId());
+				session.update(letter);
+				session.getTransaction().commit();
+				return entryResponse.SUCCESS;
+			}
+			else
+				return entryResponse.NOT_EXIST;
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse create(Article article, User user, String text){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();		
+			letter = new LetterToEditor();
+			letter.setArticle(article);
+			letter.setUser(user);
+			letter.setCreated_at(new Date());
+			letter.setText(text);
+			letter.setPublish_edition(0);
+			letter.setStatus(0);
+			session.save(letter);
+			session.getTransaction().commit();
+			return entryResponse.SUCCESS;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public entryResponse replyToLetter(int id, String replyText) {
+		try{
+			if(!isSessionReady()) throw new Exception();
+			if (isExist(id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				letter.setStatus(2);
+				letter.setReply_text(replyText);
+				letter.setReplyed_at(new Date());
 				session.update(letter);
 				session.getTransaction().commit();
 				return entryResponse.SUCCESS;

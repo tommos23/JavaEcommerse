@@ -21,6 +21,19 @@
 								<label>Description</label><br />
 								<input type="text" name="description" class="form-control" /><br />
 								<input type="hidden" name="volume_id" value="$volume_id" />
+								<label>Articles to include:</label><br />
+								#foreach ($article in $articles)
+									<input type="checkbox" name="articles" value="$article.getId()"> $article.getLatestVersion().getTitle()<br />
+								#end
+								<label>Letter to include:</label><br />
+								#foreach ($letter in $letters)
+									<input type="checkbox" name="letters" value="$letter.getId()">
+									#if ($letter.getText().length() >= 40)
+										$letter.getText().substring(0,40)...
+									#else
+										$letter.getText()
+									#end<br />
+								#end
 								<input type="submit" value="Create" class="btn btn-primary"/ ><br />
 							</form>
 						</div>

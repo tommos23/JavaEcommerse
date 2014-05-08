@@ -8,7 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import com.jg.Controller.Controller.entryResponse;
+import com.jg.Model.Edition;
 import com.jg.Model.Global;
+import com.jg.Model.Volume;
 
 public class GlobalController extends Controller{
 

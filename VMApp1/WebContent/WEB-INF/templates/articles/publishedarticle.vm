@@ -1,0 +1,37 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE>$application</TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
+				#end
+				<div class="panel panel-default">
+					<div class="panel-heading">Article</div>
+					<div class="panel-body">
+						<div class="col-lg-12">
+							<label>Title</label>
+							<p>$article.getLatestVersion().getTitle()</p>
+							<label>Author</label>
+							<p>$article.getMainAuthor().getFirstname() $article.getMainAuthor().getSurname()</p>
+							<label>Abstract</label>
+							<p>$article.getLatestVersion().getAbs()</p>
+							<label>Download Article</label>
+							<p><a href="$article.getLatestVersion().getUrl()">Download</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>

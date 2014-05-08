@@ -37,6 +37,32 @@ public class EditionController extends Controller{
 		}
 	}
 	
+	public entryResponse publish(int id, int status){
+		try{
+			if(!isSessionReady()) throw new Exception();
+			if (isExist(id).equals(entryResponse.EXIST)) {
+				session = sessionFactory.openSession();				
+				session.beginTransaction();
+				edition.setStatus(status);
+				session.update(edition);
+				session.getTransaction().commit();
+				return entryResponse.SUCCESS;
+			}
+			else
+				return entryResponse.NOT_EXIST;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
 	public Edition get(int id) {
 		List<Edition> edition = null;
 		try{
@@ -45,6 +71,35 @@ public class EditionController extends Controller{
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Edition.class);
 			cr.add(Restrictions.eq("id", id));
+			edition = cr.list();
+			session.getTransaction().commit();
+			if (edition.size() > 0) {
+				return edition.get(0);
+			}
+			else {
+				return null;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
+	public Edition get(String description, Volume volume) {
+		List<Edition> edition = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Edition.class);
+			cr.add(Restrictions.eq("description", description));
+			cr.add(Restrictions.eq("volume", volume));
 			edition = cr.list();
 			session.getTransaction().commit();
 			if (edition.size() > 0) {

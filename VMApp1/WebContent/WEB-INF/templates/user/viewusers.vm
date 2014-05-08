@@ -1,0 +1,72 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE>$application</TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
+				#end
+				<div class="panel panel-default">
+					<div class="panel-heading">Users</div>
+					<div class="panel-body">
+						<div class="col-lg-12">
+							#set ($count = 0)
+							#foreach($user in $users)
+								#if ($user.getRole().getName().equals("editor") || $user.getRole().getName().equals("publisher"))
+									#set ($count = $count + 1)
+								#end
+							#end
+							#if ($thisuser.getRole().getName().equals("editor"))
+								#if ($count > 1)
+									<a href="Retire" class="btn btn-primary">Retire</a>
+								#else
+									<p>There are not enough editors for you to retire!</p>
+								#end
+							#else
+								<p>You must make someone else the publisher before you can retire!</p>
+							#end
+							<table class="table">
+								<tr>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Role</th>
+									<th></th>
+								</tr>
+								#foreach($user in $users)
+									<tr>
+										<td>
+											$user.getFirstname() $user.getSurname()
+										</td>
+										<td>
+											$user.getEmail()
+										</td>
+										<td>
+											$user.getRole().getName()
+										</td>
+										<td>
+											#if (!$user.getRole().getName().equals("editor") && !$user.getRole().getName().equals("publisher"))
+												<a href="MakeEditor?id=$user.getId()">Make Editor</a>
+											#elseif ($user.getRole().getName().equals("editor") && $thisuser.getRole().getName().equals("publisher"))
+												<a href="SwapPublisher?id=$user.getId()">Swap to Publisher</a>
+											#end
+										</td>
+									</tr>
+								#end
+							</table>
+						</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>

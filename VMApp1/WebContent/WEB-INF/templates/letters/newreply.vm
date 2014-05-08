@@ -1,0 +1,41 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE>$application</TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
+				#end
+				<div class="panel panel-default">
+					<div class="panel-heading">Reply to Letter</div>
+					<div class="panel-body">
+						<div class="col-lg-12">
+							<form method="POST" action="CreateReply">
+								<label>Article</label>
+								<p>$letter.getArticle().getLatestVersion().getTitle()</p>
+								<label>From</label>
+								<p>$letter.getUser().getFirstname() $letter.getUser().getSurname()</p>
+								<label>Edited Letter</label>
+								<p>$letter.getEdited_text()</p>
+								<label>Reply Text</label><br />
+								<textarea name="replyText"></textarea><br /><br />
+								<input type="hidden" name="id" value="$letter.getId()" />
+								<input type="submit" name="submit" value="Send Reply" />
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>

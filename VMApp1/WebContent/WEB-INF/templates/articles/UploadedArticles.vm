@@ -20,8 +20,8 @@
 							<table class="table">
 								<tr>
 									<th>Author</th>
+									<th>Title</th>
 									<th>Created At</th>
-									<th>File</th>
 									<th>Approve</th>
 								</tr>
 								#foreach($article in $articles)
@@ -30,10 +30,10 @@
 											$article.getMainAuthor().getFirstname() $article.getMainAuthor().getSurname()
 										</td>
 										<td>
-											$article.getCreated_at()
+											<a href="ViewArticleRevisions?article_id=$article.getId()">$article.getLatestVersion().getTitle()</a>
 										</td>
 										<td>
-											
+											$article.getCreated_at()
 										</td>
 										<td>
 											<a href="ApproveUpload?id=$article.getId()">Approve</a>

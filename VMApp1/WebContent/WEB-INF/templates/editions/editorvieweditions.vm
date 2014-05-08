@@ -41,7 +41,9 @@
 										</td>
 										<td>
 											#if ($edition.getStatus() == 0)
-											<a href="PublishEdition?id=$edition.getId()">Publish</a>
+											<a href="PublishEdition?id=$edition.getId()&status=1">Publish</a>
+											#else
+											<a href="PublishEdition?id=$edition.getId()&status=0">Unpublish</a>
 											#end
 										</td>
 									</tr>

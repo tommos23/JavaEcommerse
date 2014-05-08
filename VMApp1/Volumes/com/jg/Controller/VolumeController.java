@@ -64,6 +64,29 @@ public class VolumeController extends Controller{
 		}
 	}
 	
+	public List<Volume> getWithStatus(int status) {
+		List<Volume> volumes = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = sessionFactory.openSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Volume.class);
+			cr.add(Restrictions.eq("status", status));
+			volumes = cr.list();
+			session.getTransaction().commit();
+			return volumes;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+	}
+	
 	public entryResponse publish(int id, int status){
 		try{
 			if(!isSessionReady()) throw new Exception();

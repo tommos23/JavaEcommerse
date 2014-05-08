@@ -19,6 +19,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.jg.Controller.LettersToEditorsController;
+import com.jg.Controller.UserController;
 import com.jg.Model.*;
 
 /**
@@ -62,19 +63,43 @@ public class LetterWithReply extends VelocityViewServlet {
 				e.printStackTrace();
 			}
 		}
-		
+		UserController uc = new UserController();
+		uc.startSession();
+		User thisUser = null;
+		if (session.getAttribute("user_id") != null) {
+			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		}
+		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
+			try {
+				LettersToEditorsController ltec = new LettersToEditorsController();
+				ltec.startSession();
+				context.put("letter", ltec.get(Integer.parseInt(id)));
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				
+				ltec.endSession();
+			} catch(Exception e ) {
+				System.out.println("Error " + e);
+			}
+			if (uc.isSessionReady())
+				uc.endSession();
+		}
+		else {
+			if (uc.isSessionReady())
+				uc.endSession();
+			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
+			String alertType = "danger";
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		/* get the template */
 		Template template = null;
-		try {
-			template = getTemplate("letters/letterwithreply.vm"); 
-			LettersToEditorsController ltec = new LettersToEditorsController();
-			ltec.startSession();
-			context.put("letter", ltec.get(Integer.parseInt(id)));
-			
-			ltec.endSession();
-		} catch(Exception e ) {
-			System.out.println("Error " + e);
-		}
+		template = getTemplate("letters/letterwithreply.vm"); 
 		return template;
 	}
 

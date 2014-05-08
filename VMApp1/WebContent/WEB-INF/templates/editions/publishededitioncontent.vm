@@ -1,0 +1,91 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE>$application</TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
+				#end
+				<script>
+					#[[var $rows = $('#searchTable td');
+					$('#search').keyup(function() {
+					    var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+					
+					    $rows.show().filter(function() {
+					        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+					        return !~text.indexOf(val);
+					    }).hide();
+					});]]#
+				</script>
+				<div class="panel panel-default">
+					<div class="panel-heading">Edition Content</div>
+					<div class="panel-body">
+						<div class="col-lg-12">
+							<input type="text" class="search" placeholder/>
+							<h2>Articles</h2>
+							<table class="table searchTable">
+								<tr>
+									<th>Author</th>
+									<th>Title</th>
+									<th></th>
+								</tr>
+								#foreach($article in $articles)
+									<tr>
+										<td>
+											$article.getMainAuthor().getFirstname() $article.getMainAuthor().getSurname()
+										</td>
+										<td>
+											$article.getLatestVersion().getTitle()
+										</td>
+										<td>
+											<a href="PublishedArticle?id=$article.getId()">View</a>
+										</td>
+									</tr>
+								#end
+							</table>
+							<h2>Letters</h2>
+							<table class="table">
+								<tr>
+									<th>To Author</th>
+									<th>From</th>
+									<th>Subject Article</th>
+									<th></th>
+								</tr>
+								#foreach($letter in $letters)
+									<tr>
+										<td>
+											$letter.getArticle().getMainAuthor().getFirstname() $letter.getArticle().getMainAuthor().getSurname()
+										</td>
+										<td>
+											$letter.getUser().getFirstname() $letter.getUser().getSurname()
+										</td>
+										<td>
+											#if ($letter.getText().length() >= 40)
+												$letter.getText().substring(0,40)...
+											#else
+												$letter.getArticle().getLatestVersion().getTitle()
+											#end
+										</td>
+										<td>
+											<a href="PublishedLetter?id=$letter.getId()">View</a>
+										</td>
+									</tr>
+								#end
+							</table>
+						</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>

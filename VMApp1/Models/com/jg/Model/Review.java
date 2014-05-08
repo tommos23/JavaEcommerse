@@ -33,6 +33,12 @@ public class Review {
 	public void setArticle(Article article) {
 		this.article = article;
 	}
+	public Version getVersion(){
+		return version;
+	}
+	public void setVersion(Version version) {
+		this.version = version;
+	}
 	public int getPosition() {
 		return position;
 	}
@@ -72,16 +78,18 @@ public class Review {
 	
 	@Id @GeneratedValue
 	private int id;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private User reviewer;//int reviewer_id;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Article article;//int article_id;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Version version;//int version_id;
 	private int position;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
 	@Column(columnDefinition = "TEXT")
 	private String contribution;
-	@Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "TEXT")	
 	private String critism;
 	private int expertise;
 	private int status;
