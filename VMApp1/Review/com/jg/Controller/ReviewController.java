@@ -11,6 +11,7 @@ import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.Article;
 import com.jg.Model.Edition;
 import com.jg.Model.Review;
+import com.jg.Model.Role;
 import com.jg.Model.User;
 import com.jg.Model.Volume;
 
@@ -231,6 +232,30 @@ public class ReviewController extends Controller{
 				review.setStatus(1);
 				session.update(review);
 				session.getTransaction().commit();
+				
+				Criteria cr = session.createCriteria(Review.class);
+				cr.add(Restrictions.eq("reviewer", review.getReviewer()));
+				List<Review> reviews = cr.list();
+				int goodReviewCount = 0;
+				for(int i = 0; i < reviews.size(); i++){
+					if(reviews.get(i).getStatus() == 1){
+						goodReviewCount++;
+					}
+				}	
+				if(goodReviewCount >= 3){
+					RoleController rc = new RoleController();
+					rc.startSession();
+					Role role = rc.get("activeauthor");
+					if(rc.isSessionReady())
+						rc.endSession();
+									
+					UserController uc = new UserController();
+					uc.startSession();				
+					uc.changeRole(review.getReviewer(), role);
+					if(uc.isSessionReady()){
+						uc.endSession();
+					}
+				}
 			return entryResponse.SUCCESS;
 			} else {
 				return entryResponse.NOT_EXIST;
@@ -247,6 +272,7 @@ public class ReviewController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
+	
 	
 	public entryResponse disapproveReview(int review_id) {
 		try{

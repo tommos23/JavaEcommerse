@@ -240,6 +240,7 @@ public class UserController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
+	
 
 	private String salt = "27a65236f0376c5f1866366a42d3effa";
 	private User user;

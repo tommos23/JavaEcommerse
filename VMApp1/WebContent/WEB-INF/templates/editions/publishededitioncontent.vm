@@ -14,28 +14,34 @@
 					#end
 				#end
 				<script>
-					#[[var $rows = $('#searchTable td');
-					$('#search').keyup(function() {
-					    var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-					
-					    $rows.show().filter(function() {
-					        var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-					        return !~text.indexOf(val);
-					    }).hide();
-					});]]#
+					#[[
+						$( document ).ready(function() {
+						   $("#search").keyup(function(){
+						        _this = this;
+						        $.each($("#searchTable tbody").find("tr"), function() {
+						            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) == -1)
+						               $(this).hide();
+						            else
+						               $(this).show();                
+						        });
+					    	});
+						}); 
+					 ]]#
 				</script>
 				<div class="panel panel-default">
 					<div class="panel-heading">Edition Content</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
-							<input type="text" class="search" placeholder/>
-							<h2>Articles</h2>
-							<table class="table searchTable">
-								<tr>
-									<th>Author</th>
-									<th>Title</th>
-									<th></th>
-								</tr>
+							<h2>Articles </h2><input type="text" id="search" placeholder="Search Articles" class="form-control"/>
+							<table class="table" id="searchTable">
+								<thead>
+									<tr>
+										<th>Author</th>
+										<th>Title</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
 								#foreach($article in $articles)
 									<tr>
 										<td>
@@ -49,15 +55,34 @@
 										</td>
 									</tr>
 								#end
+								</tbody>
 							</table>
-							<h2>Letters</h2>
-							<table class="table">
-								<tr>
-									<th>To Author</th>
-									<th>From</th>
-									<th>Subject Article</th>
-									<th></th>
-								</tr>
+							<script>
+								#[[
+									$( document ).ready(function() {
+									   $("#searchLetters").keyup(function(){
+									        _this = this;
+									        $.each($("#searchLetterTable tbody").find("tr"), function() {
+									            if($(this).text().toLowerCase().indexOf($(_this).val().toLowerCase()) == -1)
+									               $(this).hide();
+									            else
+									               $(this).show();                
+									        });
+								    	});
+									}); 
+								 ]]#
+							</script>
+							<h2>Letters </h2><input type="text" id="searchLetters" placeholder="Search Letters" class="form-control"/>
+							<table class="table" id="searchLetterTable">
+								<thead>
+									<tr>
+										<th>To Author</th>
+										<th>From</th>
+										<th>Subject Article</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
 								#foreach($letter in $letters)
 									<tr>
 										<td>
@@ -78,6 +103,7 @@
 										</td>
 									</tr>
 								#end
+								</tbody>
 							</table>
 						</div>
 					</div>
