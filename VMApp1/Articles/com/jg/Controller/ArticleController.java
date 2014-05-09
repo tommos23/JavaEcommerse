@@ -35,7 +35,7 @@ public class ArticleController extends Controller{
 			if(!isSessionReady()) throw new Exception();
 
 			//Start Session
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 
 			//Create an Group Object
@@ -126,7 +126,7 @@ public class ArticleController extends Controller{
 		List<Article> articles = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Article.class);
 			cr.add(Restrictions.eq("status", status));
@@ -149,7 +149,7 @@ public class ArticleController extends Controller{
 		List<Article> article = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Article.class);
 			cr.add(Restrictions.eq("id", id));
@@ -179,7 +179,7 @@ public class ArticleController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			System.out.println("ARTICLE ID: " + article_id);
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Version.class);
 			cr.add(Restrictions.eq("article.id", article_id));
@@ -204,7 +204,7 @@ public class ArticleController extends Controller{
 		List<Article> articles = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Article.class);
 			cr.add(Restrictions.eq("status", 1));
@@ -233,7 +233,7 @@ public class ArticleController extends Controller{
 		List<Article> articles = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Article.class);
 			cr.add(Restrictions.eq("edition", edition));
@@ -258,7 +258,7 @@ public class ArticleController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			List<Review> reviews = null;
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
 			cr.add(Restrictions.eq("status", 0));
@@ -267,7 +267,7 @@ public class ArticleController extends Controller{
 			cr.add(Restrictions.eq("expertise",-1));
 			reviews = cr.list();
 			session.getTransaction().commit();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			for(int i = 0; i < reviews.size(); i++){
 				Review r = reviews.get(i);
@@ -293,7 +293,7 @@ public class ArticleController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			List<Review> reviews = null;
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
 			cr.add(Restrictions.eq("status", 0));
@@ -301,7 +301,7 @@ public class ArticleController extends Controller{
 			cr.add(Restrictions.ne("position",-1));
 			reviews = cr.list();
 			session.getTransaction().commit();		
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();	
 			for(int i = 0; i < reviews.size(); i++){
 				Review r = reviews.get(i);
@@ -328,7 +328,7 @@ public class ArticleController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			List<Review> reviews = null;
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
 			cr.add(Restrictions.eq("status", 0));
@@ -336,8 +336,8 @@ public class ArticleController extends Controller{
 			cr.add(Restrictions.ne("position",-1));
 			reviews = cr.list();
 			session.getTransaction().commit();		
-			session = sessionFactory.openSession();				
-			session.beginTransaction();	
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
+			session.beginTransaction();
 			for(int i = 0; i < reviews.size(); i++){
 				Review r = reviews.get(i);
 				if(r.getVersion() != r.getArticle().getLatestVersion()) {
@@ -365,7 +365,7 @@ public class ArticleController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			List<Review> reviews = null;
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
 			cr.add(Restrictions.eq("status", 0));
@@ -373,7 +373,7 @@ public class ArticleController extends Controller{
 			reviews = cr.list();
 			session.getTransaction().commit();
 			if(reviews.size() < 3){
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				Criteria cr2 = session.createCriteria(Article.class);
 				cr2.add(Restrictions.eq("status", 1));
@@ -410,7 +410,7 @@ public class ArticleController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				article.setStatus(1);
 				session.update(article);
@@ -437,7 +437,7 @@ public class ArticleController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				article.setStatus(5);
 				article.setEdition(edition);
@@ -465,7 +465,7 @@ public class ArticleController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				article.setStatus(status);
 				session.update(article);
@@ -491,7 +491,7 @@ public class ArticleController extends Controller{
 	private entryResponse isExist(int id){
 		try{				
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Article.class);
 			cr.add(Restrictions.eq("id", id));

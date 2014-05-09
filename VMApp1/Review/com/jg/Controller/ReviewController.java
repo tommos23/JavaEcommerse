@@ -20,7 +20,7 @@ public class ReviewController extends Controller{
 		List<Review> review = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
 			cr.add(Restrictions.eq("id", id));
@@ -49,7 +49,7 @@ public class ReviewController extends Controller{
 		List<Review> review = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
 			cr.add(Restrictions.eq("article", article));
@@ -73,7 +73,7 @@ public class ReviewController extends Controller{
 		List<Review> review = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
 			cr.add(Restrictions.eq("article.id", article_id));
@@ -96,7 +96,7 @@ public class ReviewController extends Controller{
 	public entryResponse create(String contribution, String critism, int expertise, int position, Article article, User reviewer){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			review = new Review();
 			review.setContribution(contribution);
@@ -164,7 +164,7 @@ public class ReviewController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(review_id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				System.out.println("Cont:"+contribution);
 				System.out.println("critism:"+critism);
@@ -198,7 +198,7 @@ public class ReviewController extends Controller{
 	private entryResponse isExist(int id){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
 			cr.add(Restrictions.eq("id", id));
@@ -227,7 +227,7 @@ public class ReviewController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(review_id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				review.setStatus(1);
 				session.update(review);
@@ -278,7 +278,7 @@ public class ReviewController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(review_id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				review.setStatus(0);
 				session.update(review);
