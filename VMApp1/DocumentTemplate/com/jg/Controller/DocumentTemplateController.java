@@ -18,7 +18,7 @@ public class DocumentTemplateController extends Controller{
 		List<Template> template = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Template.class);
 			template = cr.list();
@@ -40,7 +40,7 @@ public class DocumentTemplateController extends Controller{
 		List<Template> template = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Template.class);
 			cr.add(Restrictions.eq("id", id));
@@ -72,7 +72,7 @@ public class DocumentTemplateController extends Controller{
 			System.out.println("description==" + description);
 			System.out.println("format==" + format);
 			System.out.println("url==" + url);
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();		
 			template = new Template(name, description, format, url);
 			session.save(template);
@@ -100,7 +100,7 @@ public class DocumentTemplateController extends Controller{
 //				System.out.println("description==" + description);
 //				System.out.println("format==" + format);
 //				System.out.println("url==" + url);
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				template.setName(name);
 				template.setDescription(description);
@@ -127,7 +127,7 @@ public class DocumentTemplateController extends Controller{
 	private entryResponse isExist(int id){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Template.class);
 			cr.add(Restrictions.eq("id", id));

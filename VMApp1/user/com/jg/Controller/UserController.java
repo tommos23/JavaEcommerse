@@ -29,7 +29,7 @@ public class UserController extends Controller{
 			if(isExist(email).equals(entryResponse.EXIST)){
 				if(user.getPassword().equals(encryptedPassword)){
 					if(!isSessionReady()) throw new Exception();
-					session = sessionFactory.openSession();				
+					session = HibernateUtil.getSessionFactory().getCurrentSession();				
 					session.beginTransaction();
 					user.setOldLastlogin(user.getNewLastlogin());
 					user.setNewLastlogin(new Date());
@@ -61,7 +61,7 @@ public class UserController extends Controller{
 		else{
 			try{
 				if(!isSessionReady()) throw new Exception();
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				MessageDigest messageDigest;
 				String saltedPassword = password+salt;
@@ -100,7 +100,7 @@ public class UserController extends Controller{
 	public entryResponse isExist(String email){
 		try{				
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(User.class);
 			cr.add(Restrictions.eq("email", email));
@@ -139,7 +139,7 @@ public class UserController extends Controller{
 		List<User> user = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(User.class);
 			cr.add(Restrictions.eq("id", id));
@@ -167,7 +167,7 @@ public class UserController extends Controller{
 		List<User> users = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(User.class);
 			users = cr.list();
@@ -189,7 +189,7 @@ public class UserController extends Controller{
 		List<User> users = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(User.class);
 			users = cr.list();
@@ -217,7 +217,7 @@ public class UserController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(user.getEmail()) != null) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				user.setRole(role);
 				session.update(user);

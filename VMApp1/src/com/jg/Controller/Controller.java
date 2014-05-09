@@ -7,7 +7,6 @@ import org.hibernate.cfg.AnnotationConfiguration;
 public class Controller {
 	public void startSession(){
 		try{
-			sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
 			sessionReady = true;
 		}catch (Throwable ex) { 
 			sessionReady = false;
@@ -16,7 +15,7 @@ public class Controller {
 	}
 	public void endSession() {
 		if(sessionFactory != null)
-			sessionFactory.close();
+			HibernateUtil.getSessionFactory().close();
 		sessionReady = false;
 	}
 	public boolean isSessionReady() {

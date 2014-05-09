@@ -14,7 +14,7 @@ public class RoleController extends Controller{
 	public entryResponse isExist(String name){
 		try{				
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Role.class);
 			cr.add(Restrictions.eq("name", name));
@@ -47,7 +47,7 @@ public class RoleController extends Controller{
 		List<Role> role = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Role.class);
 			cr.add(Restrictions.eq("id", id));
@@ -75,7 +75,7 @@ public class RoleController extends Controller{
 		List<Role> role = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Role.class);
 			cr.add(Restrictions.eq("name", name));
@@ -103,7 +103,7 @@ public class RoleController extends Controller{
 		List<Role> roles = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Role.class);
 			roles = cr.list();

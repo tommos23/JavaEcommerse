@@ -13,6 +13,9 @@ import org.apache.velocity.tools.view.VelocityViewServlet;
 import com.jg.Controller.ArticleController;
 import com.jg.Controller.UserController;
 
+import com.jg.Model.User;
+
+
 /**
  * Servlet implementation class PublishedArticle
  */
@@ -61,23 +64,39 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 				e.printStackTrace();
 			}
 		} else {
-			int id = Integer.parseInt(session.getAttribute("user_id").toString());
-			/* get the template */
 			UserController uc = new UserController();
 			uc.startSession();
-			context.put("thisuser", uc.getUser(session.getAttribute("user_email").toString()));
-			if (uc.isSessionReady()){
-				uc.endSession();
+			User thisUser = null;
+			if (session.getAttribute("user_id") != null) {
+				thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 			}
-			ArticleController ac = new ArticleController();
-			ac.startSession();
-			context.put("updated_articles", ac.getReviewerUpdatedArticles(id));
-			context.put("reviewing_articles", ac.getAllArticlesReviewerReviewing(id));
-			context.put("reviewed_articles", ac.getAllArticlesReviewerReviewed(id));
-			context.put("articles", ac.getAllArticlesForReviewerReview(id));
-			if(ac.isSessionReady()){
-				ac.endSession();	
-			}				
+			if (thisUser != null && (thisUser.getRole().getName().equals("activeauthor") || thisUser.getRole().getName().equals("passiveauthor"))) {
+				int id = Integer.parseInt(session.getAttribute("user_id").toString());
+				/* get the template */
+				ArticleController ac = new ArticleController();
+				ac.startSession();
+				context.put("updated_articles", ac.getReviewerUpdatedArticles(id));
+				context.put("reviewing_articles", ac.getAllArticlesReviewerReviewing(id));
+				context.put("reviewed_articles", ac.getAllArticlesReviewerReviewed(id));
+				context.put("articles", ac.getAllArticlesForReviewerReview(id));
+				ac.endSession();
+				if (uc.isSessionReady())
+					uc.endSession();
+			}
+			else {
+				if (uc.isSessionReady())
+					uc.endSession();
+				String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
+				String alertType = "danger";
+				session.setAttribute("alertMessage",alertMessage);
+				session.setAttribute("alertType",alertType );
+				try {
+					response.sendRedirect("welcome");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		try {
 			template = getTemplate("articles/ReviewerArticlesForReview.vm"); 
