@@ -54,17 +54,27 @@ public class ArticleController extends Controller{
 			ver.setAbs(abs);
 			ver.setUrl(filepath);
 
-			//add reference of article to version
 			ver.setArticle(a);
-
-			
-		    session.save(ver);
-			/*
-			Set<Subject> sub = new HashSet<Subject>(0);
-			sub.add(new Subject("Computer Science"));
-			sub.add(new Subject("Information Technology"));
-			ver.setSubjects(sub);
-			 */
+			session.save(ver);
+			//Add objects of subject to it
+			SubjectController sc = new SubjectController();
+			Set<Subject> tempSubs = new HashSet<Subject>();
+			sc.startSession();
+			sc.endSession();
+			for(int id : subIds){
+				if(id > 0){
+					Subject tempsub = sc.getSubject(id);
+					if(tempsub != null){
+						Set<Version> tempvers = new HashSet<Version>();
+						tempvers.addAll(tempsub.getVersions());
+						tempvers.add(ver);
+						tempsub.setVersions(tempvers);
+						tempSubs.add(tempsub);
+					}
+				}					
+			}
+			ver.setSubjects(tempSubs);			
+			session.saveOrUpdate(ver);
 
 			//Add objects of keywords into article
 			KeywordController kc = new KeywordController();
@@ -93,8 +103,8 @@ public class ArticleController extends Controller{
 			kc.endSession();
 			a.setKeywords(tempkey);
 			session.saveOrUpdate(a);
-			
-			
+
+
 			session.getTransaction().commit();
 			return entryResponse.SUCCESS;
 		}
@@ -450,7 +460,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-	
+
 	public void updateStatus(int id, int status) {
 		try{
 			if(!isSessionReady()) throw new Exception();

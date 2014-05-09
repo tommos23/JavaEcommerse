@@ -76,7 +76,7 @@ public class Article {
 	private Date created_at;
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Keyword> keywords = new HashSet<Keyword>();
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Version latest_version;
 	
 }
