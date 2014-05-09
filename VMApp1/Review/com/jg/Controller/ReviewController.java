@@ -107,6 +107,7 @@ public class ReviewController extends Controller{
 			review.setExpertise(expertise);
 			review.setArticle(article);
 			review.setPosition(position);
+			review.setVersion(article.getLatestVersion());
 			session.save(review);
 			session.getTransaction().commit();
 			
@@ -176,6 +177,7 @@ public class ReviewController extends Controller{
 				review.setExpertise(expertise);
 				review.setArticle(article);
 				review.setPosition(position);
+				review.setVersion(article.getLatestVersion());
 				session.update(review);
 				session.getTransaction().commit();
 			return entryResponse.SUCCESS;

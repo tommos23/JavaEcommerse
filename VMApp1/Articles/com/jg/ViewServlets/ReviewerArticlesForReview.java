@@ -11,6 +11,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.ArticleController;
+import com.jg.Controller.UserController;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -62,13 +63,21 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 		} else {
 			int id = Integer.parseInt(session.getAttribute("user_id").toString());
 			/* get the template */
+			UserController uc = new UserController();
+			uc.startSession();
+			context.put("thisuser", uc.getUser(session.getAttribute("user_email").toString()));
+			if (uc.isSessionReady()){
+				uc.endSession();
+			}
 			ArticleController ac = new ArticleController();
 			ac.startSession();
 			context.put("updated_articles", ac.getReviewerUpdatedArticles(id));
 			context.put("reviewing_articles", ac.getAllArticlesReviewerReviewing(id));
 			context.put("reviewed_articles", ac.getAllArticlesReviewerReviewed(id));
 			context.put("articles", ac.getAllArticlesForReviewerReview(id));
-			ac.endSession();					
+			if(ac.isSessionReady()){
+				ac.endSession();	
+			}				
 		}
 		try {
 			template = getTemplate("articles/ReviewerArticlesForReview.vm"); 
