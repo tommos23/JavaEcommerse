@@ -18,6 +18,7 @@ import com.jg.Model.Edition;
 import com.jg.Model.Keyword;
 import com.jg.Model.Review;
 import com.jg.Model.Subject;
+import com.jg.Model.User;
 import com.jg.Model.Version;
 
 public class ArticleController extends Controller{
@@ -43,8 +44,46 @@ public class ArticleController extends Controller{
 			//Create an object of article
 			Article a = new Article();
 			a.setCreated_at(new Date());
-			a.setMainAuthor(new UserController().getUser(email)); // Requires a user object before calling this
+			
+			Criteria cr1 = session.createCriteria(User.class);
+			cr1.add(Restrictions.eq("email", email));
+			List results = cr1.list();
+			User user = null;
+			if(results.isEmpty()) throw new Exception();
+			user = (User)results.get(0);			
+			a.setMainAuthor(user); // Requires a user object before calling this
 			a.setStatus(0);
+			
+			//Add objects of keywords into article
+			List resKeys = session.createCriteria(Keyword.class).list();
+			Set<Keyword> allKeys = new HashSet<Keyword>(resKeys);
+			Set<Keyword> tempkeys = new HashSet<Keyword>();
+			for(String word : words){
+				if(word != null){
+					Keyword key = null;
+					for(Keyword k : allKeys){
+						if(k.getKeyword().equals(word))
+							key = k;
+							}
+					
+					if(key != null){
+						Set<Article> tempset = new HashSet<Article>();
+						tempset.addAll(key.getArticles());
+						System.out.println(a.getId());
+						tempset.add(a);
+						key.setArticles(tempset);
+						tempkeys.add(key);
+					}						
+					else{
+						Set<Article> tempset = new HashSet<Article>();
+						tempset.add(a);
+						Keyword temp = new Keyword(word);
+						temp.setArticles(tempset);
+						tempkeys.add(temp);
+					}
+				}					
+			}
+			a.setKeywords(tempkeys);			
 
 			//Create an object of version of article
 			Version ver = new Version();
@@ -53,17 +92,12 @@ public class ArticleController extends Controller{
 			ver.setTitle(title);
 			ver.setAbs(abs);
 			ver.setUrl(filepath);
-
-			ver.setArticle(a);
-			session.save(ver);
-			//Add objects of subject to it
-			SubjectController sc = new SubjectController();
-			Set<Subject> tempSubs = new HashSet<Subject>();
-			sc.startSession();
-			sc.endSession();
+			
+			//Add objects of subject to it			 
+			Set<Subject> tempSubs = new HashSet<Subject>();			
 			for(int id : subIds){
 				if(id > 0){
-					Subject tempsub = sc.getSubject(id);
+					Subject tempsub = (Subject)session.get(Subject.class, id);
 					if(tempsub != null){
 						Set<Version> tempvers = new HashSet<Version>();
 						tempvers.addAll(tempsub.getVersions());
@@ -73,38 +107,10 @@ public class ArticleController extends Controller{
 					}
 				}					
 			}
-			ver.setSubjects(tempSubs);			
-			session.saveOrUpdate(ver);
-
-			//Add objects of keywords into article
-			KeywordController kc = new KeywordController();
-			kc.startSession();
-			Set<Keyword> tempkey = new HashSet<Keyword>();
-			kc.startSession();
-			for(String word : words){
-				if(word != null){
-					if(kc.isExist(word)){
-						Set<Article> tempset = new HashSet<Article>();
-						tempset.addAll(kc.getKeyword().getArticles());
-						System.out.println(a.getId());
-						tempset.add(a);
-						kc.getKeyword().setArticles(tempset);
-						tempkey.add(kc.getKeyword());
-					}						
-					else{
-						Set<Article> tempset = new HashSet<Article>();
-						tempset.add(a);
-						Keyword key = new Keyword(word);
-						key.setArticles(tempset);
-						tempkey.add(key);
-					}
-				}					
-			}
-			kc.endSession();
-			a.setKeywords(tempkey);
-			session.saveOrUpdate(a);
-
-
+			ver.setSubjects(tempSubs);
+			a.setLatestVersion(ver);
+			ver.setArticle(a);
+			session.save(ver);
 			session.getTransaction().commit();
 			return entryResponse.SUCCESS;
 		}
@@ -515,7 +521,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-
+	
 	Session session = null;
 	Article article;
 }

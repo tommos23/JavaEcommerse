@@ -54,9 +54,10 @@ public class UserController extends Controller{
 			return validateResponse.DB_ERROR;
 		}
 		finally{
-			if(session.isOpen())
+			if(session.isOpen()){
 				session.close();
-			System.out.println("session closed.");
+				System.out.println("session closed.");
+			}
 		}
 	}
 
@@ -100,9 +101,10 @@ public class UserController extends Controller{
 				return entryResponse.DB_ERROR;
 			}
 			finally{
-				if(session.isOpen())
+				if(session.isOpen()){
 					session.close();
-				System.out.println("session closed.");
+					System.out.println("session closed.");
+				}
 			}
 		}
 	}
@@ -110,7 +112,8 @@ public class UserController extends Controller{
 	public entryResponse isExist(String email){
 		try{				
 			if(!isSessionReady()) throw new Exception();
-			session = HibernateUtil.getSessionFactory().getCurrentSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			if(!session.getTransaction().isActive())
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(User.class);
 			cr.add(Restrictions.eq("email", email));
@@ -129,9 +132,10 @@ public class UserController extends Controller{
 			return entryResponse.DB_ERROR;
 		}
 		finally{
-			if(session.isOpen())
+			if(session.isOpen()){
 				session.close();
-			System.out.println("session closed.");
+				System.out.println("session closed.");
+			}
 		}
 	}
 
@@ -139,9 +143,7 @@ public class UserController extends Controller{
 		return user;
 	}
 	public User getUser(String email){
-		startSession();
 		isExist(email);
-		endSession();
 		return user;
 	}
 	
@@ -167,9 +169,10 @@ public class UserController extends Controller{
 			return null;
 		}
 		finally{
-			if(session.isOpen())
+			if(session.isOpen()){
 				session.close();
-			System.out.println("session closed.");
+				System.out.println("session closed.");
+			}
 		}
 	}
 	
@@ -189,9 +192,10 @@ public class UserController extends Controller{
 			return null;
 		}
 		finally{
-			if(session.isOpen())
+			if(session.isOpen()){
 				session.close();
-			System.out.println("session closed.");
+				System.out.println("session closed.");
+			}
 		}
 	}
 	
@@ -217,9 +221,10 @@ public class UserController extends Controller{
 			return null;
 		}
 		finally{
-			if(session.isOpen())
+			if(session.isOpen()){
 				session.close();
-			System.out.println("session closed.");
+				System.out.println("session closed.");
+			}
 		}
 	}
 	
@@ -245,13 +250,13 @@ public class UserController extends Controller{
 			return entryResponse.DB_ERROR;
 		}
 		finally{
-			if(session.isOpen())
+			if(session.isOpen()){
 				session.close();
-			System.out.println("session closed.");
+				System.out.println("session closed.");
+			}
 		}
 	}
 	
-
 	private String salt = "27a65236f0376c5f1866366a42d3effa";
 	private User user;
 	Session session = null;
