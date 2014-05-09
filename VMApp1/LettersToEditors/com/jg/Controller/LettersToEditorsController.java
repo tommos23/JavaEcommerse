@@ -22,7 +22,7 @@ public class LettersToEditorsController extends Controller{
 		List<LetterToEditor> LetterToEditor = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(LetterToEditor.class);
 			cr.add(Restrictions.eq("status", status));
@@ -46,7 +46,7 @@ public class LettersToEditorsController extends Controller{
 		List<LetterToEditor> LetterToEditor = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(LetterToEditor.class);
 			cr.add(Restrictions.eq("publish_edition", edition.getId()));
@@ -69,7 +69,7 @@ public class LettersToEditorsController extends Controller{
 		List<LetterToEditor> LetterToEditor = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(LetterToEditor.class);
 			cr.add(Restrictions.eq("id", id));
@@ -97,7 +97,7 @@ public class LettersToEditorsController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				letter.setStatus(1);
 				letter.setEdited_text(editedText);
@@ -126,7 +126,7 @@ public class LettersToEditorsController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				letter.setStatus(3);
 				session.update(letter);
@@ -153,7 +153,7 @@ public class LettersToEditorsController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				letter.setStatus(4);
 				letter.setPublish_edition(edition.getId());
@@ -180,7 +180,7 @@ public class LettersToEditorsController extends Controller{
 	public entryResponse create(Article article, User user, String text){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();		
 			letter = new LetterToEditor();
 			letter.setArticle(article);
@@ -209,7 +209,7 @@ public class LettersToEditorsController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				letter.setStatus(2);
 				letter.setReply_text(replyText);
@@ -237,7 +237,7 @@ public class LettersToEditorsController extends Controller{
 	private entryResponse isExist(int id){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(LetterToEditor.class);
 			cr.add(Restrictions.eq("id", id));

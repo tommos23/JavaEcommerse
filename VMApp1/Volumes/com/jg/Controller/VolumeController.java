@@ -17,7 +17,7 @@ public class VolumeController extends Controller{
 		List<Volume> Volume = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Volume.class);
 			Volume = cr.list();
@@ -39,7 +39,7 @@ public class VolumeController extends Controller{
 		List<Volume> volume = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Volume.class);
 			cr.add(Restrictions.eq("id", id));
@@ -68,7 +68,7 @@ public class VolumeController extends Controller{
 		List<Volume> volumes = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Volume.class);
 			cr.add(Restrictions.eq("status", status));
@@ -91,7 +91,7 @@ public class VolumeController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				volume.setStatus(status);
 				session.update(volume);
@@ -116,7 +116,7 @@ public class VolumeController extends Controller{
 	public entryResponse create(String description){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();		
 			volume = new Volume(description);
 			session.save(volume);
@@ -139,7 +139,7 @@ public class VolumeController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				volume.setStatus(status);
 				volume.setDescription(description);
@@ -165,7 +165,7 @@ public class VolumeController extends Controller{
 	private entryResponse isExist(int id){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Volume.class);
 			cr.add(Restrictions.eq("id", id));
