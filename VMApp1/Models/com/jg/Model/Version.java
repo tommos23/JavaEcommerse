@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -69,7 +70,7 @@ public class Version {
 	private String title;
 	@Column(name = "abstract", columnDefinition = "TEXT")
 	private String abs;
-	@ManyToMany(cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Set<Subject> subjects = new HashSet<Subject>(0);
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;

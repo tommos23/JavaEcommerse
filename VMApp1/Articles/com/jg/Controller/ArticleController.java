@@ -17,28 +17,20 @@ import com.jg.Model.Article;
 import com.jg.Model.Edition;
 import com.jg.Model.Keyword;
 import com.jg.Model.Review;
+import com.jg.Model.Subject;
 import com.jg.Model.Version;
 
 public class ArticleController extends Controller{
 
-	public entryResponse addNewArticle(String title,String abs,String keywords,String filepath,String email){
+	public entryResponse addNewArticle(String title,String abs,String keywords,Set<Integer> subIds, String filepath, String email){
 		String[] words = new String[255];
 		//System.out.println(keywords);
 		if(keywords.contains(" "))
 			words = keywords.split(" ");
 		else
 			words[0] = keywords;
-		Set<Keyword> tempkey = new HashSet<Keyword>(0);
-		
+
 		try{
-			KeywordController kc = new KeywordController();
-			kc.startSession();
-			for(String word : words){
-				if(word != null){
-					tempkey.add(kc.isExist(word)? kc.getKeyword() :  new Keyword(word));
-				}					
-			}
-			kc.endSession();
 			//Check if session factory is ready or not
 			if(!isSessionReady()) throw new Exception();
 
@@ -54,10 +46,6 @@ public class ArticleController extends Controller{
 			a.setMainAuthor(new UserController().getUser(email)); // Requires a user object before calling this
 			a.setStatus(0);
 
-			//Add objects of keywords into article
-			//if(!tempkey.isEmpty())
-				//a.setKeywords(tempkey);
-
 			//Create an object of version of article
 			Version ver = new Version();
 
@@ -69,14 +57,44 @@ public class ArticleController extends Controller{
 			//add reference of article to version
 			ver.setArticle(a);
 
-			//Add objects of subject to it
+			
+		    session.save(ver);
 			/*
 			Set<Subject> sub = new HashSet<Subject>(0);
 			sub.add(new Subject("Computer Science"));
 			sub.add(new Subject("Information Technology"));
 			ver.setSubjects(sub);
-			*/
-			session.saveOrUpdate(ver);
+			 */
+
+			//Add objects of keywords into article
+			KeywordController kc = new KeywordController();
+			kc.startSession();
+			Set<Keyword> tempkey = new HashSet<Keyword>();
+			kc.startSession();
+			for(String word : words){
+				if(word != null){
+					if(kc.isExist(word)){
+						Set<Article> tempset = new HashSet<Article>();
+						tempset.addAll(kc.getKeyword().getArticles());
+						System.out.println(a.getId());
+						tempset.add(a);
+						kc.getKeyword().setArticles(tempset);
+						tempkey.add(kc.getKeyword());
+					}						
+					else{
+						Set<Article> tempset = new HashSet<Article>();
+						tempset.add(a);
+						Keyword key = new Keyword(word);
+						key.setArticles(tempset);
+						tempkey.add(key);
+					}
+				}					
+			}
+			kc.endSession();
+			a.setKeywords(tempkey);
+			session.saveOrUpdate(a);
+			
+			
 			session.getTransaction().commit();
 			return entryResponse.SUCCESS;
 		}
@@ -91,7 +109,7 @@ public class ArticleController extends Controller{
 		}
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Article> getAllArticles(int status)
 	{
@@ -116,7 +134,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-	
+
 	public Article get(int id) {
 		List<Article> article = null;
 		try{
@@ -144,10 +162,10 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-	
+
 	public List<Version> getAllVersionsForArticle(int article_id){
 		List<Version> versions = null;
-		
+
 		try{
 			if(!isSessionReady()) throw new Exception();
 			System.out.println("ARTICLE ID: " + article_id);
@@ -170,7 +188,7 @@ public class ArticleController extends Controller{
 		}
 		return versions;
 	}
-	
+
 	public List<Article> getAllArticlesForEditorReview()
 	{
 		List<Article> articles = null;
@@ -199,7 +217,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-	
+
 	public List<Article> getArticlesForEdition(Edition edition)
 	{
 		List<Article> articles = null;
@@ -223,7 +241,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-	
+
 	public List<Article> getAllArticlesReviewerReviewing(int id)
 	{
 		List<Article> articles = new LinkedList<Article>();;
@@ -243,10 +261,10 @@ public class ArticleController extends Controller{
 			System.out.println("ID2=="+id);
 			session.getTransaction().commit();
 			System.out.println("size=="+reviews.size());
-			
+
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
-						
+
 			System.out.println("REVIEWING: " + reviews.size());
 			for(int i = 0; i < reviews.size(); i++){
 				Review r = reviews.get(i);
@@ -263,9 +281,9 @@ public class ArticleController extends Controller{
 				session.close();
 			System.out.println("session closed.");
 		}
-		
+
 	}
-	
+
 	public List<Article> getAllArticlesReviewerReviewed(int id)
 	{
 		List<Article> articles = new LinkedList<Article>();;
@@ -282,7 +300,7 @@ public class ArticleController extends Controller{
 			session.getTransaction().commit();		
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
-			
+
 			for(int i = 0; i < reviews.size(); i++){
 				Review r = reviews.get(i);
 				if(r.getVersion() == r.getArticle().getLatestVersion()) {
@@ -291,7 +309,7 @@ public class ArticleController extends Controller{
 			}
 			session.getTransaction().commit();
 			return articles;
-			
+
 		} catch(Exception e){
 			e.printStackTrace();
 			return articles;
@@ -302,7 +320,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}		
 	}
-	
+
 	public List<Article> getReviewerUpdatedArticles(int id) {
 		List<Article> articles = new LinkedList<Article>();;
 		try{
@@ -318,7 +336,7 @@ public class ArticleController extends Controller{
 			session.getTransaction().commit();		
 			session = sessionFactory.openSession();				
 			session.beginTransaction();
-			
+
 			for(int i = 0; i < reviews.size(); i++){
 				Review r = reviews.get(i);
 				if(r.getVersion() != r.getArticle().getLatestVersion()) {
@@ -327,7 +345,7 @@ public class ArticleController extends Controller{
 			}
 			session.getTransaction().commit();
 			return articles;
-			
+
 		} catch(Exception e){
 			e.printStackTrace();
 			return articles;
@@ -338,7 +356,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Article> getAllArticlesForReviewerReview(int id)
 	{
@@ -357,7 +375,7 @@ public class ArticleController extends Controller{
 			System.out.println("ID2=="+id);
 			session.getTransaction().commit();
 			System.out.println("size=="+reviews.size());
-			
+
 			if(reviews.size() < 3){
 				System.out.println("in here");
 				session = sessionFactory.openSession();				
@@ -437,7 +455,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-	
+
 	public entryResponse publishArticle(int id, Edition edition){
 		try{
 			if(!isSessionReady()) throw new Exception();
@@ -495,6 +513,5 @@ public class ArticleController extends Controller{
 	}
 
 	Session session = null;
-	Article article;	
-
+	Article article;
 }

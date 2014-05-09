@@ -39,7 +39,7 @@ public class Subject {
 	@Column(nullable=false,unique=true)
 	private String title;
 
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "subjects")
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "subjects")
 	private Set<Version> versions = new HashSet<Version>(0);
 
 }

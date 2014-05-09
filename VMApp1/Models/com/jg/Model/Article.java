@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -73,9 +74,9 @@ public class Article {
 	private Edition edition;//int edition_id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
-	@ManyToMany(cascade = CascadeType.MERGE)
-	private Set<Keyword> keywords = new HashSet<Keyword>(0);
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Keyword> keywords = new HashSet<Keyword>();
 	@OneToOne(cascade = CascadeType.ALL)
 	private Version latest_version;
-
+	
 }

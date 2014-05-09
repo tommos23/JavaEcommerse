@@ -2,6 +2,7 @@
 <head>
 #include( "/bootstrap/head.html" )
 <TITLE> Login Page </TITLE>
+<script src="assets/js/subjectlist.js"></script>
 </head>
 <body>
 #parse( "/bootstrap/header.vm" )
@@ -20,7 +21,14 @@
 							<form action="uploadarticle" method="post" enctype="multipart/form-data">
 								<input class="form-control" type="text" name="title" placeholder="Title"><br>
 								<textarea class="form-control"  name="abstract" placeholder="Abstract"></textarea><br>
-								<input class="form-control" class="form-control" type="text" name="keywords" placeholder="Keywords"><br>
+								<select onchange="selectSubject(this);" class="form-control">
+								<option value=0 SELECTED>Select subject</option>
+						        #foreach($subject in $subjects)						
+ 									<option value=$subject.getId()>$subject.getTitle()</option>
+ 								#end
+								</select>								
+								<span></span><br>
+								<br><input class="form-control" class="form-control" type="text" name="keywords" placeholder="Keywords"><br>
 								<input class="form-control" type="file" name="file"><br>
 								<input class="btn btn-default" type="submit">
 							</form>

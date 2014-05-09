@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
@@ -63,6 +65,7 @@ public class UploadDownloadArticle extends HttpServlet {
 		String abs = null;
 		String keywords = null;
 		String filepath = null;
+		Set<Integer> subIds = new HashSet<Integer>(0);
 		ArticleController ac = new ArticleController();	
 		if(!ServletFileUpload.isMultipartContent(request)){
 			throw new ServletException("Content type is not multipart/form-data");
@@ -90,18 +93,21 @@ public class UploadDownloadArticle extends HttpServlet {
 				}
 				else{
 					String attrName = fileItem.getFieldName();
-					//System.out.println(attrName);
+					System.out.println(attrName);
 					if(attrName.equals("title"))
 						title = fileItem.getString();
 					else if (attrName.equals("abstract"))
 						abs = fileItem.getString();
 					else if (attrName.equals("keywords"))
 						keywords = fileItem.getString();
+					else if (attrName.equals("subjects[]")){
+						subIds.add(Integer.parseInt(fileItem.getString()));
+					}
 				}
 			}
 			
 			ac.startSession();
-			switch(ac.addNewArticle(title, abs, keywords, filepath , session.getAttribute("user_email").toString())){
+			switch(ac.addNewArticle(title, abs, keywords, subIds, filepath , session.getAttribute("user_email").toString())){
 			case SUCCESS:					
 				session.setAttribute("alertMessage","Article is successfully uploaded.");
 				session.setAttribute("alertType","success" );

@@ -13,6 +13,8 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
+import com.jg.Controller.SubjectController;
+
 public class BecomeAuthor extends VelocityViewServlet 
 {
 	/**
@@ -56,8 +58,10 @@ public class BecomeAuthor extends VelocityViewServlet
 			}
 		}
 		else{		
-
-			context.put("application", "Test Application");
+			SubjectController sc = new SubjectController();
+			sc.startSession();
+			context.put("subjects", sc.getAllSubjects());
+			sc.endSession();
 		}		
 		try {
 			template = getTemplate("user/uploadarticle.vm"); 
