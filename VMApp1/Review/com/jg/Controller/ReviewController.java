@@ -11,6 +11,7 @@ import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.Article;
 import com.jg.Model.Edition;
 import com.jg.Model.Review;
+import com.jg.Model.Role;
 import com.jg.Model.User;
 import com.jg.Model.Volume;
 
@@ -108,6 +109,9 @@ public class ReviewController extends Controller{
 			review.setPosition(position);
 			session.save(review);
 			session.getTransaction().commit();
+			
+			checkArticle(article);
+			
 			return entryResponse.SUCCESS;
 		}
 		catch(Exception e){
@@ -120,6 +124,40 @@ public class ReviewController extends Controller{
 				session.close();
 			System.out.println("session closed.");
 		}
+	}
+	
+	public void checkArticle(Article article) {
+		// get all reviews for articles
+		List<Review> reviews = getReviewsForArticle(article);
+		// count champions and detractors
+		int champion = 0;
+		int detractor = 0;
+		int total = 0;
+		for (int i = 0; i < reviews.size(); i++) {
+			if (article.getLatestVersion().getId() == reviews.get(i).getVersion().getId()) {
+				switch (reviews.get(i).getPosition()) {
+				case 0:
+					champion++;
+					break;
+				case 3:
+					detractor++;
+					break;
+				}
+				total++;
+			}
+		}
+		// check if reviews meet any rules
+		// update article accordingly
+		ArticleController ac = new ArticleController();
+		ac.startSession();
+		if (champion >= 2 && detractor == 0 && total >= 3) {
+			ac.updateStatus(article.getId(), 3);
+		}
+		else if (detractor >= 2 && champion == 0 && total >= 3) {
+			ac.updateStatus(article.getId(), 2);
+		}
+		if (ac.isSessionReady())
+			ac.endSession();
 	}
 	
 	public entryResponse update(String contribution, String critism, int expertise, int position, Article article, User reviewer, int review_id) {
@@ -194,6 +232,30 @@ public class ReviewController extends Controller{
 				review.setStatus(1);
 				session.update(review);
 				session.getTransaction().commit();
+				
+				Criteria cr = session.createCriteria(Review.class);
+				cr.add(Restrictions.eq("reviewer", review.getReviewer()));
+				List<Review> reviews = cr.list();
+				int goodReviewCount = 0;
+				for(int i = 0; i < reviews.size(); i++){
+					if(reviews.get(i).getStatus() == 1){
+						goodReviewCount++;
+					}
+				}	
+				if(goodReviewCount >= 3){
+					RoleController rc = new RoleController();
+					rc.startSession();
+					Role role = rc.get("activeauthor");
+					if(rc.isSessionReady())
+						rc.endSession();
+									
+					UserController uc = new UserController();
+					uc.startSession();				
+					uc.changeRole(review.getReviewer(), role);
+					if(uc.isSessionReady()){
+						uc.endSession();
+					}
+				}
 			return entryResponse.SUCCESS;
 			} else {
 				return entryResponse.NOT_EXIST;
@@ -210,6 +272,7 @@ public class ReviewController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
+	
 	
 	public entryResponse disapproveReview(int review_id) {
 		try{

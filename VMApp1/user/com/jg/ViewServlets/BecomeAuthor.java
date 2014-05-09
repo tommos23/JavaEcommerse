@@ -22,8 +22,7 @@ public class BecomeAuthor extends VelocityViewServlet
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Template handleRequest( HttpServletRequest request, 
-			HttpServletResponse response, Context context )
+	public Template handleRequest( HttpServletRequest request, HttpServletResponse response, Context context )
 	{     
 		HttpSession session = request.getSession(true);
 		//------Code to display alert message------

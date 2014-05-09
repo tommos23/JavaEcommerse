@@ -9,11 +9,25 @@ import com.jg.Model.*;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class UserController extends Controller{
 	public validateResponse validate(String email,String password){
+		MessageDigest messageDigest;
+		String saltedPassword = password+salt;
+		String encryptedPassword = "";
+		try {
+			messageDigest = MessageDigest.getInstance("SHA-256");
+			messageDigest.update(saltedPassword.getBytes());
+			encryptedPassword = new String(messageDigest.digest());
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try{
 			if(isExist(email).equals(entryResponse.EXIST)){
-				if(user.getPassword().equals(password)){
+				if(user.getPassword().equals(encryptedPassword)){
 					if(!isSessionReady()) throw new Exception();
 					session = sessionFactory.openSession();				
 					session.beginTransaction();
@@ -49,8 +63,18 @@ public class UserController extends Controller{
 				if(!isSessionReady()) throw new Exception();
 				session = sessionFactory.openSession();				
 				session.beginTransaction();
-				
-				user= new User(firstname,surname,email,password,"n/a",new Date(),new Date(),new Date());
+				MessageDigest messageDigest;
+				String saltedPassword = password+salt;
+				String encryptedPassword = "";
+				try {
+					messageDigest = MessageDigest.getInstance("SHA-256");
+					messageDigest.update(saltedPassword.getBytes());
+					encryptedPassword = new String(messageDigest.digest());
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				user= new User(firstname,surname,email,encryptedPassword,"n/a",new Date(),new Date(),new Date());
 				Criteria cr = session.createCriteria(Role.class);
 				cr.add(Restrictions.eq("name", "reader"));
 				List result = cr.list();
@@ -216,7 +240,9 @@ public class UserController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
+	
 
+	private String salt = "27a65236f0376c5f1866366a42d3effa";
 	private User user;
 	Session session = null;
 }
