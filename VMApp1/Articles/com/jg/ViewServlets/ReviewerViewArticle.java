@@ -11,6 +11,8 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.ArticleController;
+import com.jg.Controller.UserController;
+import com.jg.Model.User;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -46,38 +48,61 @@ public class ReviewerViewArticle extends VelocityViewServlet
 			session.setAttribute("alertType", null);
 		}
 		//-----End of Alert Message Code---------
-		
-		String article_id = request.getParameter("id");
-		if (article_id == null || article_id.equals("")) {
-			session.setAttribute("alertMessage", "No article selected");
-			session.setAttribute("alertType", "danger");
-			try {
-				response.sendRedirect("ReviewerArticlesForReview");
-			} catch (IOException e) {
-				e.printStackTrace();
+		Template template = null;
+		UserController uc = new UserController();
+		uc.startSession();
+		User thisUser = null;
+		if (session.getAttribute("user_id") != null) {
+			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		}
+		if (thisUser != null && (thisUser.getRole().getName().equals("activeauthor") || thisUser.getRole().getName().equals("passiveauthor"))) {
+			String article_id = request.getParameter("id");
+			if (article_id == null || article_id.equals("")) {
+				session.setAttribute("alertMessage", "No article selected");
+				session.setAttribute("alertType", "danger");
+				try {
+					response.sendRedirect("ReviewerArticlesForReview");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			boolean user = false;		
+			if(session.getAttribute("user") != null){
+				if(session.getAttribute("user").equals("true"))
+					user = true;
+			}
+			if (!user){
+				try {
+					response.sendRedirect("welcome");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				int id = Integer.parseInt(session.getAttribute("user_id").toString());
+				/* get the template */
+				ArticleController ac = new ArticleController();
+				ac.startSession();
+				context.put("article", ac.get(Integer.parseInt(article_id)));
+				context.put("user_id",id);
+				ac.endSession();					
+				if (uc.isSessionReady())
+					uc.endSession();
 			}
 		}
-		
-		Template template = null;
-		boolean user = false;		
-		if(session.getAttribute("user") != null){
-			if(session.getAttribute("user").equals("true"))
-				user = true;
-		}
-		if (!user){
+		else {
+			if (uc.isSessionReady())
+				uc.endSession();
+			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
+			String alertType = "danger";
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
-			int id = Integer.parseInt(session.getAttribute("user_id").toString());
-			/* get the template */
-			ArticleController ac = new ArticleController();
-			ac.startSession();
-			context.put("article", ac.get(Integer.parseInt(article_id)));
-			context.put("user_id",id);
-			ac.endSession();					
 		}
 		try {
 			template = getTemplate("articles/ReviewerViewArticle.vm"); 

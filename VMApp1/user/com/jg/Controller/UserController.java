@@ -19,8 +19,13 @@ public class UserController extends Controller{
 		String encryptedPassword = "";
 		try {
 			messageDigest = MessageDigest.getInstance("SHA-256");
-			messageDigest.update(saltedPassword.getBytes());
-			encryptedPassword = new String(messageDigest.digest());
+			messageDigest.update(saltedPassword.getBytes());			
+			byte[] mdbytes = messageDigest.digest();
+	        StringBuffer sb = new StringBuffer();
+	        for (int i = 0; i < mdbytes.length; i++) {
+	          sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+	        encryptedPassword = sb.toString();
 		} catch (NoSuchAlgorithmException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -68,8 +73,13 @@ public class UserController extends Controller{
 				String encryptedPassword = "";
 				try {
 					messageDigest = MessageDigest.getInstance("SHA-256");
-					messageDigest.update(saltedPassword.getBytes());
-					encryptedPassword = new String(messageDigest.digest());
+					messageDigest.update(saltedPassword.getBytes());					
+					byte[] mdbytes = messageDigest.digest();
+			        StringBuffer sb = new StringBuffer();
+			        for (int i = 0; i < mdbytes.length; i++) {
+			          sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+			        }
+			        encryptedPassword = sb.toString();					
 				} catch (NoSuchAlgorithmException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

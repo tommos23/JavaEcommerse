@@ -27,11 +27,20 @@
 								<a href="EditorViewVolumes" title="Volumes"><span class="glyphicon glyphicon-book"></span> Volumes</a>
 							</li>
 							<li>
+								<a href="manage" title="Manage Contents"><span class="glyphicon glyphicon-list-alt"></span> Manage</a>
+							</li>
+							<li>
 								<a href="ViewGlobal" title="Global Settings"><span class="glyphicon glyphicon-cog"></span> Global Settings</a>
 							</li>
 						#elseif ($thisuser.getRole().getName().equals("activeauthor"))
 							<li>
 								<a href="EditedLetters" title="Letters"><span class="glyphicon glyphicon-envelope"></span> Letters</a>
+							</li>
+							<li>
+								<a href="articles" title="Articles"><span class="glyphicon glyphicon-book"></span> Articles</a>
+							</li>
+							<li>
+									<a href="ReviewerArticlesForReview" title="Review"><span class="glyphicon glyphicon-list-alt"></span> Review</a>
 							</li>
 						#elseif ($thisuser.getRole().getName().equals("passiveauthor"))
 							<li>
@@ -41,17 +50,7 @@
 							<li>
 								<a href="PublishedVolumes" title="Volumes"><span class="glyphicon glyphicon-book"></span> Volumes</a>
 							</li>
-						#end
-					#elseif ($thisuser.getRole().getName().equals("activeauthor"))
-						<li>
-							<a href="articles" title="Articles"><span class="glyphicon glyphicon-book"></span> Articles</a>
-						</li>
-						<li>
-							<a href="manage" title="Manage Contents"><span class="glyphicon glyphicon-list-alt"></span> Manage</a>
-						</li>
-						<li>
-								<a href="ReviewerArticlesForReview" title="Review"><span class="glyphicon glyphicon-list-alt"></span> Review</a>
-						</li>
+						#end						
 					#else
 						<li>
 							<a href="PublishedVolumes" title="Volumes"><span class="glyphicon glyphicon-book"></span> Volumes</a>

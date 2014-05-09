@@ -48,18 +48,18 @@ public class ReviewerCreateReview extends HttpServlet {
 			case SUCCESS:
 				session.setAttribute("alertMessage","Review Created.");
 				session.setAttribute("alertType","success" );
-				response.sendRedirect("EditorArticlesForReview");
+				response.sendRedirect("ReviewerArticlesForReview");
 				break;
 			case FAIL:
 				session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Review not created.");
 				session.setAttribute("alertType","danger" );
-				response.sendRedirect("EditorArticlesForReview");
+				response.sendRedirect("ReviewerArticlesForReview");
 				break;
 			case DB_ERROR:
 				session.setAttribute("user","false");
 				session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
 				session.setAttribute("alertType","danger" );
-				response.sendRedirect("EditorArticlesForReview");
+				response.sendRedirect("ReviewerArticlesForReview");
 				break;
 			}
 			System.out.println("here");

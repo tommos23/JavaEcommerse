@@ -1,13 +1,18 @@
 package com.jg.ViewServlets;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.ArticleController;
+import com.jg.Controller.UserController;
+import com.jg.Model.User;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -36,24 +41,42 @@ public class ManageContents extends VelocityViewServlet
 			session.removeAttribute("alertType");
 		}
 		//-----End of Alert Message Code---------
-		if (session.isNew()){
-			session.setAttribute("user", "false");
-			System.out.println("false");
+		UserController uc = new UserController();
+		uc.startSession();
+		User thisUser = null;
+		if (session.getAttribute("user_id") != null) {
+			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 		}
-		else if(session.getAttribute("user") == null){
-				session.setAttribute("user", "false");
+		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
+			try {
+				ArticleController ac = new ArticleController();
+				ac.startSession();
+				int user_id = Integer.parseInt(session.getAttribute("user_id").toString());
+				context.put("articles", ac.getAllArticles(0));
+				ac.endSession();
+			} catch(Exception e ) {
+				System.out.println("Error " + e);
+			}
+			if (uc.isSessionReady())
+				uc.endSession();
 		}
+		else {
+			if (uc.isSessionReady())
+				uc.endSession();
+			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
+			String alertType = "danger";
+			session.setAttribute("alertMessage",alertMessage);
+			session.setAttribute("alertType",alertType );
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		/* get the template */
 		Template template = null;
-		ArticleController ac = new ArticleController();
-		try {
-			template = getTemplate("articles/UnapprovedArticles.vm"); 
-			ac.startSession();
-			context.put("articles", ac.getAllArticles(0));
-		} catch(Exception e ) {
-			System.out.println("Error " + e);
-		}
-		if(ac.isSessionReady())
-			ac.endSession();
+		template = getTemplate("articles/UnapprovedArticles.vm"); 
 		return template;
 	}
 

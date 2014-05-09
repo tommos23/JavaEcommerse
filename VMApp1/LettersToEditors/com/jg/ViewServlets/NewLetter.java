@@ -59,7 +59,7 @@ public class NewLetter extends VelocityViewServlet {
 		if (session.getAttribute("user_id") != null) {
 			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 		}
-		if (thisUser != null && (thisUser.getRole().getName().equals("reader") || thisUser.getRole().getName().equals("author") || thisUser.getRole().getName().equals("reviewer"))) {
+		if (thisUser != null && (thisUser.getRole().getName().equals("reader") || thisUser.getRole().getName().equals("author") || thisUser.getRole().getName().equals("activeauthor") || thisUser.getRole().getName().equals("passiveauthor"))) {
 			try {
 				int id = 0;
 				if (request.getParameter("id") != null) 
