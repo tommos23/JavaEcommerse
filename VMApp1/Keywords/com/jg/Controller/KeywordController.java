@@ -13,7 +13,7 @@ public class KeywordController extends Controller{
 	public boolean isExist(String key) throws Exception{
 		try{				
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Keyword.class);
 			cr.add(Restrictions.eq("keyword", key));

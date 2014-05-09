@@ -18,7 +18,7 @@ public class EditionController extends Controller{
 		List<Edition> Edition = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Edition.class);
 			cr.add(Restrictions.eq("volume.id", volume_id));
@@ -41,7 +41,7 @@ public class EditionController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				edition.setStatus(status);
 				session.update(edition);
@@ -67,7 +67,7 @@ public class EditionController extends Controller{
 		List<Edition> edition = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Edition.class);
 			cr.add(Restrictions.eq("id", id));
@@ -95,7 +95,7 @@ public class EditionController extends Controller{
 		List<Edition> edition = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Edition.class);
 			cr.add(Restrictions.eq("description", description));
@@ -123,7 +123,7 @@ public class EditionController extends Controller{
 	public entryResponse create(String description, Volume vol){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			edition = new Edition(description, vol);
 			session.save(edition);
@@ -146,7 +146,7 @@ public class EditionController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				edition.setStatus(status);
 				edition.setDescription(description);
@@ -173,7 +173,7 @@ public class EditionController extends Controller{
 	private entryResponse isExist(int id){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Edition.class);
 			cr.add(Restrictions.eq("id", id));

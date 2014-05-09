@@ -20,7 +20,7 @@ public class GlobalController extends Controller{
 		List<Global> Global = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Global.class);
 			Global = cr.list();
@@ -47,7 +47,7 @@ public class GlobalController extends Controller{
 		List<Global> global = null;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Global.class);
 			cr.add(Restrictions.eq("id", id));
@@ -75,7 +75,7 @@ public class GlobalController extends Controller{
 		try{
 			if(!isSessionReady()) throw new Exception();
 			if (isExist(id).equals(entryResponse.EXIST)) {
-				session = sessionFactory.openSession();				
+				session = HibernateUtil.getSessionFactory().getCurrentSession();				
 				session.beginTransaction();
 				global.setName(name);
 				global.setGoals(goals);
@@ -102,7 +102,7 @@ public class GlobalController extends Controller{
 	private entryResponse isExist(int id){
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Global.class);
 			cr.add(Restrictions.eq("id", id));

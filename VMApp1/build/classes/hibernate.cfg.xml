@@ -10,6 +10,7 @@
    <property name="connection.password">60dd53ae</property>
    
    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+   <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
    <property name="connection.pool_size">1</property>
    <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
    <property name="show_sql">true</property>   
