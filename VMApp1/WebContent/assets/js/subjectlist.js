@@ -24,7 +24,7 @@ function addNew(){
 	'</div>');
 }
 function addToList(input){
-	if($(input).val().length >=3){
+	if($(input).val().length >=3 && !$(input).parent().hasClass('has-error')){
 		$span = $(input).parent().parent().prev('span');
 		$span.append('<span onclick="$(this).remove();"><span class="label label-primary" >' +
 				'<input type="hidden" name="newsubs[]" value="' + 

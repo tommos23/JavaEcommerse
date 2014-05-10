@@ -17,13 +17,14 @@ import com.jg.Model.Article;
 import com.jg.Model.Edition;
 import com.jg.Model.Keyword;
 import com.jg.Model.Review;
+import com.jg.Model.Role;
 import com.jg.Model.Subject;
 import com.jg.Model.User;
 import com.jg.Model.Version;
 
 public class ArticleController extends Controller{
 
-	public entryResponse addNewArticle(String title,String abs,String keywords,Set<Integer> subIds,Set<String> newSubjects, String filepath, String email){
+	public entryResponse addNewArticle(String title,String contactName, String contactEmail, String abs,String keywords,Set<Integer> subIds,Set<String> newSubjects, String filepath, String email){
 		String[] words = new String[255];
 		//System.out.println(keywords);
 		if(keywords.contains(" "))
@@ -50,8 +51,11 @@ public class ArticleController extends Controller{
 			List results = cr1.list();
 			User user = null;
 			if(results.isEmpty()) throw new Exception();
-			user = (User)results.get(0);			
+			user = (User)results.get(0);
+			user.setRole((Role)session.get(Role.class, 1));
 			a.setMainAuthor(user); // Requires a user object before calling this
+			a.setContactName(contactName);
+			a.setContactEmail(contactEmail);
 			a.setStatus(0);
 			
 			//Add objects of keywords into article

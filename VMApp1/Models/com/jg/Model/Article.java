@@ -63,11 +63,25 @@ public class Article {
 	public void setLatestVersion(Version latest_version) {
 		this.latest_version = latest_version;
 	}
+	public String getContactName() {
+		return contact_name;
+	}
+	public void setContactName(String contactName) {
+		this.contact_name = contactName;
+	}
+	public String getContactEmail() {
+		return contact_email;
+	}
+	public void setContactEmail(String contactEmail) {
+		this.contact_email = contactEmail;
+	}
 	
 	@Id @GeneratedValue
 	private int id;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User main_author; //int main_author_id;
+	private String contact_name;
+	private String contact_email;
 	@Column(nullable=false)
 	private int status;
 	@ManyToOne(cascade = CascadeType.ALL)
