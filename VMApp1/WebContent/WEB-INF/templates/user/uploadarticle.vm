@@ -6,40 +6,53 @@
 </head>
 <body>
 #parse( "/bootstrap/header.vm" )
-<div class="container">
+	<div class="container">
 		<div class="row">
 			<div class="col-lg-22">
-			#if($showAlert)
-				#if($showAlert == "true")
-					#parse( "/bootstrap/alert.vm" )
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
 				#end
-			#end
 				<div class="panel panel-default">
 					<div class="panel-heading">Upload Article</div>
 					<div class="panel-body">
 						<div class="col-lg-9">
 							<form action="uploadarticle" method="post" enctype="multipart/form-data">
-								<input class="form-control" type="text" name="title" placeholder="Title"><br>
-								<textarea class="form-control"  name="abstract" placeholder="Abstract"></textarea><br>
-								<select onchange="selectSubject(this);" class="form-control">
-								<option value=0 SELECTED>Select subject</option>
-						        #foreach($subject in $subjects)						
- 									<option value=$subject.getId()>$subject.getTitle()</option>
- 								#end
-								</select>								
-								<span></span><br>
-								<br><input class="form-control" class="form-control" type="text" name="keywords" placeholder="Keywords"><br>
-								<input class="form-control" type="file" name="file"><br>
+								<lable><b>Article Title</b></lable>
+								<input class="form-control" type="text" name="title" placeholder="Title" required><br>
+								<lable><b>Contact Details</b></lable>
+								<input class="form-control" type="text" name="contactname" placeholder="Enter Contact Name" required><br>
+								<input class="form-control" type="email" name="contactemail" placeholder="Enter Contact Email" required><br>
+								<lable><b>Abstract</b></lable>
+								<textarea class="form-control"  name="abstract" placeholder="Write Abstract" rows="5" required></textarea><br>
+								<lable><b>Subjects</b></lable>						
+								<div class="input-group">
+									<select onchange="selectSubject(this);" class="form-control" id="sublist">
+										<option value=0 SELECTED>Select subject</option>
+						        		#foreach($subject in $subjects)						
+ 											<option value=$subject.getId()>$subject.getTitle()</option>
+ 										#end
+ 									</select>
+ 									<div class="input-group-btn">
+        								<button onclick="addNew()" class="btn btn-default" type="button"><i class="fa fa-plus"></i> Add New</button>
+      								</div>								
+								</div><br>								
+								<span id="subs"></span>
+								<div id="addnew"></div>
+								<br>
+								<lable><b>Keywords</b></lable>
+								<input class="form-control" class="form-control" type="text" name="keywords" placeholder="Enter Keywords" required><br>
+								<lable><b>Upload Article</b></lable>
+								<input class="form-control" type="file" name="file" required><br>
 								<input class="btn btn-default" type="submit">
 							</form>
-						<div class="col-lg-3">					
-						</div>
+						<div class="col-lg-3"></div>
 					</div>
 				</div>						
 			</div>
 		</div>
 	</div>
 #include( "/bootstrap/footer.html" )
-</div>
 </body>
 </html>

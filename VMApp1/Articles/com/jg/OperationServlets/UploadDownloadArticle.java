@@ -61,11 +61,14 @@ public class UploadDownloadArticle extends HttpServlet {
 		HttpSession session = request.getSession(true);		
 		session.setMaxInactiveInterval(30*60);
 
-		String title = null;
-		String abs = null;
-		String keywords = null;
-		String filepath = null;
+		String title = "";
+		String conname = "";
+		String conemail = "";
+		String abs = "";
+		String keywords = "";
+		String filepath = "";
 		Set<Integer> subIds = new HashSet<Integer>(0);
+		Set<String> newSubs = new HashSet<String>(0);
 		ArticleController ac = new ArticleController();	
 		if(!ServletFileUpload.isMultipartContent(request)){
 			throw new ServletException("Content type is not multipart/form-data");
@@ -98,16 +101,21 @@ public class UploadDownloadArticle extends HttpServlet {
 						title = fileItem.getString();
 					else if (attrName.equals("abstract"))
 						abs = fileItem.getString();
+					else if (attrName.equals("contactname"))
+						conname = fileItem.getString();
+					else if (attrName.equals("contactemail"))
+						conemail = fileItem.getString();
 					else if (attrName.equals("keywords"))
 						keywords = fileItem.getString();
-					else if (attrName.equals("subjects[]")){
+					else if (attrName.equals("subjects[]"))
 						subIds.add(Integer.parseInt(fileItem.getString()));
-					}
+					else if(attrName.equals("newsubs[]"))
+						newSubs.add(fileItem.getString());
 				}
 			}
 			
 			ac.startSession();
-			switch(ac.addNewArticle(title, abs, keywords, subIds, filepath , session.getAttribute("user_email").toString())){
+			switch(ac.addNewArticle(title,conname,conemail, abs, keywords, subIds, newSubs, filepath , session.getAttribute("user_email").toString())){
 			case SUCCESS:					
 				session.setAttribute("alertMessage","Article is successfully uploaded.");
 				session.setAttribute("alertType","success" );

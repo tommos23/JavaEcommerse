@@ -17,12 +17,14 @@ import com.jg.Model.Article;
 import com.jg.Model.Edition;
 import com.jg.Model.Keyword;
 import com.jg.Model.Review;
+import com.jg.Model.Role;
 import com.jg.Model.Subject;
+import com.jg.Model.User;
 import com.jg.Model.Version;
 
 public class ArticleController extends Controller{
 
-	public entryResponse addNewArticle(String title,String abs,String keywords,Set<Integer> subIds, String filepath, String email){
+	public entryResponse addNewArticle(String title,String contactName, String contactEmail, String abs,String keywords,Set<Integer> subIds,Set<String> newSubjects, String filepath, String email){
 		String[] words = new String[255];
 		//System.out.println(keywords);
 		if(keywords.contains(" "))
@@ -43,27 +45,64 @@ public class ArticleController extends Controller{
 			//Create an object of article
 			Article a = new Article();
 			a.setCreated_at(new Date());
-			a.setMainAuthor(new UserController().getUser(email)); // Requires a user object before calling this
+			
+			Criteria cr1 = session.createCriteria(User.class);
+			cr1.add(Restrictions.eq("email", email));
+			List results = cr1.list();
+			User user = null;
+			if(results.isEmpty()) throw new Exception();
+			user = (User)results.get(0);
+			user.setRole((Role)session.get(Role.class, 1));
+			a.setMainAuthor(user); // Requires a user object before calling this
+			a.setContactName(contactName);
+			a.setContactEmail(contactEmail);
 			a.setStatus(0);
+			
+			//Add objects of keywords into article
+			List resKeys = session.createCriteria(Keyword.class).list();
+			Set<Keyword> allKeys = new HashSet<Keyword>(resKeys);
+			Set<Keyword> tempkeys = new HashSet<Keyword>();
+			for(String word : words){
+				if(word != null){
+					Keyword key = null;
+					for(Keyword k : allKeys){
+						if(k.getKeyword().equals(word))
+							key = k;
+							}
+					
+					if(key != null){
+						Set<Article> tempset = new HashSet<Article>();
+						tempset.addAll(key.getArticles());
+						System.out.println(a.getId());
+						tempset.add(a);
+						key.setArticles(tempset);
+						tempkeys.add(key);
+					}						
+					else{
+						Set<Article> tempset = new HashSet<Article>();
+						tempset.add(a);
+						Keyword temp = new Keyword(word);
+						temp.setArticles(tempset);
+						tempkeys.add(temp);
+					}
+				}					
+			}
+			a.setKeywords(tempkeys);			
 
 			//Create an object of version of article
 			Version ver = new Version();
-
 			ver.setCreated_at(a.getCreated_at());
 			ver.setTitle(title);
 			ver.setAbs(abs);
 			ver.setUrl(filepath);
-
-			ver.setArticle(a);
-			session.save(ver);
-			//Add objects of subject to it
-			SubjectController sc = new SubjectController();
-			Set<Subject> tempSubs = new HashSet<Subject>();
-			sc.startSession();
-			sc.endSession();
+			
+			//Add objects of subject to it	
+			List resSubs = session.createCriteria(Subject.class).list();
+			Set<Subject> allSubs = new HashSet<Subject>(resSubs);
+			Set<Subject> tempSubs = new HashSet<Subject>();			
 			for(int id : subIds){
 				if(id > 0){
-					Subject tempsub = sc.getSubject(id);
+					Subject tempsub = (Subject)session.get(Subject.class, id);
 					if(tempsub != null){
 						Set<Version> tempvers = new HashSet<Version>();
 						tempvers.addAll(tempsub.getVersions());
@@ -73,42 +112,27 @@ public class ArticleController extends Controller{
 					}
 				}					
 			}
-			ver.setSubjects(tempSubs);			
+			for(String subject : newSubjects){
+				for(Subject sub : allSubs){
+					if(sub.getTitle().equals(subject))
+						break;
+				}
+				Subject temp = new Subject();
+				temp.setTitle(subject);
+				Set<Version> tempvers = new HashSet<Version>();
+				tempvers.add(ver);
+				temp.setVersions(tempvers);
+				tempSubs.add(temp);
+			}	
+			ver.setSubjects(tempSubs);
+			a.setLatestVersion(ver);
+			ver.setArticle(a);
 			session.saveOrUpdate(ver);
-
-			//Add objects of keywords into article
-			KeywordController kc = new KeywordController();
-			kc.startSession();
-			Set<Keyword> tempkey = new HashSet<Keyword>();
-			kc.startSession();
-			for(String word : words){
-				if(word != null){
-					if(kc.isExist(word)){
-						Set<Article> tempset = new HashSet<Article>();
-						tempset.addAll(kc.getKeyword().getArticles());
-						System.out.println(a.getId());
-						tempset.add(a);
-						kc.getKeyword().setArticles(tempset);
-						tempkey.add(kc.getKeyword());
-					}						
-					else{
-						Set<Article> tempset = new HashSet<Article>();
-						tempset.add(a);
-						Keyword key = new Keyword(word);
-						key.setArticles(tempset);
-						tempkey.add(key);
-					}
-				}					
-			}
-			kc.endSession();
-			a.setKeywords(tempkey);
-			session.saveOrUpdate(a);
-
-
 			session.getTransaction().commit();
 			return entryResponse.SUCCESS;
 		}
 		catch(Exception e){
+			session.getTransaction().rollback();
 			e.printStackTrace();
 			return entryResponse.DB_ERROR;
 		}
@@ -515,7 +539,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-
+	
 	Session session = null;
 	Article article;
 }

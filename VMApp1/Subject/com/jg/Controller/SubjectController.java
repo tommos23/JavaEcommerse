@@ -17,10 +17,11 @@ public class SubjectController extends Controller {
 		Set<Subject> subjects = new HashSet<Subject>(0);
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session =  HibernateUtil.getSessionFactory().getCurrentSession();		
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Subject.class);
-			subjects.addAll(cr.list());
+			List resSubs = cr.list();
+			subjects.addAll(resSubs);
 			session.getTransaction().commit();
 			return subjects;
 		}
@@ -29,9 +30,10 @@ public class SubjectController extends Controller {
 			return subjects;
 		}
 		finally{
-			if(session.isOpen())
+			if(session.isOpen()){
 				session.close();
-			System.out.println("session closed.");
+				System.out.println("session closed.");
+			}
 		}
 	}
 	@SuppressWarnings("unchecked")
@@ -39,7 +41,7 @@ public class SubjectController extends Controller {
 		List<Subject> tempSubs;
 		try{
 			if(!isSessionReady()) throw new Exception();
-			session = sessionFactory.openSession();				
+			session =  HibernateUtil.getSessionFactory().getCurrentSession();			
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Subject.class);
 			cr.add(Restrictions.eq("id", id));
@@ -57,11 +59,13 @@ public class SubjectController extends Controller {
 			return null;
 		}
 		finally{
-			if(session.isOpen())
+			if(session.isOpen()){
 				session.close();
-			System.out.println("session closed.");
+				System.out.println("session closed.");
+			}
 		}
 	}
+
 	private Session session = null;
 	
 }
