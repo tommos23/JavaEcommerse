@@ -23,7 +23,7 @@ import com.jg.Model.Version;
 
 public class ArticleController extends Controller{
 
-	public entryResponse addNewArticle(String title,String abs,String keywords,Set<Integer> subIds, String filepath, String email){
+	public entryResponse addNewArticle(String title,String abs,String keywords,Set<Integer> subIds,Set<String> newSubjects, String filepath, String email){
 		String[] words = new String[255];
 		//System.out.println(keywords);
 		if(keywords.contains(" "))
@@ -87,13 +87,14 @@ public class ArticleController extends Controller{
 
 			//Create an object of version of article
 			Version ver = new Version();
-
 			ver.setCreated_at(a.getCreated_at());
 			ver.setTitle(title);
 			ver.setAbs(abs);
 			ver.setUrl(filepath);
 			
-			//Add objects of subject to it			 
+			//Add objects of subject to it	
+			List resSubs = session.createCriteria(Subject.class).list();
+			Set<Subject> allSubs = new HashSet<Subject>(resSubs);
 			Set<Subject> tempSubs = new HashSet<Subject>();			
 			for(int id : subIds){
 				if(id > 0){
@@ -107,14 +108,27 @@ public class ArticleController extends Controller{
 					}
 				}					
 			}
+			for(String subject : newSubjects){
+				for(Subject sub : allSubs){
+					if(sub.getTitle().equals(subject))
+						break;
+				}
+				Subject temp = new Subject();
+				temp.setTitle(subject);
+				Set<Version> tempvers = new HashSet<Version>();
+				tempvers.add(ver);
+				temp.setVersions(tempvers);
+				tempSubs.add(temp);
+			}	
 			ver.setSubjects(tempSubs);
 			a.setLatestVersion(ver);
 			ver.setArticle(a);
-			session.save(ver);
+			session.saveOrUpdate(ver);
 			session.getTransaction().commit();
 			return entryResponse.SUCCESS;
 		}
 		catch(Exception e){
+			session.getTransaction().rollback();
 			e.printStackTrace();
 			return entryResponse.DB_ERROR;
 		}
