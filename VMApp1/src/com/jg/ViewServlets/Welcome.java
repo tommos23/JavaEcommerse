@@ -70,7 +70,7 @@ public class Welcome extends VelocityViewServlet
 		else{
 			session.setAttribute("user", "false");
 		}
-		context.put("application", "Login Application");
+		session.setAttribute("application", "JAMR - Online Journal");
 		try {
 			template = getTemplate("index.vm"); 
 		} catch(Exception e ) {

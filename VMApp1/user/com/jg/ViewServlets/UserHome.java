@@ -59,7 +59,7 @@ public class UserHome extends VelocityViewServlet
 		}
 		else{		
 
-			session.setAttribute("application", "JAMER - Online Journal");
+			session.setAttribute("application", "JAMR - Online Journal");
 		}		
 		try {
 			template = getTemplate("user/home.vm"); 

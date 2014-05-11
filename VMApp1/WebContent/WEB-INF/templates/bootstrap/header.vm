@@ -1,6 +1,6 @@
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container">
-			<div class="navbar-header"></div>
+			<div class="navbar-header"><a href="welcome"><img src="assets/img/logo.png" style="height:50px; width:174px;"></a></div>
 				<div class="nav collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					#if ($user == "true" && "$!thisuser" != "")
