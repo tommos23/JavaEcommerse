@@ -16,15 +16,8 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">Welcome</div>
 					<div class="panel-body">
-						<div class="col-lg-9">
-							<div class="jumbotron">
- 								<h1>Welcome #if( $user_fname && $user_lname ), $user_fname $user_lname #end !</h1>
-  								<p>...</p>
- 								<p><a href="newarticle" class="btn btn-primary btn-lg" role="button">Upload New Paper</a></p>
-								</div>
-							</div>
-						<div class="col-lg-3">					
-						</div>
+						<div class="col-lg-9">User Update</div>
+						<div class="col-lg-3">#parse("user/latest.vm")</div>
 					</div>
 					<div class="panel-footer">Last visited at: #if($last_login)$last_login #end </div>
 				</div>						

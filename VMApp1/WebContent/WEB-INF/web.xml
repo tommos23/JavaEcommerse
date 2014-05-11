@@ -652,4 +652,14 @@
     <servlet-name>ViewHelp</servlet-name>
     <url-pattern>/help</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LatestContent</display-name>
+    <servlet-name>LatestContent</servlet-name>
+    <servlet-class>com.jg.ViewServlets.LatestContent</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LatestContent</servlet-name>
+    <url-pattern>/LatestContent</url-pattern>
+  </servlet-mapping>
 </web-app>

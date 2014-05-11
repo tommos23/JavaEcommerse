@@ -1,5 +1,4 @@
 package com.jg.Services;
-Package com.jg.Service;
 
 import java.util.Properties;
 

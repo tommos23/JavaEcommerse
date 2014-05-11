@@ -1,0 +1,14 @@
+#[[
+<script>
+	$(document).ready(function(){
+		$("#latest_content").html('<img src="assets/img/loading.gif"/>');
+		 $.get("LatestContent",function(data,status){
+			$("#latest_content").html(data);
+  		});		
+	});
+</script>
+]]#
+<div class="panel panel-default">
+	<div class="panel-heading">Latest News</div>
+	<div class="panel-body" id="latest_content"></div>
+</div>
