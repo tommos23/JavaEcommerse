@@ -1,0 +1,38 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE> Login Page </TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+			#if($showAlert)
+				#if($showAlert == "true")
+					#parse( "/bootstrap/alert.vm" )
+				#end
+			#end
+				<div class="panel panel-primary">
+					<div class="panel-heading">My Profile</div>
+					<div class="panel-body">
+						<div class="col-lg-9">
+							<div class="panel panel-default">
+								<div class="panel-heading">Registered Details</div>
+								<table class="table table-hover">
+									<tr><td><b>Name</b></td><td>$thisuser.getFirstname() $thisuser.getSurname()</td></tr>
+									<tr><td><b>Email</b></td><td>$thisuser.getEmail()</td></tr>
+									<tr><td><b>Affiliation</b></td><td>#if($thisuser.getAffiliations())$thisuser.getAffiliations()#else N/A #end</td></tr>
+								</table>
+							</div>
+						</div>
+						<div class="col-lg-3">#parse("user/latest.vm")</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>

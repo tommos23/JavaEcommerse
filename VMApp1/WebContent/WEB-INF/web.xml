@@ -662,4 +662,14 @@
     <servlet-name>LatestContent</servlet-name>
     <url-pattern>/LatestContent</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ViewProfile</display-name>
+    <servlet-name>ViewProfile</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewProfile</servlet-name>
+    <url-pattern>/profile</url-pattern>
+  </servlet-mapping>
 </web-app>

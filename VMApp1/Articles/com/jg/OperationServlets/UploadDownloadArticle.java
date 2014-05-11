@@ -143,15 +143,15 @@ public class UploadDownloadArticle extends HttpServlet {
 						String email =  session.getAttribute("user_email").toString();
 						String sub = "Successfully uploaded article.";
 						String msg = "<html><body>Dear "+session.getAttribute("user_fname").toString()+",<br><br> This is to confirm that you have successfully uploaded Article."+
-						" Complete 3 peer reviews to process it futher for publishing, Thank You.<br><br>Regards,<br>JAMER</body></html>";
+						" Complete 3 peer reviews to process it futher for publishing, Thank You.<br><br>Regards,<br>Team JAMR</body></html>";
 						es.sendEmail(email,sub,msg);
 						// Send email to main contact
 						String email1 =  conemail;
 						String sub1 = "Successfully uploaded article.";
-						String msg1 = "<html><body>Dear "+conname+",<br><br> This is to confirm that you have benn assigned as a main contact for article by"+session.getAttribute("user_fname").toString()+
+						String msg1 = "<html><body>Dear "+conname+",<br><br> This is to confirm that you have been assigned as a main contact for article by "+session.getAttribute("user_fname").toString()+
 										"<br><b>Article Details :</b><table><tr><td>Article Name :</td><td>"+title+"</td></tr><tr><td>Abstract:</td><td>"+abs+"</td></tr></table>"+
-										"If you are no the person mentioned above or have any probles with this article then please <a href=\"mailto:test@test.com\">Email Us</a>"+
-										"<br><br>Regards,<br>JAMER</body></html>";
+										"If you are not the person mentioned above or have any problems with this article then please <a href=\"mailto:test@test.com\">Email Us</a>"+
+										"<br><br>Regards,<br>Team JAMR</body></html>";
 						es.sendEmail(email1,sub1,msg1);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
