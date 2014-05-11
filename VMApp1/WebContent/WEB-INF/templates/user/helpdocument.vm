@@ -1,0 +1,31 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE> Login Page </TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+			#if($showAlert)
+				#if($showAlert == "true")
+					#parse( "/bootstrap/alert.vm" )
+				#end
+			#end
+				<div class="panel panel-default">
+					<div class="panel-heading">FAQs</div>
+					<div class="panel-body">
+						<div class="col-lg-9">
+ 								Help Document
+						<div class="col-lg-3">					
+						</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>

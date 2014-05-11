@@ -1,3 +1,5 @@
+package com.jg.Services;
+
 import java.util.Properties;
 
 import javax.mail.Message;

@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -62,20 +63,34 @@ public class Article {
 	public void setLatestVersion(Version latest_version) {
 		this.latest_version = latest_version;
 	}
+	public String getContactName() {
+		return contact_name;
+	}
+	public void setContactName(String contactName) {
+		this.contact_name = contactName;
+	}
+	public String getContactEmail() {
+		return contact_email;
+	}
+	public void setContactEmail(String contactEmail) {
+		this.contact_email = contactEmail;
+	}
 	
 	@Id @GeneratedValue
 	private int id;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User main_author; //int main_author_id;
+	private String contact_name;
+	private String contact_email;
 	@Column(nullable=false)
 	private int status;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Edition edition;//int edition_id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created_at;
-	@ManyToMany(cascade = CascadeType.MERGE)
-	private Set<Keyword> keywords = new HashSet<Keyword>(0);
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<Keyword> keywords = new HashSet<Keyword>();
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Version latest_version;
-
+	
 }

@@ -19,8 +19,10 @@ public class KeywordController extends Controller{
 			cr.add(Restrictions.eq("keyword", key));
 			List results = cr.list();				
 			session.getTransaction().commit();			
-			if(!results.isEmpty())
+			if(!results.isEmpty()){
+				keyword = (Keyword)results.get(0);
 				return true;
+			}
 			else
 				return false;
 		}

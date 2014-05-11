@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
@@ -24,6 +26,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.jg.Controller.ArticleController;
+import com.jg.Services.EmailService;
 
 /**
  * Servlet implementation class UploadDownloadArticle
@@ -56,73 +59,120 @@ public class UploadDownloadArticle extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(true);		
-		session.setMaxInactiveInterval(30*60);
+		HttpSession session = request.getSession(true);
+		boolean user = false;
+		if(session.getAttribute("user") != null){
+			if(session.getAttribute("user").equals("true"))
+				user = true;
+		}
+		else{
+			session.setAttribute("user", "false");
+		}
 
-		String title = null;
-		String abs = null;
-		String keywords = null;
-		String filepath = null;
-		ArticleController ac = new ArticleController();	
-		if(!ServletFileUpload.isMultipartContent(request)){
-			throw new ServletException("Content type is not multipart/form-data");
-		};
-		try {
-			List<FileItem> fileItemsList = uploader.parseRequest(request);
-			Iterator<FileItem> fit = fileItemsList.iterator();
-			//System.out.println("size"+fileItemsList.size());
-			while(fit.hasNext()){
-				FileItem fileItem = fit.next();
-				if(!fileItem.isFormField()){
-					System.out.println("FieldName="+fileItem.getFieldName());
-					System.out.println("FileName="+fileItem.getName());
-					System.out.println("ContentType="+fileItem.getContentType());
-					System.out.println("Size in bytes="+fileItem.getSize());
-
-					File file = new File("uploads"/*this.getServletContext().getAttribute("FILES_DIR")*/+File.separator+fileItem.getName());
-					System.out.println("Absolute Path at server="+file.getAbsolutePath());
-					fileItem.write(file);
-					filepath = file.getCanonicalPath();
-					System.out.println("File "+fileItem.getName()+ " uploaded successfully.");
-					System.out.println("<br>");
-					System.out.println("<a href=\"UploadDownloadFileServlet?fileName="+fileItem.getName()+"\">Download "+fileItem.getName()+"</a>");
-
-				}
-				else{
-					String attrName = fileItem.getFieldName();
-					//System.out.println(attrName);
-					if(attrName.equals("title"))
-						title = fileItem.getString();
-					else if (attrName.equals("abstract"))
-						abs = fileItem.getString();
-					else if (attrName.equals("keywords"))
-						keywords = fileItem.getString();
-				}
+		if (!user){
+			try {
+				response.sendRedirect("welcome");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			
-			ac.startSession();
-			switch(ac.addNewArticle(title, abs, keywords, filepath , session.getAttribute("user_email").toString())){
-			case SUCCESS:					
-				session.setAttribute("alertMessage","Article is successfully uploaded.");
-				session.setAttribute("alertType","success" );
-				response.sendRedirect("home");
-				break;
-			default:
+		}
+		else{
+
+			String title = "";
+			String conname = "";
+			String conemail = "";
+			String abs = "";
+			String keywords = "";
+			String filepath = "";
+			Set<Integer> subIds = new HashSet<Integer>(0);
+			Set<String> newSubs = new HashSet<String>(0);
+			ArticleController ac = new ArticleController();	
+			if(!ServletFileUpload.isMultipartContent(request)){
+				throw new ServletException("Content type is not multipart/form-data");
+			};
+			try {
+				List<FileItem> fileItemsList = uploader.parseRequest(request);
+				Iterator<FileItem> fit = fileItemsList.iterator();
+				//System.out.println("size"+fileItemsList.size());
+				while(fit.hasNext()){
+					FileItem fileItem = fit.next();
+					if(!fileItem.isFormField()){
+						System.out.println("FieldName="+fileItem.getFieldName());
+						System.out.println("FileName="+fileItem.getName());
+						System.out.println("ContentType="+fileItem.getContentType());
+						System.out.println("Size in bytes="+fileItem.getSize());
+
+						File file = new File("uploads"/*this.getServletContext().getAttribute("FILES_DIR")*/+File.separator+fileItem.getName());
+						System.out.println("Absolute Path at server="+file.getAbsolutePath());
+						fileItem.write(file);
+						filepath = file.getCanonicalPath();
+						System.out.println("File "+fileItem.getName()+ " uploaded successfully.");
+						System.out.println("<br>");
+						System.out.println("<a href=\"UploadDownloadFileServlet?fileName="+fileItem.getName()+"\">Download "+fileItem.getName()+"</a>");
+
+					}
+					else{
+						String attrName = fileItem.getFieldName();
+						System.out.println(attrName);
+						if(attrName.equals("title"))
+							title = fileItem.getString();
+						else if (attrName.equals("abstract"))
+							abs = fileItem.getString();
+						else if (attrName.equals("contactname"))
+							conname = fileItem.getString();
+						else if (attrName.equals("contactemail"))
+							conemail = fileItem.getString();
+						else if (attrName.equals("keywords"))
+							keywords = fileItem.getString();
+						else if (attrName.equals("subjects[]"))
+							subIds.add(Integer.parseInt(fileItem.getString()));
+						else if(attrName.equals("newsubs[]"))
+							newSubs.add(fileItem.getString());
+					}
+				}
+
+				ac.startSession();
+				switch(ac.addNewArticle(title,conname,conemail, abs, keywords, subIds, newSubs, filepath , session.getAttribute("user_email").toString())){
+				case SUCCESS:					
+					session.setAttribute("alertMessage","Article is successfully uploaded.");
+					session.setAttribute("alertType","success" );
+					response.sendRedirect("home");
+					EmailService es = new EmailService();
+					try {
+						//send email to author
+						String email =  session.getAttribute("user_email").toString();
+						String sub = "Successfully uploaded article.";
+						String msg = "<html><body>Dear "+session.getAttribute("user_fname").toString()+",<br><br> This is to confirm that you have successfully uploaded Article."+
+						" Complete 3 peer reviews to process it futher for publishing, Thank You.<br><br>Regards,<br>JAMER</body></html>";
+						es.sendEmail(email,sub,msg);
+						// Send email to main contact
+						String email1 =  conemail;
+						String sub1 = "Successfully uploaded article.";
+						String msg1 = "<html><body>Dear "+conname+",<br><br> This is to confirm that you have benn assigned as a main contact for article by"+session.getAttribute("user_fname").toString()+
+										"<br><b>Article Details :</b><table><tr><td>Article Name :</td><td>"+title+"</td></tr><tr><td>Abstract:</td><td>"+abs+"</td></tr></table>"+
+										"If you are no the person mentioned above or have any probles with this article then please <a href=\"mailto:test@test.com\">Email Us</a>"+
+										"<br><br>Regards,<br>JAMER</body></html>";
+						es.sendEmail(email1,sub1,msg1);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				default:
+					session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
+					session.setAttribute("alertType","danger" );
+					response.sendRedirect("home");
+					break;
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
 				session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
 				session.setAttribute("alertType","danger" );
 				response.sendRedirect("home");
-				break;
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
-			session.setAttribute("alertType","danger" );
-			response.sendRedirect("home");
+			if(ac.isSessionReady())
+				ac.endSession();
 		}
-		if(ac.isSessionReady())
-			ac.endSession();
 	}
-
-
 }

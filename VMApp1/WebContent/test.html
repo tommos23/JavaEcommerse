@@ -15,10 +15,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-<ul class="pagination">
-  <li class="disabled"><a href="#">&laquo;</a></li>
-  <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-  <li> <a href="#">2 <span class="sr-only">something different</span></a></li>
-</ul>
+ <nav class="navbar navbar-default navbar-static" id="navbar-example">
+ 	<div class="container-fluid">
+  		<div class="collapse navbar-collapse">
+   			<ul class="nav navbar-nav">
+      			<li><a href="#page1" class="active">Page1</a></li>
+      			<li><a href="#page2">Page2</a></li>
+     			<li><a href="#page3">Page3</a></li>
+    		</ul>
+  		</div>
+  	</div>
+ </nav>
+ <div data-spy="scroll" data-target="#navbar-example">
+  <div id="page1" style="height:500px">Page Content 1</div>
+  <div id="page2" style="height:500px">Page Content 2</div>
+  <div id="page3" style="height:500px">Page Content 3</div>
+ </div>
 </body>
 </html>
