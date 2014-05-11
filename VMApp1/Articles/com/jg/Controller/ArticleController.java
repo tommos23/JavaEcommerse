@@ -17,6 +17,7 @@ import com.jg.Model.Article;
 import com.jg.Model.Edition;
 import com.jg.Model.Keyword;
 import com.jg.Model.Review;
+import com.jg.Model.User;
 import com.jg.Model.Version;
 
 public class ArticleController extends Controller{
@@ -487,8 +488,21 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
+	
+	public List<Article> searchArticles(String searchString) {
+		List <Article> articles = null;
+		
+		return null;
+	}
+	
+	public List<User> searchAutohrs(String searchString) {
+		List<User> users = null;
+		return null;
+	}
 
 	Session session = null;
-	Article article;	
+	Article article;
+	
+		
 
 }
