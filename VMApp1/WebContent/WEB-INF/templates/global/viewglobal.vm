@@ -23,7 +23,9 @@
 							<p>$global.getGoals()</p>
 							<label>Submission Guidelines</label>
 							<p>$global.getSubmission_guidelines()</p>
-							<a href="EditGlobal" class="btn btn-primary">Edit</a>
+							#if($user == "true" && "$!thisuser" != "" && ($thisuser.getRole().getName().equals("editor") || $thisuser.getRole().getName().equals("publisher")))
+								<a href="EditGlobal" class="btn btn-primary">Edit</a>
+							#end
 						</div>
 					</div>
 				</div>

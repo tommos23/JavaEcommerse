@@ -22,13 +22,15 @@
 									<th>Name</th>
 									<th>Description</th>
 									<th>Format</th>
-									<th>URL</th>
-									<th></th>
 								</tr>
 								#foreach($template in $templates)
 									<tr>
 										<td>
-											<a href="EditDocumentTemplate?id=$template.getId()">$template.getName()</a>
+											#if($user == "true" && "$!thisuser" != "" && ($thisuser.getRole().getName().equals("editor") || $thisuser.getRole().getName().equals("publisher")))
+												<a href="EditDocumentTemplate?id=$template.getId()">$template.getName()</a>
+											#else
+												<a href="$template.getUrl()">$template.getName()</a>
+											#end
 										</td>
 										<td>
 											$template.getDescription()
@@ -36,13 +38,12 @@
 										<td>
 											$template.getFormat()
 										</td>
-										<td>
-											$template.getUrl()
-										</td>
 									</tr>
 								#end
 							</table>
-							<a class="btn btn-primary" href="NewDocumentTemplate">Create Template</a>
+							#if($user == "true" && "$!thisuser" != "" && ($thisuser.getRole().getName().equals("editor") || $thisuser.getRole().getName().equals("publisher")))
+								<a class="btn btn-primary" href="NewDocumentTemplate">Create Template</a>
+							#end
 						</div>
 					</div>
 				</div>						

@@ -22,7 +22,7 @@
 								<p>$article.getLatestVersion().getTitle()</p>
 								<label>From</label>
 								<p>$thisuser.getFirstname() $thisuser.getSurname()</p>
-								<label>Text</label>
+								<label>Text</label><br />
 								<textarea name="text"></textarea><br /><br />
 								<input type="hidden" name="id" value="$article.getId()" />
 								<input type="submit" name="submit" value="Send Letter" />
