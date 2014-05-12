@@ -8,22 +8,19 @@
 #[[
 
 $( document ).ready(function() {
-	$('#article a').click(function (e) {
-		e.preventDefault();
+	$('#article').click(function (e) {
   		$('#author').hide();
   		$('#keyword').hide();
  	 	$(this).tab('show'); 
 	});
 
-	$('#author a').click(function (e) {
-  		e.preventDefault();
+	$('#author').click(function (e) {
   		$('#article').hide();
   		$('#keyword').hide();
   		$(this).tab('show'); 
 	});
 	
-	$('#keyword a').click(function (e) {
-  		e.preventDefault();
+	$('#keyword').click(function (e) {
   		$('#article').hide();
   		$('#author').hide();
   		$(this).tab('show'); 

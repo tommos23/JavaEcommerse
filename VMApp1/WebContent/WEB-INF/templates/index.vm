@@ -37,12 +37,41 @@
       								<img src="assets/img/banner4.jpg" style="height:300px; width:1185px;">
     							</div>
  							</div>
-				</div><br>										
-				#parse("user/latest.vm")			
+				</div><br>
+				<div class="col-sm-9">
+				<div class="panel panel-primary">
+					<div class="panel-heading">Welcome to the JAMR Online Journal</div>
+					<div class="panel-body">
+                       Welcome to JAMR collection of leading journals.Providing high quality content for professionals and researchers across the world.
+                            <br>
+                            <a href="#" title="Register" data-toggle="modal" data-target="#registerModal">Sign-up</a> for journal email alerts. Be the first to read what's new in your field.
+					</div>
+				</div>	
+				</div>	
+				<div class="col-sm-3">										
+				#parse("user/latest.vm")
+				<div class="panel panel-primary">
+					<div class="panel-heading">Contact Us</div>
+					<div class="panel-body">
+                            Editors emails:
+                            <br>
+                            <a href="mailto:jfsyeda1@shef.ac.uk">Juvaria Syeda</a>
+                            <br>
+                            <a href="mailto:aca10at@shef.ac.uk">Aaron Thompson</a>
+                            <br>
+                            <a href="mailto:aca10mg@shef.ac.uk">Michael Goddard</a>
+                            <br>
+                            <a href="mailto:rmhate1@shef.ac.uk">Rohit Hate</a>
+						</div>
+					</div>
+				</div>
+			</div>				
 			</div>
 		</div>
 	</div>
 #include( "/bootstrap/footer.html" )
 </div>
+#parse( "/user/loginmd.vm" )
+#parse( "/user/registermd.vm" )
 </body>
 </html>

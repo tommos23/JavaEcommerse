@@ -46,47 +46,52 @@ public class UserValidate extends HttpServlet {
 		String email = request.getParameter("uemail");
 		String pwd = request.getParameter("upwd");
 		UserController uc = new UserController();
-		uc.startSession();
-		switch(uc.validate(email, pwd)){
-		case VALID:
-			session.removeAttribute("falseAttempt");
-			session.setAttribute("user","true");
-			session.setAttribute("user_id",uc.getUser().getId());
-			session.setAttribute("user_fname",uc.getUser().getFirstname());
-			session.setAttribute("user_lname",uc.getUser().getSurname());
-			session.setAttribute("user_email",uc.getUser().getEmail());
-			session.setAttribute("last_login", uc.getUser().getOldLastlogin().toLocaleString());
-			session.setAttribute("alertMessage","<Strong>Welcome!!</strong> You have successfully logged in.");
-			session.setAttribute("alertType","success" );
-			response.sendRedirect("home");
-			break;
-		case INVALID:
-			session.setAttribute("user","false"); //temp attr
-			session.setAttribute("existemail",request.getParameter("uemail"));
-			if (session.isNew())
-				session.setAttribute("falseAttempt",1);			
-			else{
-				if(session.getAttribute("falseAttempt") != null){
-					int count = (Integer)session.getAttribute("falseAttempt");
-					count++;
-					session.setAttribute("falseAttempt",count);	
+		try{
+			uc.startSession();
+			switch(uc.validate(email, pwd)){
+			case VALID:
+				session.removeAttribute("falseAttempt");
+				session.setAttribute("user","true");
+				session.setAttribute("user_id",uc.getUser().getId());
+				session.setAttribute("user_fname",uc.getUser().getFirstname());
+				session.setAttribute("user_lname",uc.getUser().getSurname());
+				session.setAttribute("user_email",uc.getUser().getEmail());
+				session.setAttribute("last_login", uc.getUser().getOldLastlogin().toLocaleString());
+				session.setAttribute("alertMessage","<Strong>Welcome!!</strong> You have successfully logged in.");
+				session.setAttribute("alertType","success" );
+				response.sendRedirect("home");
+				break;
+			case INVALID:
+				session.setAttribute("user","false"); //temp attr
+				session.setAttribute("existemail",request.getParameter("uemail"));
+				if (session.isNew())
+					session.setAttribute("falseAttempt",1);			
+				else{
+					if(session.getAttribute("falseAttempt") != null){
+						int count = (Integer)session.getAttribute("falseAttempt");
+						count++;
+						session.setAttribute("falseAttempt",count);	
+					}
+					else
+						session.setAttribute("falseAttempt",1);	
 				}
-				else
-					session.setAttribute("falseAttempt",1);	
+				session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Please check your username & password. Failed login Attempt: "+session.getAttribute("falseAttempt"));
+				session.setAttribute("alertType","danger" );
+				response.sendRedirect("welcome");
+				break;
+			case DB_ERROR:
+				session.setAttribute("user","false");
+				session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong.");
+				session.setAttribute("alertType","danger" );
+				response.sendRedirect("welcome");
+				break;
 			}
-			session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Please check your username & password. Failed login Attempt: "+session.getAttribute("falseAttempt"));
-			session.setAttribute("alertType","danger" );
-			response.sendRedirect("welcome");
-			break;
-		case DB_ERROR:
-			session.setAttribute("user","false");
-			session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong.");
-			session.setAttribute("alertType","danger" );
-			response.sendRedirect("welcome");
-			break;
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			if(uc.isSessionReady())
+				uc.endSession();
 		}
-		if(uc.isSessionReady())
-			uc.endSession();
 	}
 
 }

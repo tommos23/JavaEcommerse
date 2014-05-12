@@ -68,6 +68,7 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 			User thisUser = null;
 			if (session.getAttribute("user_id") != null) {
 				thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+				session.setAttribute("thisuser", thisUser);
 			}
 			if (thisUser != null && (thisUser.getRole().getName().equals("activeauthor") || thisUser.getRole().getName().equals("passiveauthor"))) {
 				int id = Integer.parseInt(session.getAttribute("user_id").toString());

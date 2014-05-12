@@ -44,8 +44,23 @@
 								<lable><b>Keywords</b></lable>
 								<input class="form-control" class="form-control" type="text" name="keywords" placeholder="Enter Keywords" required><br>
 								<lable><b>Upload Article</b></lable>
-								<input class="form-control" type="file" name="file" required><br>
-								<input class="btn btn-default" type="submit">
+								<input class="form-control" type="file" name="file" required><br>								
+								#parse('user/terms.vm')
+								<input type="checkbox" id="termstick"> I accept all the <a href="#" title="Register" data-toggle="modal" data-target="#termsModal">Terms & Conditions</a> of JAMR<br>
+								#[[
+								<script>
+								$(document).ready(function(){
+										$("#termstick").click(function(){
+											if($("#termstick").prop("checked"))
+												$('#submitbtn').removeAttr('disabled');
+											else
+												$('#submitbtn').attr('disabled','disabled');
+										});
+									});
+								</script>
+								]]#
+								<br>
+								<button class="btn btn-default" id="submitbtn" type="submit" disabled>Submit</button>
 							</form>
 						<div class="col-lg-3"></div>
 					</div>

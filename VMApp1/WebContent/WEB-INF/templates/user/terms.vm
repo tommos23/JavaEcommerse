@@ -1,0 +1,28 @@
+<!-- Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Terms & Conditions</h4>
+      </div>
+      <div class="modal-body">
+        <h5>Terms</h5>
+       	1. Term 1 <br>
+       	2. Term 2 <br>
+       	3. Term 3 <br>
+       	4. Term 4 <br>
+       	5. Term 5 <br><br>
+       	<h5>Conditions</h5>
+       	1. Condition 1 <br>
+       	2. Condition 2 <br>
+       	3. Condition 3 <br>
+       	4. Condition 4 <br>
+       	5. Condition 5 <br>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
