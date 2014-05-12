@@ -33,7 +33,7 @@ public class ViewHelp extends VelocityViewServlet
 
 		/* get the template */
 		Template template = null;
-		
+		context.put("application", "JAMR - Online Journal");
 		try {
 			template = getTemplate("user/helpdocument.vm"); 
 		} catch(Exception e ) {

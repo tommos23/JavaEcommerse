@@ -1,0 +1,90 @@
+<div class="panel-group" id="accordion">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+              Reader
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+          <div class="panel-body">
+         	<b> Can I assess articles even if I don&#39;t register with JAMR?</b><br>
+			Yes you can see all the articles published.<br>
+			<b>Can I get the details about the article?</b><br>
+			Yes you can see the article details like author&#39;s name, related subject, keywords<br>
+			<b>Can I download published articles as a pdf?</b><br>
+			Yes you can download an article you like as a pdf.<br>
+			<b>Can I have an account by registering for free?</b><br>
+			Yes it is free to register with us. <br>
+			<b>Can I become an author after having an account with JAMR?</b><br>
+			Yes you can become an author once you have uploaded your article and it has been approved by the editor.<br>
+			<b>How can I become an author?</b><br>
+			You can become an author by registering as a reader and then upload your article.<br>
+			<b>Can I write a feedback letter on an author&#39;s article to the editor?</b><br>
+			Yes you can write but you will have to register with JAMR first.<br>
+			<b>How do I search for a specific article?</b><br>
+			You can use the search bar on the top right corner and write the specific keywords. It can search by articles, authors and keywords.<br> 
+          </div>
+        </div>
+      </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+              Author
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+          	<b>How can I upload my article for publishing?</b><br>
+          	Go to options and click on upload new article.<br>
+		  	<b>Can I upload different versions of the articles?</b><br>
+			Yes<br>
+			<b>How do I become a reviewer?</b><br>
+			If uploads an article then automatically becomes a reviewer.<br>
+			<b>How should I reply to the letter received from a reader through the editor?</b><br>
+			<br>
+			<b>What information is required when uploading an article?</b><br>
+			Provide abstract, provide full author details and main contact, and provide a set of keywords.<br>
+			<b>Do I need to revise the article?</b><br>
+			Yes, you need to revise the article after the reviews.<br>
+			<b>How many peer reviews are must?</b><br>
+			Has to complete 3 peer reviews and re-review as well.<br>
+			<b>Do I need to reply back to all criticism?</b><br>
+			Yes, you have to reply back to each and every criticism by the reviewers.<br>
+          </div>
+        </div>
+      </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+             Reviewer
+            </a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+          	<b>Can I review only three articles?</b><br>
+			Yes you can review three articles in order to get your article published.<br>
+
+			<b>Can I only review the downloaded articles?</b><br>
+			Yes you cannot review an article which you have not downloaded. You can only see the abstract if not downloaded. You can only download three unpublished articles for review.<br> 
+
+			<b>Does my status change from reviewer to the author?</b><br>
+			Yes, once he has reviewed the three articles and it has been accepted by the editor then he goes back to being an author only.<br>
+
+			<b>Can I browse the pending articles?</b><br>
+			No you cannot browse the unpublished articles. You can only see the abstract of the article until you select an article for review and download it.<br>
+
+			<b>How many times will I have to review the same article?</b><br>
+			You will not be asked more than twice to review the same article.<br>
+          </div>
+        </div>
+      </div>
+    </div>

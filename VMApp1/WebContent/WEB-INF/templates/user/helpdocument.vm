@@ -17,7 +17,7 @@
 					<div class="panel-heading">FAQs</div>
 					<div class="panel-body">
 						<div class="col-lg-9">
- 								Help Document
+ 								#parse("user/faq.vm")
 						<div class="col-lg-3">					
 						</div>
 					</div>
