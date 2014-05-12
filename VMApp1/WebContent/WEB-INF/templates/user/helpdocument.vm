@@ -1,7 +1,7 @@
 <HTML>
 <head>
 #include( "/bootstrap/head.html" )
-<TITLE> Login Page </TITLE>
+<TITLE> $application </TITLE>
 </head>
 <body>
 #parse( "/bootstrap/header.vm" )
