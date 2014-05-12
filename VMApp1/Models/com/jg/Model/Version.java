@@ -64,7 +64,7 @@ public class Version {
 	
 	@Id @GeneratedValue
 	private int id;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Article article;// int articles_id
 	@Column(columnDefinition = "TEXT")
 	private String title;

@@ -20,13 +20,14 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.jg.Controller.ArticleController;
+import com.jg.Model.Article;
 import com.jg.Services.EmailService;
 
 /**
  * Servlet implementation class UploadDownloadArticle
  */
 @WebServlet
-public class UploadDownloadArticle extends HttpServlet {
+public class UploadArticleVersion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ServletFileUpload uploader = null;
 	@Override
@@ -37,7 +38,7 @@ public class UploadDownloadArticle extends HttpServlet {
 		this.uploader = new ServletFileUpload(fileFactory);
 	}
 
-	public UploadDownloadArticle() {
+	public UploadArticleVersion() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -71,10 +72,7 @@ public class UploadDownloadArticle extends HttpServlet {
 			}
 		}
 		else{
-
-			String title = "";
-			String conname = "";
-			String conemail = "";
+			int article_id = 0;
 			String abs = "";
 			String keywords = "";
 			String filepath = "";
@@ -85,6 +83,10 @@ public class UploadDownloadArticle extends HttpServlet {
 				throw new ServletException("Content type is not multipart/form-data");
 			};
 			try {
+
+
+
+
 				List<FileItem> fileItemsList = uploader.parseRequest(request);
 				Iterator<FileItem> fit = fileItemsList.iterator();
 				//System.out.println("size"+fileItemsList.size());
@@ -108,55 +110,68 @@ public class UploadDownloadArticle extends HttpServlet {
 					else{
 						String attrName = fileItem.getFieldName();
 						System.out.println(attrName);
-						if(attrName.equals("title"))
-							title = fileItem.getString();
-						else if (attrName.equals("abstract"))
+						if (attrName.equals("abstract"))
 							abs = fileItem.getString();
-						else if (attrName.equals("contactname"))
-							conname = fileItem.getString();
-						else if (attrName.equals("contactemail"))
-							conemail = fileItem.getString();
 						else if (attrName.equals("keywords"))
 							keywords = fileItem.getString();
 						else if (attrName.equals("subjects[]"))
 							subIds.add(Integer.parseInt(fileItem.getString()));
 						else if(attrName.equals("newsubs[]"))
 							newSubs.add(fileItem.getString());
+						else if (attrName.equals("id"))
+							article_id = Integer.parseInt(fileItem.getString());
 					}
 				}
-
 				ac.startSession();
-				switch(ac.addNewArticle(title,conname,conemail, abs, keywords, subIds, newSubs, filepath , session.getAttribute("user_email").toString())){
-				case SUCCESS:					
-					session.setAttribute("alertMessage","Article is successfully uploaded.");
-					session.setAttribute("alertType","success" );
-					response.sendRedirect("home");
-					EmailService es = new EmailService();
-					try {
-						//send email to author
-						String email =  session.getAttribute("user_email").toString();
-						String sub = "Successfully uploaded article.";
-						String msg = "<html><body>Dear "+session.getAttribute("user_fname").toString()+",<br><br> This is to confirm that you have successfully uploaded Article."+
-						" Complete 3 peer reviews to process it futher for publishing, Thank You.<br><br>Regards,<br>Team JAMR</body></html>";
-						es.sendEmail(email,sub,msg);
-						// Send email to main contact
-						String email1 =  conemail;
-						String sub1 = "Successfully uploaded article.";
-						String msg1 = "<html><body>Dear "+conname+",<br><br> This is to inform you that you have been assigned as a main contact for article by "+session.getAttribute("user_fname").toString()+
+				Article a = ac.get(article_id);
+				if(a != null){
+					if(a.getMainAuthor().getId() == Integer.parseInt(session.getAttribute("user_id").toString())){
+						switch(ac.addNewVersion(a.getId(),a.getLatestVersion().getTitle(), abs, keywords, subIds, newSubs, filepath)){
+						case SUCCESS:					
+							session.setAttribute("alertMessage","Successfully updated article.");
+							session.setAttribute("alertType","success" );
+							response.sendRedirect("home");
+							EmailService es = new EmailService();
+							try {
+
+								//send email to author
+								String email =  session.getAttribute("user_email").toString();
+								String sub = "Successfully uploaded new version.";
+								String title = a.getLatestVersion().getTitle();
+								String msg = "<html><body>Dear "+session.getAttribute("user_fname").toString()+",<br><br> This is to confirm that you have successfully uploaded new version for article."+
 										"<br><b>Article Details :</b><table><tr><td>Article Name :</td><td>"+title+"</td></tr><tr><td>Abstract:</td><td>"+abs+"</td></tr></table>"+
-										"If you are not the above mentioned person or have any problems with this article then please <a href=\"mailto:test@test.com\">Email Us</a>"+
+										" Make sure that you complete 3 peer reviews to process it futher for publishing, Thank You.<br><br>Regards,<br>Team JAMR</body></html>";
+								es.sendEmail(email,sub,msg);
+								// Send email to main contact
+								String conname = a.getContactName();
+								String email1 =  a.getContactEmail();
+								String sub1 = "Successfully updated article.";
+								String msg1 = "<html><body>Dear "+conname+",<br><br> This is to inform you that article you have been assigned to is successfully updated by "+session.getAttribute("user_fname").toString()+
+										"<br><b>Article Details :</b><table><tr><td>Article Name :</td><td>"+title+"</td></tr><tr><td>Abstract:</td><td>"+abs+"</td></tr></table>"+
+										"If you are not the above mentioned person  or have any problems with this article then please <a href=\"mailto:test@test.com\">Email Us</a>"+
 										"<br><br>Regards,<br>Team JAMR</body></html>";
-						es.sendEmail(email1,sub1,msg1);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+								es.sendEmail(email1,sub1,msg1);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							break;
+						default:
+							session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
+							session.setAttribute("alertType","danger" );
+							response.sendRedirect("home");
+							break;
+						}
 					}
-					break;
-				default:
-					session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
+					else{
+						session.setAttribute("alertMessage","<Strong>Sorry!!</strong> You are not authorised to view this page.");
+						session.setAttribute("alertType","danger" );
+						response.sendRedirect("home");
+					}
+				}else{
+					session.setAttribute("alertMessage","<Strong>Sorry!!</strong> You are not authorised to view this page.");
 					session.setAttribute("alertType","danger" );
 					response.sendRedirect("home");
-					break;
 				}
 
 			} catch (Exception e) {
@@ -164,9 +179,10 @@ public class UploadDownloadArticle extends HttpServlet {
 				session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
 				session.setAttribute("alertType","danger" );
 				response.sendRedirect("home");
+			}finally{
+				if(ac.isSessionReady())
+					ac.endSession();
 			}
-			if(ac.isSessionReady())
-				ac.endSession();
 		}
 	}
 }
