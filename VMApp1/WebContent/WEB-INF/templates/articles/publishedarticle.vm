@@ -25,6 +25,10 @@
 							<p>$article.getLatestVersion().getAbs()</p>
 							<label>Download Article</label>
 							<p><a href="$article.getLatestVersion().getUrl()">Download</a></p>
+							<br />
+							#if ($user == "true" && "$!thisuser" != "")
+								<a href="NewLetter?id=$article.getId()">Write letter to the author</a>
+							#end
 						</div>
 					</div>
 				</div>

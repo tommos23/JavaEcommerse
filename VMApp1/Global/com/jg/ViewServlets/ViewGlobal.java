@@ -40,7 +40,7 @@ public class ViewGlobal extends VelocityViewServlet {
 		if (session.getAttribute("user_id") != null) {
 			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 		}
-		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
+		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher") || thisUser.getRole().getName().equals("activeauthor") || thisUser.getRole().getName().equals("passiveauthor"))) {
 			if (session.isNew()){
 				session.setAttribute("user", "false");
 				System.out.println("false");
