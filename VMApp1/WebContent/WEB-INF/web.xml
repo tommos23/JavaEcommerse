@@ -662,4 +662,16 @@
     <servlet-name>LatestContent</servlet-name>
     <url-pattern>/LatestContent</url-pattern>
   </servlet-mapping>
+  
+    <servlet>
+    <description>Search Box</description>
+    <display-name>SearchAll</display-name>
+    <servlet-name>SearchAll</servlet-name>
+    <servlet-class>com.jg.ViewServlets.SearchAll</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchAll</servlet-name>
+    <url-pattern>/SearchAll</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

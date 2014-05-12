@@ -10,6 +10,8 @@ import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -17,7 +19,6 @@ import com.jg.Model.Article;
 import com.jg.Model.Edition;
 import com.jg.Model.Keyword;
 import com.jg.Model.Review;
-
 import com.jg.Model.Role;
 import com.jg.Model.Subject;
 import com.jg.Model.User;
@@ -386,7 +387,7 @@ public class ArticleController extends Controller{
 	@SuppressWarnings("unchecked")
 	public List<Article> getAllArticlesForReviewerReview(int id)
 	{
-		List<Article> articles = new LinkedList<Article>();;
+		List<Article> articles = new LinkedList<Article>();
 		try{
 			if(!isSessionReady()) throw new Exception();
 			List<Review> reviews = null;
@@ -542,15 +543,143 @@ public class ArticleController extends Controller{
 	}
 	
 	public List<Article> searchArticles(String searchString) {
-		List <Article> articles = null;
-		
+		List <Article> articles = new LinkedList<Article>();
+		try{				
+			if(!isSessionReady()) throw new Exception();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Version.class);
+			cr.add(Restrictions.like("title", searchString, MatchMode.ANYWHERE));
+			List <Version> results = cr.list();	
+			if (results.size() > 0){
+				for(int i = 0; i < results.size(); i++){
+					articles.add(results.get(i).getArticle());
+				}
+			}
+			session.getTransaction().commit();	
+			HashSet hs = new HashSet();
+			hs.addAll(articles);
+			articles.clear();
+			articles.addAll(hs);
+			return articles;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
 		return null;
 	}
 	
-	public List<User> searchAutohrs(String searchString) {
-		List<User> users = null;
+	public List<Article> searchAutohrs(String searchString) {
+		List<Article> articles = new LinkedList<Article>();
+		try{				
+			if(!isSessionReady()) throw new Exception();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(User.class);
+			Disjunction disjunction = Restrictions.disjunction();
+			disjunction.add(Restrictions.like("firstname", searchString, MatchMode.ANYWHERE));
+			disjunction.add(Restrictions.like("surname", searchString, MatchMode.ANYWHERE));
+			cr.add(disjunction);
+			List<User>users = cr.list();	
+			session.getTransaction().commit();
+			if(session.isOpen())
+				session.close();
+			if(users.size() > 0){
+				System.out.println("Users size:" + users.size());
+				for(int i = 0; i < users.size(); i++){
+					articles.addAll(allArticlesForAuthor(users.get(i)));
+				}
+			}
+			HashSet hs = new HashSet();
+			hs.addAll(articles);
+			articles.clear();
+			articles.addAll(hs);
+			return articles;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
 		return null;
 	}
+	
+	public List<Article> searchKeywords(String searchString) {
+		List<Article> articles = new LinkedList<Article>();
+		try{				
+			if(!isSessionReady()) throw new Exception();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Keyword.class);
+			cr.add(Restrictions.like("keyword", searchString));
+			List<Keyword>keywords = cr.list();	
+			session.getTransaction().commit();
+			if(session.isOpen())
+				session.close();
+			
+			if(keywords.size() > 0){
+				System.out.println("Keyword size:" + keywords.size());
+				for(int i = 0; i < keywords.size(); i++){
+					articles.addAll(keywords.get(i).getArticles());
+				}
+			}
+			HashSet hs = new HashSet();
+			hs.addAll(articles);
+			articles.clear();
+			articles.addAll(hs);
+			return articles;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+		return null;
+	}
+	
+	public List<Article> allArticlesForAuthor(User author) {
+		List<Article> articles = new LinkedList<Article>();
+		try{				
+			if(!isSessionReady()) throw new Exception();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Article.class);
+			cr.add(Restrictions.eq("main_author", author));
+			articles = cr.list();	
+			session.getTransaction().commit();
+			System.out.println("Users2 size:" + articles.size());
+			HashSet hs = new HashSet();
+			hs.addAll(articles);
+			articles.clear();
+			articles.addAll(hs);
+			return articles;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			session.close();
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+		return null;
+	}
+	
 
 	Session session = null;
 	Article article;
