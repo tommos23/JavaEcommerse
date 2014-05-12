@@ -62,6 +62,7 @@ public class NewDocumentTemplate extends VelocityViewServlet
 				DocumentTemplateController vc = new DocumentTemplateController();
 				vc.startSession();
 				context.put("templates", vc.getAllTemplates());		
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				vc.endSession();
 			} catch(Exception e ) {
 				System.out.println("Error " + e);

@@ -424,6 +424,10 @@ public class ArticleController extends Controller{
 				articles.add(r.getArticle());
 			}
 			session.getTransaction().commit();
+			HashSet hs = new HashSet();
+			hs.addAll(articles);
+			articles.clear();
+			articles.addAll(hs);
 			return articles;
 		} catch(Exception e){
 			e.printStackTrace();
@@ -446,7 +450,7 @@ public class ArticleController extends Controller{
 			session = HibernateUtil.getSessionFactory().getCurrentSession();				
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
-			cr.add(Restrictions.eq("status", 0));
+			cr.add(Restrictions.eq("status", 1));
 			cr.add(Restrictions.eq("reviewer.id", id));
 			cr.add(Restrictions.ne("position",-1));
 			reviews = cr.list();
@@ -460,6 +464,10 @@ public class ArticleController extends Controller{
 				}
 			}
 			session.getTransaction().commit();
+			HashSet hs = new HashSet();
+			hs.addAll(articles);
+			articles.clear();
+			articles.addAll(hs);
 			return articles;
 
 		} catch(Exception e){
@@ -495,6 +503,10 @@ public class ArticleController extends Controller{
 				}
 			}
 			session.getTransaction().commit();
+			HashSet hs = new HashSet();
+			hs.addAll(articles);
+			articles.clear();
+			articles.addAll(hs);
 			return articles;
 
 		} catch(Exception e){
@@ -543,6 +555,10 @@ public class ArticleController extends Controller{
 					session.getTransaction().commit();
 				}
 			} 
+			HashSet hs = new HashSet();
+			hs.addAll(articles);
+			articles.clear();
+			articles.addAll(hs);
 			return articles;
 		}
 		catch(Exception e){

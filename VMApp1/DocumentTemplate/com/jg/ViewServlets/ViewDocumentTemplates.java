@@ -9,6 +9,8 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.DocumentTemplateController;
+import com.jg.Controller.UserController;
+import com.jg.Model.User;
 
 
 
@@ -49,13 +51,23 @@ public class ViewDocumentTemplates extends VelocityViewServlet
 
 		/* get the template */
 		Template template = null;
+		UserController uc = new UserController();
+		uc.startSession();
+		User thisUser = null;
+		if (session.getAttribute("user_id") != null) {
+			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		}
+		
 		try {
 			template = getTemplate("documenttemplate/viewtemplates.vm"); 
+			context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+			if (uc.isSessionReady())
+				uc.endSession();
 			DocumentTemplateController vc = new DocumentTemplateController();
 			vc.startSession();
 			context.put("templates", vc.getAllTemplates());
-			
 			vc.endSession();
+			
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}

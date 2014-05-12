@@ -75,9 +75,6 @@
 			<li>
 				<a href="PublishedVolumes" title="Volumes"><i class="fa fa-book"></i> Volumes</a>
 			</li>
-			<li>
-				<a href="ViewDocumentTemplates" title="Templates"><i class="fa fa-file"></i> Templates</a>
-			</li>
 		#end
       </ul>
       <div class="col-sm-3 col-md-3 pull-right">
