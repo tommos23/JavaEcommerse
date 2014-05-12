@@ -23,6 +23,112 @@ import com.jg.Model.User;
 import com.jg.Model.Version;
 
 public class ArticleController extends Controller{
+	public entryResponse addNewVersion(int article_id, String title, String abs,String keywords,Set<Integer> subIds,Set<String> newSubjects, String filepath){
+		String[] words = new String[255];
+		//System.out.println(keywords);
+		if(keywords.contains(" "))
+			words = keywords.split(" ");
+		else
+			words[0] = keywords;
+
+		try{
+			//Check if session factory is ready or not
+			if(!isSessionReady()) throw new Exception();
+
+			//Start Session
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
+			session.beginTransaction();
+
+			//Get Article
+			Article a = (Article)session.get(Article.class, article_id);
+			//set new status to an object of article
+			a.setStatus(3);
+
+			//Add objects of keywords into article
+			List resKeys = session.createCriteria(Keyword.class).list();
+			Set<Keyword> allKeys = new HashSet<Keyword>(resKeys);
+			Set<Keyword> tempkeys = new HashSet<Keyword>();
+			for(String word : words){
+				if(word != null){
+					Keyword key = null;
+					for(Keyword k : allKeys){
+						if(k.getKeyword().equals(word))
+							key = k;
+					}
+
+					if(key != null){
+						Set<Article> tempset = new HashSet<Article>();
+						tempset.addAll(key.getArticles());
+						System.out.println(a.getId());
+						tempset.add(a);
+						key.setArticles(tempset);
+						tempkeys.add(key);
+					}						
+					else{
+						Set<Article> tempset = new HashSet<Article>();
+						tempset.add(a);
+						Keyword temp = new Keyword(word);
+						temp.setArticles(tempset);
+						tempkeys.add(temp);
+					}
+				}					
+			}
+			a.setKeywords(tempkeys);
+			
+			//Create an object of version of article
+			Version ver = new Version();
+			ver.setCreated_at(a.getCreated_at());
+			ver.setTitle(title);
+			ver.setAbs(abs);
+			ver.setUrl(filepath);
+
+			//Add objects of subject to it	
+			List resSubs = session.createCriteria(Subject.class).list();
+			Set<Subject> allSubs = new HashSet<Subject>(resSubs);
+			Set<Subject> tempSubs = new HashSet<Subject>();			
+			for(int id : subIds){
+				if(id > 0){
+					Subject tempsub = (Subject)session.get(Subject.class, id);
+					if(tempsub != null){
+						Set<Version> tempvers = new HashSet<Version>();
+						tempvers.addAll(tempsub.getVersions());
+						tempvers.add(ver);
+						tempsub.setVersions(tempvers);
+						tempSubs.add(tempsub);
+					}
+				}					
+			}
+			for(String subject : newSubjects){
+				for(Subject sub : allSubs){
+					if(sub.getTitle().equals(subject))
+						break;
+				}
+				Subject temp = new Subject();
+				temp.setTitle(subject);
+				Set<Version> tempvers = new HashSet<Version>();
+				tempvers.add(ver);
+				temp.setVersions(tempvers);
+				tempSubs.add(temp);
+			}
+			ver.setSubjects(tempSubs);
+			a.setLatestVersion(ver);
+			ver.setArticle(a);
+			session.saveOrUpdate(ver);
+			session.getTransaction().commit();
+			return entryResponse.SUCCESS;
+		}
+		catch(Exception e){
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return entryResponse.DB_ERROR;
+		}
+		finally{
+			if(session.isOpen())
+				session.close();
+			System.out.println("session closed.");
+		}
+
+	}
 
 	public entryResponse addNewArticle(String title,String contactName, String contactEmail, String abs,String keywords,Set<Integer> subIds,Set<String> newSubjects, String filepath, String email){
 		String[] words = new String[255];
@@ -45,7 +151,7 @@ public class ArticleController extends Controller{
 			//Create an object of article
 			Article a = new Article();
 			a.setCreated_at(new Date());
-			
+
 			Criteria cr1 = session.createCriteria(User.class);
 			cr1.add(Restrictions.eq("email", email));
 			List results = cr1.list();
@@ -57,7 +163,7 @@ public class ArticleController extends Controller{
 			a.setContactName(contactName);
 			a.setContactEmail(contactEmail);
 			a.setStatus(0);
-			
+
 			//Add objects of keywords into article
 			List resKeys = session.createCriteria(Keyword.class).list();
 			Set<Keyword> allKeys = new HashSet<Keyword>(resKeys);
@@ -68,8 +174,8 @@ public class ArticleController extends Controller{
 					for(Keyword k : allKeys){
 						if(k.getKeyword().equals(word))
 							key = k;
-							}
-					
+					}
+
 					if(key != null){
 						Set<Article> tempset = new HashSet<Article>();
 						tempset.addAll(key.getArticles());
@@ -95,7 +201,7 @@ public class ArticleController extends Controller{
 			ver.setTitle(title);
 			ver.setAbs(abs);
 			ver.setUrl(filepath);
-			
+
 			//Add objects of subject to it	
 			List resSubs = session.createCriteria(Subject.class).list();
 			Set<Subject> allSubs = new HashSet<Subject>(resSubs);
@@ -196,7 +302,25 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-
+	public Set<Article> getAllArticlesForUser(int user_id){
+		Set<Article> articles = null;
+		try{
+			if(!isSessionReady()) throw new Exception();
+			session = HibernateUtil.getSessionFactory().getCurrentSession();				
+			session.beginTransaction();
+			Criteria cr = session.createCriteria(Article.class);
+			cr.add(Restrictions.eq("main_author.id", user_id));
+			cr.addOrder(Order.desc("created_at"));
+			List results = cr.list();
+			if(results.size()>0)
+				articles = new HashSet<Article>(results);
+			session.getTransaction().commit();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return articles;
+	}
 	public List<Version> getAllVersionsForArticle(int article_id){
 		List<Version> versions = null;
 
@@ -539,7 +663,7 @@ public class ArticleController extends Controller{
 			System.out.println("session closed.");
 		}
 	}
-	
+
 	Session session = null;
 	Article article;
 }

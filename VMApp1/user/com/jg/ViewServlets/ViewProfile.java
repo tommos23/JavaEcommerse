@@ -9,7 +9,9 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
+import com.jg.Controller.ArticleController;
 import com.jg.Controller.UserController;
+import com.jg.Model.User;
 
 public class ViewProfile extends VelocityViewServlet 
 {
@@ -56,10 +58,24 @@ public class ViewProfile extends VelocityViewServlet
 		else{		
 			session.setAttribute("application", "JAMR - Online Journal");
 			UserController uc = new UserController();
+			ArticleController ac = new ArticleController();
+			try{				
 			uc.startSession();
-			context.put("thisuser", uc.getUser(session.getAttribute("user_email").toString()));
-			if (uc.isSessionReady())
-				uc.endSession();
+			User thisuser = uc.getUser(session.getAttribute("user_email").toString());
+			context.put("thisuser", thisuser);
+			uc.endSession();
+			ac.startSession();
+			context.put("articles", ac.getAllArticlesForUser(thisuser.getId()));
+			ac.endSession();
+			
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			finally{
+				if (uc.isSessionReady())
+					uc.endSession();
+			}
 		}		
 		try {
 			template = getTemplate("user/profile.vm"); 

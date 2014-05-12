@@ -1,5 +1,7 @@
 package com.jg.Model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -74,6 +76,11 @@ public class Article {
 	}
 	public void setContactEmail(String contactEmail) {
 		this.contact_email = contactEmail;
+	}
+	public String getCreatedAtDay(){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");      
+	    String dateWOTime = sdf.format(created_at);
+		return dateWOTime;
 	}
 	
 	@Id @GeneratedValue
