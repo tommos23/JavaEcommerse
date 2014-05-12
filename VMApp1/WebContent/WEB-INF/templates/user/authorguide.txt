@@ -1,0 +1,8 @@
+Authors can download document style templates, create their article offline using their preferred word processing system then upload their articles in PDF format for review, using a web form. 
+<br><br>
+The information supplied with any article must include: full details of the names, emails and affiliations of each author, with one author chosen as the main contact; a title and an abstract for the article (the abstract may have a word-limit, e.g. 250 words); a set of keywords (max 10) describing the subject area of the article; and the PDF of the article. 
+Successful submission should be acknowledged by a web page, and an email sent to the main contact author, giving details of the acknowledgement. Now the role changes from the reader to an author. 
+<br><br>
+Once the author receives the initial feedback from between 3 and 5 reviewers, he (or she) must revise the article, and submit a revised PDF. At least 3 peer-reviews must be completed for each submitted paper, to judge its quality; and 5 reviews are sufficient. 
+<br><br>
+The author must still complete three peer-reviews of other work, as a kind of contribution to the cost of running the journal, to allow his (or her) own article to proceed for publication.  

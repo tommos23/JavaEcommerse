@@ -16,8 +16,30 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">Welcome</div>
 					<div class="panel-body">
+						<div class="col-lg-12">
 						<div class="col-lg-9">User Update</div>
 						<div class="col-lg-3">#parse("user/latest.vm")</div>
+						</div>
+						<div class="panel-group" id="accordion">
+      						<div class="panel panel-default">
+        						<div class="panel-heading">
+         							<h4 class="panel-title">
+           								<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+              							Submission Guidelines
+            							</a>
+          							</h4>
+        						</div>
+        						<div id="collapseOne" class="panel-collapse collapse">
+          							<div class="panel-body">
+          							#if ($thisuser.getRole().getName().equals("activeauthor"))
+          								<p>#include("user/reviewerguide.txt")</p>
+          							#elseif ($thisuser.getRole().getName().equals("passiveauthor") || $thisuser.getRole().getName().equals("reader"))
+          								<p>#include("user/authorguide.txt")</p>
+          							#end          							         
+          							</div>
+        						</div>
+      						</div>
+    					 </div>						
 					</div>
 					<div class="panel-footer">Last visited at: #if($last_login)$last_login #end </div>
 				</div>						
