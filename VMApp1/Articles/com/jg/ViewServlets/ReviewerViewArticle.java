@@ -84,6 +84,7 @@ public class ReviewerViewArticle extends VelocityViewServlet
 				ArticleController ac = new ArticleController();
 				ac.startSession();
 				context.put("article", ac.get(Integer.parseInt(article_id)));
+				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				context.put("user_id",id);
 				ac.endSession();					
 				if (uc.isSessionReady())

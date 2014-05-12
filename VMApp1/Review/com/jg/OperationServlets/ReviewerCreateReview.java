@@ -14,6 +14,7 @@ import com.jg.Controller.UserController;
 import com.jg.Controller.VolumeController;
 import com.jg.Model.Article;
 import com.jg.Model.User;
+import com.jg.Services.EmailService;
 
 /**
  * Servlet implementation class UserValidate
@@ -49,6 +50,53 @@ public class ReviewerCreateReview extends HttpServlet {
 				session.setAttribute("alertMessage","Review Created.");
 				session.setAttribute("alertType","success" );
 				response.sendRedirect("ReviewerArticlesForReview");
+				
+				EmailService es = new EmailService();
+				try {
+
+					//send email to author
+					String sub = "Article Reviewed";
+					String title = article.getLatestVersion().getTitle();
+					String email = article.getMainAuthor().getEmail();
+					String username = article.getMainAuthor().getFirstname() + " " + article.getMainAuthor().getSurname();
+					String msg = "<html><body>Dear "+username+",<br><br> Your article "+ title + "<br><br>" +
+							"has been reviewed, please log into the site to view this review and update your article accordingly <br>" +
+							"Review:<br>Position: ";
+					switch (Integer.parseInt(request.getParameter("position"))) {
+					case 0:
+						msg += "Champion";
+						break;
+					case 1:
+						msg += "Favourable";
+						break;
+					case 2:
+						msg += "Indifferent";
+						break;
+					case 3:
+						msg += "Detractor";
+						break;
+					}
+					msg += "<br>Contribution: "+request.getParameter("contribution")+"<br>";
+					msg += "Criticism: "+request.getParameter("critism")+"<br>";
+					msg += "Expertise: ";
+					switch (Integer.parseInt(request.getParameter("expertise"))) {
+					case 0:
+						msg += "Expert";
+						break;
+					case 1:
+						msg += "Knowledgable";
+						break;
+					case 2:
+						msg += "Outsider";
+						break;
+					}
+					msg += "<br>If necessary please update your submission and re-submit a new version.";
+					es.sendEmail(email,sub,msg);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				break;
 			case FAIL:
 				session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Review not created.");

@@ -52,6 +52,7 @@ public class ManageContents extends VelocityViewServlet
 				ArticleController ac = new ArticleController();
 				ac.startSession();
 				int user_id = Integer.parseInt(session.getAttribute("user_id").toString());
+				context.put("thisuser", thisUser);
 				context.put("articles", ac.getAllArticles(0));
 				ac.endSession();
 			} catch(Exception e ) {
@@ -77,6 +78,7 @@ public class ManageContents extends VelocityViewServlet
 		/* get the template */
 		Template template = null;
 		template = getTemplate("articles/UnapprovedArticles.vm"); 
+		
 		return template;
 	}
 

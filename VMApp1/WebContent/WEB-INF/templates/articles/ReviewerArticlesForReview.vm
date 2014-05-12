@@ -18,7 +18,7 @@
 					<div class="panel-body">
 						<div class="col-lg-12">
 						#if($updated_articles.size() != 0)
-							<h3>Updated</h3>
+							<h3>Updated ($updated_articles.size())</h3>
 							<table class="table">
 								<tr>
 									<th>Title</th>
@@ -46,7 +46,6 @@
 								<tr>
 									<th>Title</th>
 									<th>Created At</th>
-									<th></th>
 								</tr>
 								#foreach($reviewing in $reviewing_articles)
 									<tr>
@@ -55,9 +54,6 @@
 										</td>
 										<td>
 											$reviewing.getLatestVersion().getCreated_at()
-										</td>
-										<td>
-											<a href="ReviewerEditReview?id=$reviewing.getId()">Create Review</a>
 										</td>
 									</tr>
 								#end

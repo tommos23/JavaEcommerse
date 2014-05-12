@@ -96,10 +96,10 @@ public class UploadDownloadArticle extends HttpServlet {
 						System.out.println("ContentType="+fileItem.getContentType());
 						System.out.println("Size in bytes="+fileItem.getSize());
 
-						File file = new File("uploads"/*this.getServletContext().getAttribute("FILES_DIR")*/+File.separator+fileItem.getName());
+						File file = new File(request.getSession().getServletContext().getRealPath("/")+"uploads"+File.separator+fileItem.getName());
 						System.out.println("Absolute Path at server="+file.getAbsolutePath());
 						fileItem.write(file);
-						filepath = file.getCanonicalPath();
+						filepath = "uploads"+File.separator+fileItem.getName();
 						System.out.println("File "+fileItem.getName()+ " uploaded successfully.");
 						System.out.println("<br>");
 						System.out.println("<a href=\"UploadDownloadFileServlet?fileName="+fileItem.getName()+"\">Download "+fileItem.getName()+"</a>");
@@ -161,7 +161,7 @@ public class UploadDownloadArticle extends HttpServlet {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
+				session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again"+e.getLocalizedMessage());
 				session.setAttribute("alertType","danger" );
 				response.sendRedirect("home");
 			}
