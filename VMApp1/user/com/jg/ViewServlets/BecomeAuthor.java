@@ -10,6 +10,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.SubjectController;
+import com.jg.Controller.UserController;
 
 public class BecomeAuthor extends VelocityViewServlet 
 {
@@ -52,9 +53,13 @@ public class BecomeAuthor extends VelocityViewServlet
 				e.printStackTrace();
 			}
 		}
-		else{		
+		else{
+			UserController uc =new UserController();
 			SubjectController sc = new SubjectController();
 			try{
+				uc.startSession();
+				session.setAttribute("thisuser",uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				uc.endSession();
 				sc.startSession();
 				context.put("subjects", sc.getAllSubjects());
 				sc.endSession();
@@ -65,6 +70,8 @@ public class BecomeAuthor extends VelocityViewServlet
 			finally{
 				if(sc.isSessionReady())
 					sc.endSession();
+				if(uc.isSessionReady())
+					uc.endSession();
 			}
 		}		
 		try {

@@ -9,6 +9,9 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         #if ($user == "true" && "$!thisuser" != "")
+        	<li>
+				<a href="home" title="Home"><i class="fa fa-home"></i>Home</a>
+			</li>
 			#if ($thisuser.getRole().getName().equals("editor") || $thisuser.getRole().getName().equals("publisher"))
 				<li>
 					<a href="ViewUnpostedLetters" title="Unposted Letter"><i class="fa fa-envelope"></i>Letters</a>
@@ -17,16 +20,10 @@
 					<a href="LettersWithReplies" title="Letters with replies"><i class="fa fa-envelope"></i> Replies</a>
 				</li>
 				<li>
-					<a href="ApproveArticles" title="Articles"><i class="fa fa-list-alt"></i> Approve</a>
-				</li>
-				<li>
 					<a href="EditorArticlesForReview" title="Review"><i class="fa fa-list-alt"></i> Review</a>
 				</li>
 				<li>
 					<a href="ViewUsers" title="Users"><i class="fa fa-users"></i> User</a>
-				</li>
-				<li>
-					<a href="ViewDocumentTemplates" title="Templates"><i class="fa fa-file"></i> Templates</a>
 				</li>
 				<li>
 					<a href="EditorViewVolumes" title="Volumes"><i class="fa fa-book"></i> Volumes</a>
@@ -39,44 +36,29 @@
 				</li>
 			#elseif ($thisuser.getRole().getName().equals("activeauthor"))
 				<li>
-					<a href="EditedLetters" title="Letters"><i class="fa fa-envelope"></i> Letters</a>
+					<a href="PublishedVolumes" title="Volumes"><i class="fa fa-book"></i> Volumes</a>
 				</li>
 				<li>
-					<a href="articles" title="Articles"><i class="fa fa-book"></i> Articles</a>
+					<a href="EditedLetters" title="Letters"><i class="fa fa-envelope"></i> Letters</a>
 				</li>
 				<li>
 					<a href="ReviewerArticlesForReview" title="Review"><i class="fa fa-list-ol"></i> Review</a>
 				</li>
-				<li>
-					<a href="ViewGlobal" title="Journal Information">About</a>
-				</li>
-				<li>
-					<a href="ViewDocumentTemplates" title="Templates"><i class="fa fa-file"></i> Templates</a>
-				</li>
 			#elseif ($thisuser.getRole().getName().equals("passiveauthor"))
 				<li>
+					<a href="PublishedVolumes" title="Volumes"><i class="fa fa-book"></i> Volumes</a>
+				</li>
+				<li>
 					<a href="EditedLetters" title="Letters"><i class="fa fa-envelope"></i> Letters</a>
-				</li>
-				<li>
-					<a href="ViewGlobal" title="Journal Information">About</a>
-				</li>
-				<li>
-					<a href="ViewDocumentTemplates" title="Templates"><i class="fa fa-file"></i> Templates</a>
 				</li>
 			#elseif ($thisuser.getRole().getName().equals("reader"))
 				<li>
 					<a href="PublishedVolumes" title="Volumes"><i class="fa fa-book"></i> Volumes</a>
 				</li>
-				<li>
-					<a href="ViewDocumentTemplates" title="Templates"><i class="fa fa-file"></i> Templates</a>
-				</li>
 			#end						
 		#else
 			<li>
 				<a href="PublishedVolumes" title="Volumes"><i class="fa fa-book"></i> Volumes</a>
-			</li>
-			<li>
-				<a href="ViewDocumentTemplates" title="Templates"><i class="fa fa-file"></i> Templates</a>
 			</li>
 		#end
       </ul>
@@ -110,6 +92,18 @@
 					#end
             		<li class="divider"></li>
             		<li><a href="help">FAQs</a></li>
+            		#if($user=="true")           		
+						<li><a href="ViewDocumentTemplates" title="Templates">Templates</a></li>
+					#end
+            		#if ($thisuser.getRole().getName().equals("activeauthor"))
+            			<li>
+							<a href="ViewGlobal" title="Journal Information">Journal Information</a>
+						</li>
+            		#elseif ($thisuser.getRole().getName().equals("passiveauthor"))            		
+					<li>
+						<a href="ViewGlobal" title="Journal Information">Journal Information</a>
+					</li>
+            		#end
           		</ul>
         	</li>
        	#end
