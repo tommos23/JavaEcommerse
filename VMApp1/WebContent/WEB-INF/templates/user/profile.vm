@@ -1,5 +1,5 @@
-#set($status = ["Pending Approval", "Approved", "Reviewed", "Updated", "Published"])
-#set($label = ["danger","warning","default","default","success"])
+#set($status = ["Pending Approval","Reviewed","Failed Review", "Approved", "Ready For Publishing", "Published"])
+#set($label = ["danger","warning","danger","default","primary","success"])
 <HTML>
 <head>
 #include( "/bootstrap/head.html" )

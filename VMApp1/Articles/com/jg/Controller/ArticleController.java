@@ -44,7 +44,7 @@ public class ArticleController extends Controller{
 			//Get Article
 			Article a = (Article)session.get(Article.class, article_id);
 			//set new status to an object of article
-			a.setStatus(3);
+			a.setStatus(0);
 
 			//Add objects of keywords into article
 			List resKeys = session.createCriteria(Keyword.class).list();

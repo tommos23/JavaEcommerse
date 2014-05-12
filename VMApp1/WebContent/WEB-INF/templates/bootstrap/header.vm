@@ -99,5 +99,3 @@
 	</div>
   </div>
 </nav>
-#parse( "/user/loginmd.vm" )
-#parse( "/user/registermd.vm" )

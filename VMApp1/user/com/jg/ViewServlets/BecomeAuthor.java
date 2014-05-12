@@ -54,9 +54,18 @@ public class BecomeAuthor extends VelocityViewServlet
 		}
 		else{		
 			SubjectController sc = new SubjectController();
-			sc.startSession();
-			context.put("subjects", sc.getAllSubjects());
-			sc.endSession();
+			try{
+				sc.startSession();
+				context.put("subjects", sc.getAllSubjects());
+				sc.endSession();
+				}
+			catch(Exception e ) {
+				e.printStackTrace();;
+			}
+			finally{
+				if(sc.isSessionReady())
+					sc.endSession();
+			}
 		}		
 		try {
 			template = getTemplate("user/uploadarticle.vm"); 
