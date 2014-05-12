@@ -662,4 +662,34 @@
     <servlet-name>LatestContent</servlet-name>
     <url-pattern>/LatestContent</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ViewProfile</display-name>
+    <servlet-name>ViewProfile</servlet-name>
+    <servlet-class>com.jg.ViewServlets.ViewProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewProfile</servlet-name>
+    <url-pattern>/profile</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UploadVersion</display-name>
+    <servlet-name>UploadVersion</servlet-name>
+    <servlet-class>com.jg.ViewServlets.UploadVersion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UploadVersion</servlet-name>
+    <url-pattern>/newversion</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UploadArticleVersion</display-name>
+    <servlet-name>UploadArticleVersion</servlet-name>
+    <servlet-class>com.jg.OperationServlets.UploadArticleVersion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UploadArticleVersion</servlet-name>
+    <url-pattern>/UploadArticleVersion</url-pattern>
+  </servlet-mapping>
 </web-app>

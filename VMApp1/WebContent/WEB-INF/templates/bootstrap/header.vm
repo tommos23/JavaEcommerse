@@ -90,17 +90,34 @@
 					#else			
 						<li><a href="#" title="Sign-In" data-toggle="modal" data-target="#loginModal">Sign-In</a></li>
 					#end
-     				<li class="divider"></li>
-     				<li><a href="help">FAQs</a></li>
-  				</ul>
- 			</li>
-		 #end
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-
-#parse( "/user/loginmd.vm" )
-#parse( "/user/registermd.vm" )
-
+				</ul>
+				<ul class="nav navbar-nav navbar-right">								
+				#if($user)
+					#if($user!="true")
+						<li>
+							<a href="#" title="Register" data-toggle="modal" data-target="#registerModal"><i class="fa fa-pencil-square-o"></i> Register</a>
+						</li>
+					#else
+						<li><p class="navbar-text">Hi, #if( $user_fname)$user_fname #end #if($user_lname)$user_lname #end</p></li>
+					#end
+				 #end
+					<li class="dropdown">
+          				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> Options<b class="caret"></b></a>
+         				<ul class="dropdown-menu">
+            				#if($user=="true")            				
+            					<li><a href="profile">View Profile</a></li>            				
+								<li><a href="newarticle">Upload New Paper</a></li>
+								<li><a href="signout" title="Sign-out">Sign-Out</a></li>
+							#else			
+								<li><a href="#" title="Sign-In" data-toggle="modal" data-target="#loginModal">Sign-In</a></li>
+							#end
+            				<li class="divider"></li>
+            				<li><a href="help">FAQs</a></li>
+          				</ul>
+        			</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	#parse( "/user/loginmd.vm" )
+	#parse( "/user/registermd.vm" )

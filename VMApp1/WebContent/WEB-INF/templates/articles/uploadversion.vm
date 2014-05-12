@@ -1,0 +1,59 @@
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE> Login Page </TITLE>
+<script src="assets/js/subjectlist.js"></script>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+				#if($showAlert)
+					#if($showAlert == "true")
+						#parse( "/bootstrap/alert.vm" )
+					#end
+				#end
+				<div class="panel panel-Primary">
+					<div class="panel-heading">Upload New Version</div>
+					<div class="panel-body">
+						<div class="col-lg-9">
+							<form action="UploadArticleVersion" method="post" enctype="multipart/form-data">
+								<lable><b>Article Title : </b></lable>#if($article.getLatestVersion().getTitle())$article.getLatestVersion().getTitle()#else N/A#end<br>
+								<lable><b>Contact Details :</b></lable><br>
+								<lable>Name : </lable>#if($article.getContactName())$article.getContactName()#else N/A #end<br>
+								<lable>Email : </lable>#if($article.getContactEmail())$article.getContactEmail()#else N/A #end
+								<input type="hidden" name="id" value="$article.getId()">
+								<hr>
+								<lable><b>Abstract</b></lable>
+								<textarea class="form-control"  name="abstract" placeholder="Write Abstract" rows="5" required></textarea><br>
+								<lable><b>Subjects</b></lable>						
+								<div class="input-group">
+									<select onchange="selectSubject(this);" class="form-control" id="sublist">
+										<option value=0 SELECTED>Select subject</option>
+						        		#foreach($subject in $subjects)						
+ 											<option value=$subject.getId()>$subject.getTitle()</option>
+ 										#end
+ 									</select>
+ 									<div class="input-group-btn">
+        								<button onclick="addNew()" class="btn btn-default" type="button"><i class="fa fa-plus"></i> Add New</button>
+      								</div>								
+								</div><br>								
+								<span id="subs"></span>
+								<div id="addnew"></div>
+								<br>
+								<lable><b>Keywords</b></lable>
+								<input class="form-control" class="form-control" type="text" name="keywords" placeholder="Enter Keywords" required><br>
+								<lable><b>Upload Article</b></lable>
+								<input class="form-control" type="file" name="file" required><br>
+								<input class="btn btn-default" type="submit">
+							</form>
+						<div class="col-lg-3"></div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</body>
+</html>

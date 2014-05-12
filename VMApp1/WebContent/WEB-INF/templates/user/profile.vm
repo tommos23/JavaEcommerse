@@ -1,0 +1,68 @@
+#set($status = ["Pending Approval", "Approved", "Reviewed", "Updated", "Published"])
+#set($label = ["danger","warning","default","default","success"])
+<HTML>
+<head>
+#include( "/bootstrap/head.html" )
+<TITLE> Login Page </TITLE>
+</head>
+<body>
+#parse( "/bootstrap/header.vm" )
+<div class="container">
+		<div class="row">
+			<div class="col-lg-22">
+			#if($showAlert)
+				#if($showAlert == "true")
+					#parse( "/bootstrap/alert.vm" )
+				#end
+			#end
+				<div class="panel panel-primary">
+					<div class="panel-heading">My Profile</div>
+					<div class="panel-body">
+						<div class="col-lg-9">
+							<div class="panel panel-default">
+								<div class="panel-heading">Registered Details</div>
+								<table class="table table-hover">
+									<tr><td><b>Name</b></td><td>$thisuser.getFirstname() $thisuser.getSurname()</td></tr>
+									<tr><td><b>Email</b></td><td>#if($thisuser.getEmail())$thisuser.getEmail()#else N/A #end</td></tr>
+									<tr><td><b>Affiliation</b></td><td>#if($thisuser.getAffiliations())$thisuser.getAffiliations()#else N/A #end</td></tr>
+									<tr><td><b>Joined JAMR on</b></td><td>#if($thisuser.getCreatedat())$thisuser.getCreatedat()#else N/A #end</td></tr>
+									<tr><td><b>Last Seen on</b></td><td>#if($thisuser.getOldLastlogin())$thisuser.getOldLastlogin()#else N/A #end</td></tr>
+								</table>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">My Articles</div>								
+								<table class="table table-hover">
+									#if($articles)
+										<tr>
+											<th>Title</th>
+											<th style="width:110px">Date</th>
+											<th>Status</th>
+											<th colspan="2">Options</th>
+										</tr>
+									#end
+									#if($articles)
+										#foreach($article in $articles)
+											<tr>
+												<td>#if($article.getLatestVersion().getTitle())$article.getLatestVersion().getTitle()#else N/A #end</td>
+												<td>#if($article.getCreatedAtDay())$article.getCreatedAtDay()#else N/A #end</td>
+												<td>#if($article.getStatus())<span class="label label-$label[$article.getStatus()]">$status[$article.getStatus()]</span>#else N/A #end</td>
+												<td><a href="#" class="btn btn-default"><i class="fa fa-eye"></i> View</a></td>
+												<td><a href="newversion?for=$article.getId()" class="btn btn-primary"><i class="fa fa-plus"></i> New Version</a></td>
+											</tr>
+										#end
+									#else
+										<tr><td>You haven't uploaded any articles yet. <a href="newarticle"> Click Here</a> to upload your first article.</td></tr>
+									#end
+								</table>
+							</div>							
+						</div>
+						<div class="col-lg-3">#parse("user/latest.vm")</div>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+#include( "/bootstrap/footer.html" )
+</div>
+</body>
+</html>
