@@ -47,7 +47,7 @@
 												<td>#if($article.getCreatedAtDay())$article.getCreatedAtDay()#else N/A #end</td>
 												<td>#if($article.getStatus())<span class="label label-$label[$article.getStatus()]">$status[$article.getStatus()]</span>#else N/A #end</td>
 												<td><a href="#" class="btn btn-default"><i class="fa fa-eye"></i> View</a></td>
-												<td><a href="newversion?for=$article.getId()" class="btn btn-primary"><i class="fa fa-plus"></i> New Version</a></td>
+												#if($article.getStatus()<4)<td><a href="newversion?for=$article.getId()" class="btn btn-primary"><i class="fa fa-plus"></i> New Version</a></td>#end
 											</tr>
 										#end
 									#else
