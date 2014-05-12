@@ -29,7 +29,7 @@
 											#if($user == "true" && "$!thisuser" != "" && ($thisuser.getRole().getName().equals("editor") || $thisuser.getRole().getName().equals("publisher")))
 												<a href="EditDocumentTemplate?id=$template.getId()">$template.getName()</a>
 											#else
-												<a href="$template.getUrl()">$template.getName()</a>
+												<a href="uploads/$template.getUrl()">$template.getName()</a>
 											#end
 										</td>
 										<td>

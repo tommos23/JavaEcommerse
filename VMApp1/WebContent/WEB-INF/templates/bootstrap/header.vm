@@ -9,9 +9,6 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         #if ($user == "true" && "$!thisuser" != "")
-        	<li>
-				<a href="home" title="Home"><i class="fa fa-home"></i>Home</a>
-			</li>
 			#if ($thisuser.getRole().getName().equals("editor") || $thisuser.getRole().getName().equals("publisher"))
 				<li>
 					<a href="ViewUnpostedLetters" title="Unposted Letter"><i class="fa fa-envelope"></i>Letters</a>

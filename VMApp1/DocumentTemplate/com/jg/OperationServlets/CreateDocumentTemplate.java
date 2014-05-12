@@ -60,11 +60,11 @@ public class CreateDocumentTemplate extends HttpServlet {
 					System.out.println("ContentType="+fileItem.getContentType());
 					System.out.println("Size in bytes="+fileItem.getSize());
 
-					File file = new File("/share/student/stucat016/context/uploads"+File.separator+fileItem.getName());
+					File file = new File(request.getSession().getServletContext().getRealPath("/")+"uploads"+File.separator+fileItem.getName());
 					System.out.println("Absolute Path at server="+file.getAbsolutePath());
 					fileItem.write(file);
 					filepath = file.getCanonicalPath();
-					url = file.getAbsolutePath();
+					url = fileItem.getName();
 					System.out.println("File "+fileItem.getName()+ " uploaded successfully.");
 					System.out.println("<br>");
 					System.out.println("<a href=\"UploadDownloadFileServlet?fileName="+fileItem.getName()+"\">Download "+fileItem.getName()+"</a>");
@@ -118,18 +118,18 @@ public class CreateDocumentTemplate extends HttpServlet {
 		case SUCCESS:
 			session.setAttribute("alertMessage","Volume Created.");
 			session.setAttribute("alertType","success" );
-			response.sendRedirect("ViewDocumentTemplate");
+			response.sendRedirect("ViewDocumentTemplates");
 			break;
 		case FAIL:
 			session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Volume not created.");
 			session.setAttribute("alertType","danger" );
-			response.sendRedirect("NewDocumentTemplate");
+			response.sendRedirect("NewDocumentTemplates");
 			break;
 		case DB_ERROR:
 			session.setAttribute("user","false");
 			session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
 			session.setAttribute("alertType","danger" );
-			response.sendRedirect("NewDocumentTemplate");
+			response.sendRedirect("NewDocumentTemplates");
 			break;
 		}
 		if(dc.isSessionReady())
