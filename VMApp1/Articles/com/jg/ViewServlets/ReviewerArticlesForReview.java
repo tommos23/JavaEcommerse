@@ -79,7 +79,7 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 				context.put("reviewing_articles", ac.getAllArticlesReviewerReviewing(id));
 				context.put("reviewed_articles", ac.getAllArticlesReviewerReviewed(id));
 				context.put("articles", ac.getAllArticlesForReviewerReview(id));
-				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				ac.endSession();
 				if (uc.isSessionReady())
 					uc.endSession();

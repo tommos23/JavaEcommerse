@@ -62,7 +62,7 @@ public class ViewProfile extends VelocityViewServlet
 			try{				
 			uc.startSession();
 			User thisuser = uc.getUser(session.getAttribute("user_email").toString());
-			context.put("thisuser", thisuser);
+			session.setAttribute("thisuser", thisuser);
 			uc.endSession();
 			ac.startSession();
 			context.put("articles", ac.getAllArticlesForUser(thisuser.getId()));

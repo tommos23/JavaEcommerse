@@ -52,7 +52,7 @@ public class PublishedVolumes extends VelocityViewServlet
 			VolumeController vc = new VolumeController();
 			vc.startSession();
 			context.put("volumes", vc.getWithStatus(1));
-			context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+			session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 			
 			vc.endSession();
 		} catch(Exception e ) {

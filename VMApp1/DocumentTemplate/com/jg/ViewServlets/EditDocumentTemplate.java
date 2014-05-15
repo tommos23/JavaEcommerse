@@ -69,7 +69,7 @@ public class EditDocumentTemplate extends VelocityViewServlet {
 				DocumentTemplateController dtc = new DocumentTemplateController();
 				dtc.startSession();
 				context.put("template", dtc.get(Integer.parseInt(id)));
-				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				dtc.endSession();
 			} catch(Exception e ) {
 				System.out.println("Error " + e);

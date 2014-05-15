@@ -68,7 +68,7 @@ public class UserHome extends VelocityViewServlet
 		}
 		UserController uc = new UserController();
 		uc.startSession();
-		context.put("thisuser", uc.getUser(session.getAttribute("user_email").toString()));
+		session.setAttribute("thisuser", uc.getUser(session.getAttribute("user_email").toString()));
 		if (uc.isSessionReady())
 			uc.endSession();
 		return template;

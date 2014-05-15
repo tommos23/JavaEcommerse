@@ -55,7 +55,7 @@ public class ApproveArticles extends VelocityViewServlet {
 				ArticleController ac = new ArticleController();
 				ac.startSession();
 				context.put("articles", ac.getAllArticles(0));
-				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				session.setAttribute("thisuser", thisUser);
 				
 				ac.endSession();
 			} catch(Exception e ) {

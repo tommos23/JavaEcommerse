@@ -80,7 +80,7 @@ public class EditorNewEdition extends VelocityViewServlet
 				LettersToEditorsController lc = new LettersToEditorsController();
 				lc.startSession();
 				context.put("letters", lc.getAllLettersToEditors(3));
-				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				lc.endSession();
 			} catch(Exception e ) {
 				System.out.println("Error " + e);

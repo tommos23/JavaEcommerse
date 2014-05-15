@@ -55,7 +55,7 @@ public class LettersWithReplies extends VelocityViewServlet {
 				LettersToEditorsController ltec = new LettersToEditorsController();
 				ltec.startSession();
 				context.put("letters", ltec.getAllLettersToEditors(2));
-				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				
 				ltec.endSession();
 			} catch(Exception e ) {

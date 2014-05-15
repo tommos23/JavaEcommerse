@@ -67,7 +67,7 @@ public class PublishedEditions extends VelocityViewServlet
 			EditionController ec = new EditionController();
 			ec.startSession();
 			context.put("editions", ec.getEditionsForVolume(id));
-			context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+			session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 			
 			ec.endSession();
 		} catch(Exception e ) {

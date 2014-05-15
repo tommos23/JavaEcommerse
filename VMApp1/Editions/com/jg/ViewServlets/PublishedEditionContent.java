@@ -80,7 +80,7 @@ public class PublishedEditionContent extends VelocityViewServlet
 			ltec.startSession();
 			context.put("letters", ltec.getLettersForEdition(edition));
 			ltec.endSession();
-			context.put("thisuser", uc.get(id));
+			session.setAttribute("thisuser", uc.get(id));
 			
 		} catch(Exception e ) {
 			System.out.println("Error " + e);

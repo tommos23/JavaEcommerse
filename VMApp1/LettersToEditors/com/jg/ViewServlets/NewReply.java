@@ -66,7 +66,7 @@ public class NewReply extends VelocityViewServlet {
 				if (lc.isSessionReady())
 					lc.endSession();
 				context.put("letter", letter);
-				context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 			} catch(Exception e ) {
 				System.out.println("Error " + e);
 			}

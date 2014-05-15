@@ -66,7 +66,7 @@ public class ViewArticleRevisions extends VelocityViewServlet {
 					rc.startSession();
 					context.put("reviews", rc.getReviewsForArticle(art));
 					rc.endSession();
-					context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+					session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				} else {
 					String alertMessage = "No article selected";
 					String alertType = "danger";
