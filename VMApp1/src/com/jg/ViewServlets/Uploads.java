@@ -1,7 +1,6 @@
 package com.jg.ViewServlets;
 
-import java.io.IOException;
-import java.util.Iterator;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,6 @@ import org.apache.velocity.tools.view.VelocityViewServlet;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.SharedSessionContract;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
@@ -23,9 +21,11 @@ import com.jg.Model.*;
 /**
  * Servlet implementation class Uploads
  */
+@SuppressWarnings({ "rawtypes" })
 public class Uploads extends VelocityViewServlet {
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("deprecation")
 	public Template handleRequest( HttpServletRequest request, 
 			HttpServletResponse response, Context context )
 	{

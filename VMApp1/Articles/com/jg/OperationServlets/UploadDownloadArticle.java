@@ -39,14 +39,6 @@ public class UploadDownloadArticle extends HttpServlet {
 
 	public UploadDownloadArticle() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -148,7 +140,6 @@ public class UploadDownloadArticle extends HttpServlet {
 										"<br><br>Regards,<br>Team JAMR</body></html>";
 						es.sendEmail(email1,sub1,msg1);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					break;

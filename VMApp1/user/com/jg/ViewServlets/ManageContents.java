@@ -51,8 +51,7 @@ public class ManageContents extends VelocityViewServlet
 			try {
 				ArticleController ac = new ArticleController();
 				ac.startSession();
-				int user_id = Integer.parseInt(session.getAttribute("user_id").toString());
-				context.put("thisuser", thisUser);
+				session.setAttribute("thisuser", thisUser);
 				context.put("articles", ac.getAllArticles(0));
 				ac.endSession();
 			} catch(Exception e ) {
@@ -71,7 +70,6 @@ public class ManageContents extends VelocityViewServlet
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

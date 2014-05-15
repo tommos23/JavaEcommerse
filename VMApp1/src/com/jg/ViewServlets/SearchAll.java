@@ -1,7 +1,5 @@
 package com.jg.ViewServlets;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,10 +9,6 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.ArticleController;
-import com.jg.Controller.ReviewController;
-import com.jg.Controller.UserController;
-import com.jg.Model.User;
-
 /**
  * Servlet implementation class PublishedArticle
  */

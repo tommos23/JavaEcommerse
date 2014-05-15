@@ -11,13 +11,13 @@ import javax.servlet.http.HttpSession;
 import com.jg.Controller.ArticleController;
 import com.jg.Controller.ReviewController;
 import com.jg.Controller.UserController;
-import com.jg.Controller.VolumeController;
 import com.jg.Model.Article;
 import com.jg.Model.User;
 
 /**
  * Servlet implementation class UserValidate
  */
+
 public class ReviewerUpdateReview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +28,7 @@ public class ReviewerUpdateReview extends HttpServlet {
 		super();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);

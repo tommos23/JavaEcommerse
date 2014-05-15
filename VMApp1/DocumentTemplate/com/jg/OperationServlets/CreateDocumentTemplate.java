@@ -39,6 +39,7 @@ public class CreateDocumentTemplate extends HttpServlet {
 		this.uploader = new ServletFileUpload(fileFactory);
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		
@@ -46,9 +47,7 @@ public class CreateDocumentTemplate extends HttpServlet {
 		String description = null;
 		String format = null;
 		String url = null;
-		
 		try {
-			String filepath = "";
 			List<FileItem> fileItemsList = uploader.parseRequest(request);
 			Iterator<FileItem> fit = fileItemsList.iterator();
 			//System.out.println("size"+fileItemsList.size());
@@ -63,7 +62,6 @@ public class CreateDocumentTemplate extends HttpServlet {
 					File file = new File(request.getSession().getServletContext().getRealPath("/")+"uploads"+File.separator+fileItem.getName());
 					System.out.println("Absolute Path at server="+file.getAbsolutePath());
 					fileItem.write(file);
-					filepath = file.getCanonicalPath();
 					url = fileItem.getName();
 					System.out.println("File "+fileItem.getName()+ " uploaded successfully.");
 					System.out.println("<br>");

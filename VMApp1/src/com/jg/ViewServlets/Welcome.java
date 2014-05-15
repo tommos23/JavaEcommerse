@@ -9,7 +9,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-import com.jg.Controller.UserController;
 
 public class Welcome extends VelocityViewServlet 
 {

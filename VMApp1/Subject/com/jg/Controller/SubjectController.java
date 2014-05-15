@@ -10,9 +10,9 @@ import org.hibernate.criterion.Restrictions;
 
 import com.jg.Model.Subject;
 
-public class SubjectController extends Controller {
-	
-	@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked"})
+public class SubjectController extends Controller {	
+	@SuppressWarnings("rawtypes")
 	public Set<Subject> getAllSubjects(){
 		Set<Subject> subjects = new HashSet<Subject>(0);
 		try{
@@ -36,7 +36,6 @@ public class SubjectController extends Controller {
 			}
 		}
 	}
-	@SuppressWarnings("unchecked")
 	public Subject getSubject(int id){
 		List<Subject> tempSubs;
 		try{
@@ -65,7 +64,6 @@ public class SubjectController extends Controller {
 			}
 		}
 	}
-
-	private Session session = null;
 	
+	private Session session = null;
 }

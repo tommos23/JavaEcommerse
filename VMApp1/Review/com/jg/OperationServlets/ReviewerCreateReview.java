@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import com.jg.Controller.ArticleController;
 import com.jg.Controller.ReviewController;
 import com.jg.Controller.UserController;
-import com.jg.Controller.VolumeController;
 import com.jg.Model.Article;
 import com.jg.Model.User;
 import com.jg.Services.EmailService;
@@ -29,6 +28,7 @@ public class ReviewerCreateReview extends HttpServlet {
 		super();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);
@@ -93,7 +93,6 @@ public class ReviewerCreateReview extends HttpServlet {
 					msg += "<br>If necessary please update your submission and re-submit a new version.";
 					es.sendEmail(email,sub,msg);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				

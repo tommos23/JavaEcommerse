@@ -24,7 +24,9 @@ import com.jg.Model.Subject;
 import com.jg.Model.User;
 import com.jg.Model.Version;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ArticleController extends Controller{
+	
 	public entryResponse addNewVersion(int article_id, String title, String abs,String keywords,Set<Integer> subIds,Set<String> newSubjects, String filepath){
 		String[] words = new String[255];
 		//System.out.println(keywords);
@@ -252,7 +254,7 @@ public class ArticleController extends Controller{
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public List<Article> getAllArticles(int status)
 	{
 		List<Article> articles = null;
@@ -424,7 +426,7 @@ public class ArticleController extends Controller{
 				articles.add(r.getArticle());
 			}
 			session.getTransaction().commit();
-			HashSet hs = new HashSet();
+			HashSet<Article> hs = new HashSet<Article>();
 			hs.addAll(articles);
 			articles.clear();
 			articles.addAll(hs);
@@ -464,7 +466,7 @@ public class ArticleController extends Controller{
 				}
 			}
 			session.getTransaction().commit();
-			HashSet hs = new HashSet();
+			HashSet<Article> hs = new HashSet<Article>();
 			hs.addAll(articles);
 			articles.clear();
 			articles.addAll(hs);
@@ -503,7 +505,7 @@ public class ArticleController extends Controller{
 				}
 			}
 			session.getTransaction().commit();
-			HashSet hs = new HashSet();
+			HashSet<Article> hs = new HashSet<Article>();
 			hs.addAll(articles);
 			articles.clear();
 			articles.addAll(hs);
@@ -520,7 +522,6 @@ public class ArticleController extends Controller{
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Article> getAllArticlesForReviewerReview(int id)
 	{
 		List<Article> articles = new LinkedList<Article>();
@@ -539,7 +540,6 @@ public class ArticleController extends Controller{
 				session.beginTransaction();
 				Criteria cr2 = session.createCriteria(Article.class);
 				cr2.add(Restrictions.eq("status", 1));
-				Calendar cal = Calendar.getInstance();
 				articles = cr2.list();
 				if(reviews.size() == 0){		
 					session.getTransaction().commit();		
@@ -555,7 +555,7 @@ public class ArticleController extends Controller{
 					session.getTransaction().commit();
 				}
 			} 
-			HashSet hs = new HashSet();
+			HashSet<Article> hs = new HashSet<Article>();
 			hs.addAll(articles);
 			articles.clear();
 			articles.addAll(hs);
@@ -697,7 +697,7 @@ public class ArticleController extends Controller{
 				}
 			}
 			session.getTransaction().commit();	
-			HashSet hs = new HashSet();
+			HashSet<Article> hs = new HashSet<Article>();
 			hs.addAll(articles);
 			articles.clear();
 			articles.addAll(hs);
@@ -736,7 +736,7 @@ public class ArticleController extends Controller{
 					articles.addAll(allArticlesForAuthor(users.get(i)));
 				}
 			}
-			HashSet hs = new HashSet();
+			HashSet<Article> hs = new HashSet<Article>();
 			hs.addAll(articles);
 			articles.clear();
 			articles.addAll(hs);
@@ -773,7 +773,7 @@ public class ArticleController extends Controller{
 					articles.addAll(keywords.get(i).getArticles());
 				}
 			}
-			HashSet hs = new HashSet();
+			HashSet<Article> hs = new HashSet<Article>();
 			hs.addAll(articles);
 			articles.clear();
 			articles.addAll(hs);
@@ -802,7 +802,7 @@ public class ArticleController extends Controller{
 			articles = cr.list();	
 			session.getTransaction().commit();
 			System.out.println("Users2 size:" + articles.size());
-			HashSet hs = new HashSet();
+			HashSet<Article> hs = new HashSet<Article>();
 			hs.addAll(articles);
 			articles.clear();
 			articles.addAll(hs);

@@ -11,7 +11,6 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.UserController;
-import com.jg.Controller.VolumeController;
 import com.jg.Model.User;
 
 /**
@@ -74,7 +73,6 @@ public class EditorReview extends VelocityViewServlet
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

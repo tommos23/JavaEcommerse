@@ -2,8 +2,6 @@ package com.jg.Controller;
 
 import java.util.Date;
 import java.util.List;
-
-import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.*;
 
 import org.hibernate.*;
@@ -12,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class UserController extends Controller{
 	public validateResponse validate(String email,String password){
 		MessageDigest messageDigest;
@@ -27,7 +26,6 @@ public class UserController extends Controller{
 	        }
 	        encryptedPassword = sb.toString();
 		} catch (NoSuchAlgorithmException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try{
@@ -82,7 +80,6 @@ public class UserController extends Controller{
 			        }
 			        encryptedPassword = sb.toString();					
 				} catch (NoSuchAlgorithmException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				user= new User(firstname,surname,email,encryptedPassword,"n/a",new Date(),new Date(),new Date());

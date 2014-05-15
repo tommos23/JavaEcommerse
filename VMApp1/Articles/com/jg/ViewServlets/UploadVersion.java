@@ -78,7 +78,6 @@ public class UploadVersion extends VelocityViewServlet
 						try {
 							response.sendRedirect("home");
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}						
 					}
@@ -99,7 +98,6 @@ public class UploadVersion extends VelocityViewServlet
 				try {
 					response.sendRedirect("home");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

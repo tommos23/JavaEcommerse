@@ -1,7 +1,6 @@
 package com.jg.ViewServlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
-import com.jg.Controller.EditionController;
 import com.jg.Controller.UserController;
 import com.jg.Model.User;
 
@@ -58,18 +56,23 @@ public class ViewUsers extends VelocityViewServlet
 			}
 			//-----End of Alert Message Code---------
 			/* get the template */
+			try{
 			if (!uc.isSessionReady()) {
 				uc.startSession();
 			}
 			List<User> users = uc.getUsers();
 			context.put("users", users);
-			context.put("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
-	//		context.put("userid", session.getAttribute("user_id"));
+			session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 			uc.endSession();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			finally{
+				if (uc.isSessionReady())
+					uc.endSession();
+			}
 		}
 		else {
-			if (uc.isSessionReady())
-				uc.endSession();
 			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
 			String alertType = "danger";
 			session.setAttribute("alertMessage",alertMessage);
@@ -77,7 +80,6 @@ public class ViewUsers extends VelocityViewServlet
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

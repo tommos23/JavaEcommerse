@@ -117,7 +117,6 @@ public class ReviewerEditReview extends VelocityViewServlet
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

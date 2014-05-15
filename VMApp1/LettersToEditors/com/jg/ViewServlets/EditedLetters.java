@@ -1,9 +1,6 @@
 package com.jg.ViewServlets;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,12 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.SharedSessionContract;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 import com.jg.Controller.LettersToEditorsController;
 import com.jg.Controller.UserController;
@@ -83,7 +74,6 @@ public class EditedLetters extends VelocityViewServlet {
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

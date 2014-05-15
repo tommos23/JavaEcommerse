@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import com.jg.Controller.EditionController;
 import com.jg.Controller.UserController;
-import com.jg.Controller.VolumeController;
 import com.jg.Model.Edition;
 import com.jg.Model.User;
 
@@ -26,6 +25,7 @@ public class PublishEdition extends HttpServlet {
 	public PublishEdition() {
 		super();
 	}
+	@SuppressWarnings("incomplete-switch")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);		
 		session.setMaxInactiveInterval(30*60);
@@ -45,7 +45,7 @@ public class PublishEdition extends HttpServlet {
 			EditionController ec = new EditionController();
 			ec.startSession();
 			Edition edition = ec.get(id);
-			switch(ec.publish(id, Integer.parseInt(request.getParameter("status")))){
+			switch(ec.publish(id, status)){
 			case SUCCESS:
 				session.setAttribute("alertMessage","Edition status changed.");
 				session.setAttribute("alertType","success");
@@ -78,7 +78,6 @@ public class PublishEdition extends HttpServlet {
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

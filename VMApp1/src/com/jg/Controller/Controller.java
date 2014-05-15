@@ -3,7 +3,7 @@ package com.jg.Controller;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({ "deprecation", "unused" })
 public class Controller {
 	public void startSession(){
 		try{

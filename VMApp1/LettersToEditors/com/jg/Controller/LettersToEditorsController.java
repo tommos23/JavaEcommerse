@@ -7,16 +7,14 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.Article;
 import com.jg.Model.Edition;
 import com.jg.Model.LetterToEditor;
 import com.jg.Model.User;
-import com.jg.Model.Volume;
 
+@SuppressWarnings({"unchecked" ,"rawtypes"})
 public class LettersToEditorsController extends Controller{
 
-	@SuppressWarnings("unchecked")
 	public List<LetterToEditor> getAllLettersToEditors(int status)
 	{
 		List<LetterToEditor> LetterToEditor = null;

@@ -2,36 +2,19 @@ package com.jg.Tests;
 
 import static org.junit.Assert.*;
 
-import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 
-import com.jg.Controller.ArticleController;
 import com.jg.Controller.Controller;
 import com.jg.Controller.DocumentTemplateController;
-import com.jg.Controller.EditionController;
-import com.jg.Controller.GlobalController;
-import com.jg.Controller.LettersToEditorsController;
-import com.jg.Controller.Controller.entryResponse;
-import com.jg.Controller.RoleController;
-import com.jg.Controller.UserController;
-import com.jg.Controller.VolumeController;
-import com.jg.Model.Article;
-import com.jg.Model.Edition;
-import com.jg.Model.Global;
-import com.jg.Model.LetterToEditor;
-import com.jg.Model.Role;
 import com.jg.Model.Template;
-import com.jg.Model.User;
-import com.jg.Model.Volume;
 
 /**
  * @author aca10mg@shef.ac.uk (Mike Goddard)

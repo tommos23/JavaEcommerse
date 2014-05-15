@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.jg.Model.Keyword;
 
+@SuppressWarnings({"rawtypes"})
 public class KeywordController extends Controller{
 	
 	public boolean isExist(String key) throws Exception{

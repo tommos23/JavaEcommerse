@@ -2636,7 +2636,7 @@ tree.functions = {
 
         if (useBase64) {
             try {
-                returner = require('./encoder').encodeBase64(returner); // TODO browser implementation
+                returner = require('./encoder').encodeBase64(returner); //browser implementation
             } catch(e) {
                 useBase64 = false;
             }
@@ -3483,7 +3483,7 @@ tree.Comment.prototype = {
         if (this.debugInfo) {
             output.add(tree.debugInfo(env, this), this.currentFileInfo, this.index);
         }
-        output.add(this.value.trim()); //TODO shouldn't need to trim, we shouldn't grab the \n
+        output.add(this.value.trim()); // shouldn't need to trim, we shouldn't grab the \n
     },
     toCSS: tree.toCSS,
     isSilent: function(env) {
@@ -4170,7 +4170,7 @@ tree.Extend.prototype = {
         for(i = 0; i < selectors.length; i++) {
             selectorElements = selectors[i].elements;
             // duplicate the logic in genCSS function inside the selector node.
-            // future TODO - move both logics into the selector joiner visitor
+            // future move both logics into the selector joiner visitor
             if (i > 0 && selectorElements.length && selectorElements[0].combinator.value === "") {
                 selectorElements[0].combinator.value = ' ';
             }
@@ -5794,7 +5794,7 @@ tree.Selector.prototype = {
             output.add(' ', this.currentFileInfo, this.index);
         }
         if (!this._css) {
-            //TODO caching? speed comparison?
+            //caching? speed comparison?
             for(i = 0; i < this.elements.length; i++) {
                 element = this.elements[i];
                 element.genCSS(env, output);
@@ -7390,7 +7390,6 @@ function createCSS(styles, sheet, lastModified) {
             cache.setItem(href, styles);
             cache.setItem(href + ':timestamp', lastModified);
         } catch(e) {
-            //TODO - could do with adding more robust error handling
             log('failed to save', logLevel.errors);
         }
     }
@@ -7785,7 +7784,7 @@ function loadStyleSheet(sheet, callback, reload, remaining, modifyVars) {
             }
         }
 
-        //TODO add tests around how this behaves when reloading
+        // add tests around how this behaves when reloading
         removeError(path);
 
         if (data) {

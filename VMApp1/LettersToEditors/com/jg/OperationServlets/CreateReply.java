@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.jg.Controller.ArticleController;
 import com.jg.Controller.LettersToEditorsController;
 import com.jg.Controller.UserController;
-import com.jg.Model.Article;
+
 import com.jg.Model.User;
 
 /**
@@ -27,6 +26,7 @@ public class CreateReply extends HttpServlet {
 		super();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);		
 		session.setMaxInactiveInterval(30*60);
@@ -80,7 +80,6 @@ public class CreateReply extends HttpServlet {
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

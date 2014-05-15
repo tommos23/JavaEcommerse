@@ -25,6 +25,7 @@ public class EditorCreateVolume extends HttpServlet {
 		super();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);
@@ -76,7 +77,6 @@ public class EditorCreateVolume extends HttpServlet {
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

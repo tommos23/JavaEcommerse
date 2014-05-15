@@ -12,8 +12,6 @@ import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.EditionController;
 import com.jg.Controller.UserController;
-import com.jg.Controller.VolumeController;
-import com.jg.Model.User;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -62,7 +60,6 @@ public class PublishedEditions extends VelocityViewServlet
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

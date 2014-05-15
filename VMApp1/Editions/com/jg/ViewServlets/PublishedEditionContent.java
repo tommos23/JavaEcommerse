@@ -14,9 +14,7 @@ import com.jg.Controller.ArticleController;
 import com.jg.Controller.EditionController;
 import com.jg.Controller.LettersToEditorsController;
 import com.jg.Controller.UserController;
-import com.jg.Controller.VolumeController;
 import com.jg.Model.Edition;
-import com.jg.Model.User;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -65,7 +63,6 @@ public class PublishedEditionContent extends VelocityViewServlet
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

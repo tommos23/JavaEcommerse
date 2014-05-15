@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import com.jg.Controller.ArticleController;
 import com.jg.Controller.ReviewController;
 import com.jg.Controller.UserController;
-import com.jg.Controller.VolumeController;
 import com.jg.Model.Article;
 import com.jg.Model.User;
 
@@ -28,6 +27,7 @@ public class EditorCreateReview extends HttpServlet {
 		super();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);
@@ -94,7 +94,6 @@ public class EditorCreateReview extends HttpServlet {
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

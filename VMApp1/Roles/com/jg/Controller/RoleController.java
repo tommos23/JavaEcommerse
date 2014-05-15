@@ -1,14 +1,13 @@
 package com.jg.Controller;
 
-import java.util.Date;
 import java.util.List;
 
-import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.*;
 
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+@SuppressWarnings({"unchecked" ,"rawtypes"})
 public class RoleController extends Controller{
 
 	public entryResponse isExist(String name){

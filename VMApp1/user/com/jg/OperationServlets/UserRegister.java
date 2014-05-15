@@ -1,8 +1,9 @@
 package com.jg.OperationServlets;
 import com.jg.Controller.*;
-
+import com.jg.Services.EmailService;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ public class UserRegister extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);		
 		session.setMaxInactiveInterval(30*60);
@@ -47,10 +49,21 @@ public class UserRegister extends HttpServlet {
 			session.setAttribute("user_lname",uc.getUser().getSurname());
 			session.setAttribute("user_email",uc.getUser().getEmail());
 			session.setAttribute("last_login", "na");
+			session.setAttribute("thisuser", uc.getUser());
 			alertMessage =  "<Strong>Congratulations!!</strong> You have successfully registred.";
 			alertType =  "success";
 			session.setAttribute("alertMessage",alertMessage);
 			session.setAttribute("alertType",alertType );
+			EmailService es = new EmailService();
+			try {
+				//send email to author
+				String sub = "Congratulations. You have Successfully registered.";
+				String msg = "<html><body>Dear "+lname+",<br><br> This is to confirm that you have successfully registered."+
+				"Upload article & become author. Thank You.<br><br>Regards,<br>Team JAMR</body></html>";
+				es.sendEmail(email,sub,msg);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			response.sendRedirect("home");
 			break;
 		case EXIST:

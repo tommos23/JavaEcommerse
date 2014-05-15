@@ -26,6 +26,7 @@ public class ApproveUpload extends HttpServlet {
 	public ApproveUpload() {
 		super();
 	}
+	@SuppressWarnings("incomplete-switch")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);		
 		session.setMaxInactiveInterval(30*60);
@@ -68,7 +69,6 @@ public class ApproveUpload extends HttpServlet {
 							"<br><br>Regards,<br>Team JAMR</body></html>";
 					es.sendEmail(email1,sub1,msg1);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
@@ -99,7 +99,6 @@ public class ApproveUpload extends HttpServlet {
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

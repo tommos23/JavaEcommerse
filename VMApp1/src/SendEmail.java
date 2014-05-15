@@ -27,7 +27,6 @@ public class SendEmail extends HttpServlet {
 			String msg = request.getParameter("msg");
 			es.sendEmail(email,sub,msg);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

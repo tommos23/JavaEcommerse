@@ -6,13 +6,12 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.jg.Controller.Controller.entryResponse;
 import com.jg.Model.Edition;
 import com.jg.Model.Volume;
 
+@SuppressWarnings({"unchecked" ,"rawtypes"})
 public class EditionController extends Controller{
 
-	@SuppressWarnings("unchecked")
 	public List<Edition> getEditionsForVolume(int volume_id)
 	{
 		List<Edition> Edition = null;

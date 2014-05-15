@@ -20,6 +20,7 @@
 						<div class="col-lg-9">User Update</div>
 						<div class="col-lg-3">#parse("user/latest.vm")</div>
 						</div>
+						#if ($thisuser.getRole().getName().equals("passiveauthor") || $thisuser.getRole().getName().equals("reader") || $thisuser.getRole().getName().equals("activeauthor"))
 						<div class="panel-group" id="accordion">
       						<div class="panel panel-default">
         						<div class="panel-heading">
@@ -32,14 +33,15 @@
         						<div id="collapseOne" class="panel-collapse collapse">
           							<div class="panel-body">
           							#if ($thisuser.getRole().getName().equals("activeauthor"))
-          								<p>#include("user/reviewerguide.txt")</p>
+          								<p>#include("user/reviewerguide.vm")</p>
           							#elseif ($thisuser.getRole().getName().equals("passiveauthor") || $thisuser.getRole().getName().equals("reader"))
-          								<p>#include("user/authorguide.txt")</p>
+          								<p>#include("user/authorguide.vm")</p>
           							#end          							         
           							</div>
-        						</div>
-      						</div>
-    					 </div>						
+          						</div>
+        					</div>
+      					</div>
+    				  	#end						
 					</div>
 					<div class="panel-footer">Last visited at: #if($last_login)$last_login #end </div>
 				</div>						

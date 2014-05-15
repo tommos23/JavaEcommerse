@@ -8,11 +8,9 @@ import org.hibernate.criterion.Restrictions;
 
 import com.jg.Model.Template;
 
-
-
+@SuppressWarnings({"unchecked" ,"rawtypes"})
 public class DocumentTemplateController extends Controller{
 
-	@SuppressWarnings("unchecked")
 	public List<Template> getAllTemplates()
 	{
 		List<Template> template = null;

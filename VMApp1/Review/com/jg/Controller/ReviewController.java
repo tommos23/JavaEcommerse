@@ -15,6 +15,7 @@ import com.jg.Model.Role;
 import com.jg.Model.User;
 import com.jg.Model.Volume;
 
+@SuppressWarnings({"unused", "unchecked" })
 public class ReviewController extends Controller{
 	public Review get(int id) {
 		List<Review> review = null;
@@ -204,6 +205,7 @@ public class ReviewController extends Controller{
 			session.beginTransaction();
 			Criteria cr = session.createCriteria(Review.class);
 			cr.add(Restrictions.eq("id", id));
+			@SuppressWarnings("rawtypes")
 			List results = cr.list();				
 			session.getTransaction().commit();			
 			if(!results.isEmpty()){

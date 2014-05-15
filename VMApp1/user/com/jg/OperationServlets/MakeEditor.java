@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class UserRegister
  */
+
 public class MakeEditor extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -23,6 +24,7 @@ public class MakeEditor extends HttpServlet {
 	public MakeEditor() {
 		super();
 	}
+	@SuppressWarnings("incomplete-switch")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);UserController uc = new UserController();
@@ -80,7 +82,6 @@ public class MakeEditor extends HttpServlet {
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -1,20 +1,17 @@
 package com.jg.Controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.jg.Controller.Controller.entryResponse;
-import com.jg.Model.Edition;
 import com.jg.Model.Global;
-import com.jg.Model.Volume;
 
+@SuppressWarnings({"unchecked" ,"rawtypes"})
 public class GlobalController extends Controller{
 
-	@SuppressWarnings("unchecked")
+
 	public Global getGlobal()
 	{
 		List<Global> Global = null;

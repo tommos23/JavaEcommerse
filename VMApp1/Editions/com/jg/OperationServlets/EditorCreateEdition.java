@@ -20,6 +20,7 @@ import com.jg.Model.Volume;
 /**
  * Servlet implementation class UserValidate
  */
+
 public class EditorCreateEdition extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -30,6 +31,7 @@ public class EditorCreateEdition extends HttpServlet {
 		super();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);
@@ -125,7 +127,6 @@ public class EditorCreateEdition extends HttpServlet {
 			try {
 				response.sendRedirect("welcome");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

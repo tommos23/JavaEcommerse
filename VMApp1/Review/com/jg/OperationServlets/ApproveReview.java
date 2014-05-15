@@ -8,12 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.jg.Controller.ArticleController;
 import com.jg.Controller.ReviewController;
-import com.jg.Controller.UserController;
-import com.jg.Controller.VolumeController;
-import com.jg.Model.Article;
-import com.jg.Model.User;
 
 /**
  * Servlet implementation class UserValidate
@@ -28,6 +23,7 @@ public class ApproveReview extends HttpServlet {
 		super();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(30*60);

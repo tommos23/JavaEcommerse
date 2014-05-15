@@ -5,7 +5,7 @@
 <hibernate-configuration>
    <session-factory>
    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-   <property name="connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk:3306/team130</property>
+   <property name="connection.url">jdbc:mysql://stusql.dcs.shef.ac.uk:3306/team130?autoReconnect=true</property>
    <property name="connection.username">team130</property>
    <property name="connection.password">60dd53ae</property>
    

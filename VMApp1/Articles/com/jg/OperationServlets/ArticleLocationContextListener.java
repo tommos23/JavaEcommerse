@@ -12,13 +12,11 @@ public class ArticleLocationContextListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
-		// TODO Auto-generated method stub
 		String rootPath = System.getProperty("catalina.home");
 		ServletContext ctx = servletContextEvent.getServletContext();
 		String relativePath = ctx.getInitParameter("uploads.dir");

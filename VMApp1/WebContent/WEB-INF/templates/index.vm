@@ -71,7 +71,5 @@
 	</div>
 #include( "/bootstrap/footer.html" )
 </div>
-#parse( "/user/loginmd.vm" )
-#parse( "/user/registermd.vm" )
 </body>
 </html>
