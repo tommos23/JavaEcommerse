@@ -15,6 +15,7 @@ import com.jg.Controller.EditionController;
 import com.jg.Controller.LettersToEditorsController;
 import com.jg.Controller.UserController;
 import com.jg.Model.Edition;
+import com.jg.Model.User;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -51,7 +52,7 @@ public class PublishedEditionContent extends VelocityViewServlet
 		}
 		//-----End of Alert Message Code---------
 		UserController uc = new UserController();
-		uc.startSession();
+		User thisUser = null;
 		int id = 0;
 		if (request.getParameter("id") != null)
 			id = Integer.parseInt(request.getParameter("id"));
@@ -66,27 +67,57 @@ public class PublishedEditionContent extends VelocityViewServlet
 				e.printStackTrace();
 			}
 		}
+		try{
+			uc.startSession();
+			if (session.getAttribute("user_id") != null) {
+				thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+			}
+			uc.endSession();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			if (uc.isSessionReady())
+				uc.endSession();
+		}
+		if(thisUser != null)
+			session.setAttribute("thisuser",thisUser);
+		EditionController ec = new EditionController();
+		ArticleController ac = new ArticleController();
+		LettersToEditorsController ltec = new LettersToEditorsController();
 		try {
-			EditionController ec = new EditionController();
 			ec.startSession();
 			Edition edition = ec.get(id);
 			context.put("edition", edition);
 			ec.endSession();
-			ArticleController ac = new ArticleController();
 			ac.startSession();
 			context.put("articles", ac.getArticlesForEdition(edition));
 			ac.endSession();
-			LettersToEditorsController ltec = new LettersToEditorsController();
 			ltec.startSession();
 			context.put("letters", ltec.getLettersForEdition(edition));
 			ltec.endSession();
+			uc.startSession();
 			session.setAttribute("thisuser", uc.get(id));
+			uc.endSession();
 			
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}
+		finally{
 		if (uc.isSessionReady()) {
 			uc.endSession();
+		}
+		if (ec.isSessionReady()) {
+			ec.endSession();
+		}
+		if (ac.isSessionReady()) {
+			ac.endSession();
+		}
+		if (ltec.isSessionReady()) {
+			ltec.endSession();
+		}
+		
 		}
 		/* get the template */
 		Template template = null;

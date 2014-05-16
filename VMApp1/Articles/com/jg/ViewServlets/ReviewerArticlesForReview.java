@@ -1,6 +1,7 @@
 package com.jg.ViewServlets;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import org.apache.velocity.tools.view.VelocityViewServlet;
 import com.jg.Controller.ArticleController;
 import com.jg.Controller.UserController;
 import com.jg.Model.User;
+import com.jg.Model.Article;
 
 
 /**
@@ -64,29 +66,33 @@ public class ReviewerArticlesForReview extends VelocityViewServlet
 			}
 		} else {
 			UserController uc = new UserController();
-			uc.startSession();
 			User thisUser = null;
+			try{
+			uc.startSession();
 			if (session.getAttribute("user_id") != null) {
 				thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 				session.setAttribute("thisuser", thisUser);
+			}
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			finally{
+				if (uc.isSessionReady())
+					uc.endSession();
 			}
 			if (thisUser != null && (thisUser.getRole().getName().equals("activeauthor") || thisUser.getRole().getName().equals("passiveauthor"))) {
 				int id = Integer.parseInt(session.getAttribute("user_id").toString());
 				/* get the template */
 				ArticleController ac = new ArticleController();
 				ac.startSession();
-				context.put("updated_articles", ac.getReviewerUpdatedArticles(id));
-				context.put("reviewing_articles", ac.getAllArticlesReviewerReviewing(id));
-				context.put("reviewed_articles", ac.getAllArticlesReviewerReviewed(id));
-				context.put("articles", ac.getAllArticlesForReviewerReview(id));
-				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				context.put("updated_articles",new HashSet<Article>(ac.getReviewerUpdatedArticles(id)));
+				context.put("reviewing_articles",new HashSet<Article>( ac.getAllArticlesReviewerReviewing(id)));
+				context.put("reviewed_articles",new HashSet<Article>( ac.getAllArticlesReviewerReviewed(id)));
+				context.put("articles", new HashSet<Article>(ac.getAllArticlesForReviewerReview(id)));
 				ac.endSession();
-				if (uc.isSessionReady())
-					uc.endSession();
 			}
 			else {
-				if (uc.isSessionReady())
-					uc.endSession();
 				String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
 				String alertType = "danger";
 				session.setAttribute("alertMessage",alertMessage);

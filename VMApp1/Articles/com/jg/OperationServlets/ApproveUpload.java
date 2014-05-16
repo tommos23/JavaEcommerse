@@ -31,67 +31,92 @@ public class ApproveUpload extends HttpServlet {
 		HttpSession session = request.getSession(true);		
 		session.setMaxInactiveInterval(30*60);
 		UserController uc = new UserController();
-		uc.startSession();
+		ArticleController ac = new ArticleController();
 		User thisUser = null;
-		if (session.getAttribute("user_id") != null) {
-			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		try{
+			uc.startSession();
+			if (session.getAttribute("user_id") != null) {
+				thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+			}
 		}
-		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
-			int id = 0;
-			if (request.getParameter("id") != null) 
-				id = Integer.parseInt(request.getParameter("id"));
-			ArticleController ac = new ArticleController();
-			ac.startSession();
-			switch(ac.approveUpload(id)){
-			case SUCCESS:
-				session.setAttribute("alertMessage","Article is successfully approved.");
-				session.setAttribute("alertType","success" );
-				response.sendRedirect("ApproveArticles");
-				Article a = ac.get(id);
-				ac.endSession();
-				EmailService es = new EmailService();
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			if (uc.isSessionReady())
+				uc.endSession();
+		}
+		if (thisUser != null){
+			if(thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher")) {
+
+				int id = 0;
+				if (request.getParameter("id") != null) 
+					id = Integer.parseInt(request.getParameter("id"));
+				try{
+					ac.startSession();
+					switch(ac.approveUpload(id)){
+					case SUCCESS:
+						session.setAttribute("alertMessage","Article is successfully approved.");
+						session.setAttribute("alertType","success" );
+						response.sendRedirect("ApproveArticles");
+						Article a = ac.get(id);
+						EmailService es = new EmailService();
+						try {
+							//send email to author
+							String email =  a.getMainAuthor().getEmail();
+							String sub = "Your article is approved";
+							String title = a.getLatestVersion().getTitle();
+							String msg = "<html><body>Dear "+a.getMainAuthor().getFirstname()+",<br><br> This is to inform that your article is approved by the editor."+
+									"<br><b>Article Details :</b><table><tr><td>Article Name :</td><td>"+title+"</td></tr></table>"+
+									" Make sure that you complete 3 peer reviews to process it futher for publishing, Thank You.<br><br>Regards,<br>Team JAMR</body></html>";
+							es.sendEmail(email,sub,msg);
+							// Send email to main contact
+							String conname = a.getContactName();
+							String email1 =  a.getContactEmail();
+							String sub1 = "Your article is approved";
+							String msg1 = "<html><body>Dear "+conname+",<br><br> This is to inform you that article you have been assigned to is approved by the editor."+
+									"<br><b>Article Details :</b><table><tr><td>Article Name :</td><td>"+title+"</td></tr></table>"+
+									"If you are not the above mentioned person  or have any problems with this article then please <a href=\"mailto:test@test.com\">Email Us</a>"+
+									"<br><br>Regards,<br>Team JAMR</body></html>";
+							es.sendEmail(email1,sub1,msg1);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						break;
+					case FAIL:
+						session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Please check article number.");
+						session.setAttribute("alertType","danger" );
+						response.sendRedirect("ApproveArticles");
+						break;
+					case DB_ERROR:
+						session.setAttribute("user","false");
+						session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
+						session.setAttribute("alertType","danger" );
+						response.sendRedirect("ApproveArticles");
+						break;
+					}
+					ac.endSession();
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}finally{
+					if(ac.isSessionReady())
+						ac.endSession();
+				}
+			}
+			else{
+				String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
+				String alertType = "danger";
+				session.setAttribute("alertMessage",alertMessage);
+				session.setAttribute("alertType",alertType );
 				try {
-					//send email to author
-					String email =  a.getMainAuthor().getEmail();
-					String sub = "Your article is approved";
-					String title = a.getLatestVersion().getTitle();
-					String msg = "<html><body>Dear "+a.getMainAuthor().getFirstname()+",<br><br> This is to inform that your article is approved by the editor."+
-							"<br><b>Article Details :</b><table><tr><td>Article Name :</td><td>"+title+"</td></tr></table>"+
-							" Make sure that you complete 3 peer reviews to process it futher for publishing, Thank You.<br><br>Regards,<br>Team JAMR</body></html>";
-					es.sendEmail(email,sub,msg);
-					// Send email to main contact
-					String conname = a.getContactName();
-					String email1 =  a.getContactEmail();
-					String sub1 = "Your article is approved";
-					String msg1 = "<html><body>Dear "+conname+",<br><br> This is to inform you that article you have been assigned to is approved by the editor."+
-							"<br><b>Article Details :</b><table><tr><td>Article Name :</td><td>"+title+"</td></tr></table>"+
-							"If you are not the above mentioned person  or have any problems with this article then please <a href=\"mailto:test@test.com\">Email Us</a>"+
-							"<br><br>Regards,<br>Team JAMR</body></html>";
-					es.sendEmail(email1,sub1,msg1);
-				} catch (Exception e) {
+					response.sendRedirect("welcome");
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				break;
-			case FAIL:
-				session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Please check article number.");
-				session.setAttribute("alertType","danger" );
-				response.sendRedirect("ApproveArticles");
-				break;
-			case DB_ERROR:
-				session.setAttribute("user","false");
-				session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
-				session.setAttribute("alertType","danger" );
-				response.sendRedirect("ApproveArticles");
-				break;
 			}
-			if (uc.isSessionReady())
-				uc.endSession();
-			if(ac.isSessionReady())
-				ac.endSession();
 		}
 		else {
-			if (uc.isSessionReady())
-				uc.endSession();
 			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
 			String alertType = "danger";
 			session.setAttribute("alertMessage",alertMessage);

@@ -25,6 +25,7 @@
 									<tr><td><b>Name</b></td><td>$thisuser.getFirstname() $thisuser.getSurname()</td></tr>
 									<tr><td><b>Email</b></td><td>#if($thisuser.getEmail())$thisuser.getEmail()#else N/A #end</td></tr>
 									<tr><td><b>Affiliation</b></td><td>#if($thisuser.getAffiliations())$thisuser.getAffiliations()#else N/A #end</td></tr>
+									<tr><td><b>Status</b></td><td>#if($thisuser.getRole())$thisuser.getRole().getName().toUpperCase()#else N/A #end</td></tr>
 									<tr><td><b>Joined JAMR on</b></td><td>#if($thisuser.getCreatedat())$thisuser.getCreatedat()#else N/A #end</td></tr>
 									<tr><td><b>Last Seen on</b></td><td>#if($thisuser.getOldLastlogin())$thisuser.getOldLastlogin()#else N/A #end</td></tr>
 								</table>
@@ -46,7 +47,7 @@
 												<td>#if($article.getLatestVersion().getTitle())$article.getLatestVersion().getTitle()#else N/A #end</td>
 												<td>#if($article.getCreatedAtDay())$article.getCreatedAtDay()#else N/A #end</td>
 												<td>#if($article.getStatus())<span class="label label-$label[$article.getStatus()]">$status[$article.getStatus()]</span>#else N/A #end</td>
-												<td><a href="#" class="btn btn-default"><i class="fa fa-eye"></i> View</a></td>
+												<td><a class="btn btn-default" data-toggle="modal" data-target="#article$article.getId()"><i class="fa fa-eye"></i> View</a></td>
 												#if($article.getStatus()<4)<td><a href="newversion?for=$article.getId()" class="btn btn-primary"><i class="fa fa-plus"></i> New Version</a></td>#end
 											</tr>
 										#end
@@ -62,6 +63,25 @@
 			</div>
 		</div>
 	</div>
+		#foreach($article in $articles)
+		<div class="modal fade" id="article$article.getId()" tabindex="-1" role="dialog" aria-labelledby="#article#{$article.getId()}Label" aria-hidden="true"> 
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        				<h4 class="modal-title">$article.getLatestVersion().getTitle()</h4>
+      				</div>
+      				<div class="modal-body">
+        				<table>
+        					<tr><td><b>Author</b></td><td>$article.getMainAuthor().getFirstname() $article.getMainAuthor().getSurname()</td></tr>
+        					<tr><td><b>Abstract</b></td><td>$article.getLatestVersion().getAbs()</td></tr>
+        					<tr><td></td><td><a href="$article.getLatestVersion().getUrl()"><i class="fa fa-download"></i><b>Download Article</b></a></td></tr>
+        				</table>
+      				</div>
+    			</div><!-- /.modal-content -->
+  			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+	#end
 #include( "/bootstrap/footer.html" )
 </div>
 </body>

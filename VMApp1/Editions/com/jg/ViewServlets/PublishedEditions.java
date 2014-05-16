@@ -12,6 +12,7 @@ import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.EditionController;
 import com.jg.Controller.UserController;
+import com.jg.Model.User;
 
 /**
  * Servlet implementation class PublishedArticle
@@ -33,7 +34,7 @@ public class PublishedEditions extends VelocityViewServlet
 			System.out.println("false");
 		}
 		else if(session.getAttribute("user") == null){
-				session.setAttribute("user", "false");
+			session.setAttribute("user", "false");
 		}
 		//------Code to display alert message------
 		if(session.getAttribute("alertMessage")!=null){
@@ -48,10 +49,27 @@ public class PublishedEditions extends VelocityViewServlet
 		}
 		//-----End of Alert Message Code---------
 		UserController uc = new UserController();
-		uc.startSession();
+		User thisUser = null;
 		int id = 0;
-		if (request.getParameter("id") != null)
+		if (request.getParameter("id") != null){
 			id = Integer.parseInt(request.getParameter("id"));
+			try{
+				uc.startSession();
+				if (session.getAttribute("user_id") != null) {
+					thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+				}
+				uc.endSession();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			finally{
+				if (uc.isSessionReady())
+					uc.endSession();
+			}
+			if(thisUser != null)
+				session.setAttribute("thisuser",thisUser);
+		}
 		else {
 			String alertMessage = "<Strong>Oops!!</strong> Volume not found.";
 			String alertType = "danger";
@@ -63,18 +81,25 @@ public class PublishedEditions extends VelocityViewServlet
 				e.printStackTrace();
 			}
 		}
+
+		EditionController ec = new EditionController();
 		try {
-			EditionController ec = new EditionController();
 			ec.startSession();
-			context.put("editions", ec.getEditionsForVolume(id));
-			session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
-			
+			context.put("editions", ec.getEditionsForVolume(id));			
 			ec.endSession();
+			uc.startSession();
+			session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+			uc.endSession();
+
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
-		}
-		if (uc.isSessionReady()) {
-			uc.endSession();
+		}finally{
+			if (uc.isSessionReady()) {
+				uc.endSession();
+			}
+			if (ec.isSessionReady()) {
+				ec.endSession();
+			}
 		}
 		/* get the template */
 		Template template = null;

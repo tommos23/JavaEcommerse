@@ -14,6 +14,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 
 import com.jg.Controller.UserController;
+import com.jg.Model.User;
 
 public class UserHome extends VelocityViewServlet 
 {
@@ -42,7 +43,7 @@ public class UserHome extends VelocityViewServlet
 		/* get the template */
 		Template template = null;
 		boolean user = false;
-		if(session.getAttribute("user") != null){
+		if(session.getAttribute("user") != null && session.getAttribute("thisuser") != null ){
 			if(session.getAttribute("user").equals("true"))
 				user = true;
 		}
@@ -60,17 +61,26 @@ public class UserHome extends VelocityViewServlet
 		else{		
 
 			session.setAttribute("application", "JAMR - Online Journal");
+			UserController uc = new UserController();
+			User thisUser = null;
+			try{
+				uc.startSession();
+				if (session.getAttribute("user_id") != null) {
+					thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally{
+				if (uc.isSessionReady())
+					uc.endSession();
+			}
+			session.setAttribute("thisuser", thisUser);
 		}		
 		try {
 			template = getTemplate("user/home.vm"); 
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}
-		UserController uc = new UserController();
-		uc.startSession();
-		session.setAttribute("thisuser", uc.getUser(session.getAttribute("user_email").toString()));
-		if (uc.isSessionReady())
-			uc.endSession();
 		return template;
 	}
 }

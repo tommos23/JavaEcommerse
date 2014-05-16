@@ -45,10 +45,21 @@ public class ViewArticleRevisions extends VelocityViewServlet {
 		}
 		//-----End of Alert Message Code---------
 		UserController uc = new UserController();
-		uc.startSession();
+		ArticleController ac = new ArticleController();
+		ReviewController rc = new ReviewController();
 		User thisUser = null;
+		try{
+		uc.startSession();
 		if (session.getAttribute("user_id") != null) {
 			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			if (uc.isSessionReady())
+				uc.endSession();
 		}
 		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
 			try {
@@ -56,17 +67,16 @@ public class ViewArticleRevisions extends VelocityViewServlet {
 				int article_id = -1;
 				article_id = Integer.parseInt(request.getParameter("article_id"));
 				if(article_id != -1){
-					ArticleController ac = new ArticleController();
 					ac.startSession();
 					context.put("versions", ac.getAllVersionsForArticle(article_id));
 					Article art = ac.get(article_id);
 					context.put("article", art);
 					ac.endSession();
-					ReviewController rc = new ReviewController();
+					
 					rc.startSession();
 					context.put("reviews", rc.getReviewsForArticle(art));
 					rc.endSession();
-					session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+					session.setAttribute("thisuser",thisUser);
 				} else {
 					String alertMessage = "No article selected";
 					String alertType = "danger";
@@ -82,12 +92,14 @@ public class ViewArticleRevisions extends VelocityViewServlet {
 			} catch(Exception e ) {
 				System.out.println("Error " + e);
 			}
-			if (uc.isSessionReady())
-				uc.endSession();
+			finally{
+				if (ac.isSessionReady())
+					ac.endSession();
+				if (rc.isSessionReady())
+					rc.endSession();
+			}
 		}
 		else {
-			if (uc.isSessionReady())
-				uc.endSession();
 			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
 			String alertType = "danger";
 			session.setAttribute("alertMessage",alertMessage);

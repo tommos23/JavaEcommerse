@@ -43,12 +43,6 @@ public class UploadArticleVersion extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
@@ -81,30 +75,17 @@ public class UploadArticleVersion extends HttpServlet {
 				throw new ServletException("Content type is not multipart/form-data");
 			};
 			try {
-
-
-
-
 				List<FileItem> fileItemsList = uploader.parseRequest(request);
 				Iterator<FileItem> fit = fileItemsList.iterator();
 				//System.out.println("size"+fileItemsList.size());
 				while(fit.hasNext()){
 					FileItem fileItem = fit.next();
 					if(!fileItem.isFormField()){
-						System.out.println("FieldName="+fileItem.getFieldName());
-						System.out.println("FileName="+fileItem.getName());
-						System.out.println("ContentType="+fileItem.getContentType());
-						System.out.println("Size in bytes="+fileItem.getSize());
-
 						File file = new File("uploads"/*this.getServletContext().getAttribute("FILES_DIR")*/+File.separator+fileItem.getName());
 						System.out.println("Absolute Path at server="+file.getAbsolutePath());
 						fileItem.write(file);
 						filepath = file.getCanonicalPath();
-						System.out.println("File "+fileItem.getName()+ " uploaded successfully.");
-						System.out.println("<br>");
-						System.out.println("<a href=\"UploadDownloadFileServlet?fileName="+fileItem.getName()+"\">Download "+fileItem.getName()+"</a>");
-
-					}
+						}
 					else{
 						String attrName = fileItem.getFieldName();
 						System.out.println(attrName);

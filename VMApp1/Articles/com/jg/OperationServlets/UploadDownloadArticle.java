@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 
+
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.jg.Controller.ArticleController;
+import com.jg.Controller.UserController;
+import com.jg.Model.User;
 import com.jg.Services.EmailService;
 
 /**
@@ -121,8 +125,21 @@ public class UploadDownloadArticle extends HttpServlet {
 				switch(ac.addNewArticle(title,conname,conemail, abs, keywords, subIds, newSubs, filepath , session.getAttribute("user_email").toString())){
 				case SUCCESS:					
 					session.setAttribute("alertMessage","Article is successfully uploaded.");
+					UserController uc = new UserController();
+					User thisUser = null;
+					try{
+					uc.startSession();
+					if (session.getAttribute("user_id") != null) {
+						thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+					}
+					}catch(Exception e){
+						e.printStackTrace();
+					}finally{
+						if (uc.isSessionReady())
+							uc.endSession();
+					}
+					session.setAttribute("thisuser", thisUser);
 					session.setAttribute("alertType","success" );
-					response.sendRedirect("home");
 					EmailService es = new EmailService();
 					try {
 						//send email to author
@@ -142,6 +159,7 @@ public class UploadDownloadArticle extends HttpServlet {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+					response.sendRedirect("home");
 					break;
 				default:
 					session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");

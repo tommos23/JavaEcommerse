@@ -22,14 +22,14 @@ import com.jg.Controller.DocumentTemplateController;
  */
 public class CreateDocumentTemplate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public CreateDocumentTemplate() {
 		super();
 	}
-	
+
 	private ServletFileUpload uploader = null;
 	@Override
 	public void init() throws ServletException{
@@ -38,11 +38,11 @@ public class CreateDocumentTemplate extends HttpServlet {
 		fileFactory.setRepository(filesDir);
 		this.uploader = new ServletFileUpload(fileFactory);
 	}
-	
+
 	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
-		
+
 		String name = null;
 		String description = null;
 		String format = null;
@@ -75,33 +75,33 @@ public class CreateDocumentTemplate extends HttpServlet {
 					else if (attrName.equals("format"))
 						format = fileItem.getString();
 				}
-					
+
 			}
 		}catch(Exception e){
 			System.out.println(e.getLocalizedMessage());
 		}
-		
+
 		if (name == null || name.equals("")){
 			session.setAttribute("alertMessage","Please write a name.");
 			session.setAttribute("alertType","danger" );
 			response.sendRedirect("NewDocumentTemplate");
 			return;
 		}
-		
+
 		if (description == null || description.equals("")){
 			session.setAttribute("alertMessage","Please write a description.");
 			session.setAttribute("alertType","danger" );
 			response.sendRedirect("NewDocumentTemplate");
 			return;
 		}
-		
+
 		if (format == null || format.equals("")){
 			session.setAttribute("alertMessage","Please write a format.");
 			session.setAttribute("alertType","danger" );
 			response.sendRedirect("NewDocumentTemplate");
 			return;
 		}
-		
+
 		System.out.println("URL" + url);
 		if (url == null || url.equals("")){
 			session.setAttribute("alertMessage","Please write a url.");
@@ -109,29 +109,36 @@ public class CreateDocumentTemplate extends HttpServlet {
 			response.sendRedirect("NewDocumentTemplate");
 			return;
 		}
-		
+
 		DocumentTemplateController dc = new DocumentTemplateController();
-		dc.startSession();
-		switch(dc.create(name,description,format,url)){
-		case SUCCESS:
-			session.setAttribute("alertMessage","Volume Created.");
-			session.setAttribute("alertType","success" );
-			response.sendRedirect("ViewDocumentTemplates");
-			break;
-		case FAIL:
-			session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Volume not created.");
-			session.setAttribute("alertType","danger" );
-			response.sendRedirect("NewDocumentTemplates");
-			break;
-		case DB_ERROR:
-			session.setAttribute("user","false");
-			session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
-			session.setAttribute("alertType","danger" );
-			response.sendRedirect("NewDocumentTemplates");
-			break;
+		try{
+			dc.startSession();
+			switch(dc.create(name,description,format,url)){
+			case SUCCESS:
+				session.setAttribute("alertMessage","Volume Created.");
+				session.setAttribute("alertType","success" );
+				response.sendRedirect("ViewDocumentTemplates");
+				break;
+			case FAIL:
+				session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Volume not created.");
+				session.setAttribute("alertType","danger" );
+				response.sendRedirect("NewDocumentTemplates");
+				break;
+			case DB_ERROR:
+				session.setAttribute("user","false");
+				session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
+				session.setAttribute("alertType","danger" );
+				response.sendRedirect("NewDocumentTemplates");
+				break;
+			}
 		}
-		if(dc.isSessionReady())
-			dc.endSession();
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			if(dc.isSessionReady())
+				dc.endSession();
+		}
 	}
 }
 

@@ -62,35 +62,51 @@ public class EditorNewEdition extends VelocityViewServlet
 			}
 		}
 		UserController uc = new UserController();
-		uc.startSession();
 		User thisUser = null;
-		if (session.getAttribute("user_id") != null) {
-			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		try{
+			uc.startSession();
+			if (session.getAttribute("user_id") != null) {
+				thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+			}
 		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			if(uc.isSessionReady())
+				uc.endSession();
+		}
+
+		ArticleController ac = new ArticleController();
+		LettersToEditorsController lc = new LettersToEditorsController();
 		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
 			try {
 				VolumeController vc = new VolumeController();
 				vc.startSession();
 				context.put("volume_id", id);
 				vc.endSession();
-				ArticleController ac = new ArticleController();
 				ac.startSession();
 				context.put("articles", ac.getAllArticles(4));
 				ac.endSession();
-				LettersToEditorsController lc = new LettersToEditorsController();
 				lc.startSession();
 				context.put("letters", lc.getAllLettersToEditors(3));
-				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
 				lc.endSession();
+				uc.startSession();
+				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+				uc.endSession();
 			} catch(Exception e ) {
 				System.out.println("Error " + e);
 			}
-			if (uc.isSessionReady())
-				uc.endSession();
+			finally{
+				if (uc.isSessionReady())
+					uc.endSession();
+				if (lc.isSessionReady())
+					lc.endSession();
+				if (ac.isSessionReady())
+					ac.endSession();
+			}
 		}
 		else {
-			if (uc.isSessionReady())
-				uc.endSession();
 			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
 			String alertType = "danger";
 			session.setAttribute("alertMessage",alertMessage);

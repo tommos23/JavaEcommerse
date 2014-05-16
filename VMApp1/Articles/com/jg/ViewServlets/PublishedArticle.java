@@ -44,12 +44,12 @@ public class PublishedArticle extends VelocityViewServlet {
 		//-----End of Alert Message Code---------
 		UserController uc = new UserController();
 		ArticleController ac = new ArticleController();
-		uc.startSession();
 		User thisUser = null;
-		if (session.getAttribute("user_id") != null) {
-			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
-		}
 		try {
+			uc.startSession();
+			if (session.getAttribute("user_id") != null) {
+				thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+			}
 			int id = 0;
 			if (request.getParameter("id") != null) 
 				id = Integer.parseInt(request.getParameter("id"));
@@ -58,8 +58,7 @@ public class PublishedArticle extends VelocityViewServlet {
 			ac.endSession();
 			context.put("article", article);
 			session.setAttribute("thisuser", thisUser);
-			if (uc.isSessionReady())
-				uc.endSession();
+			uc.endSession();
 		} catch(Exception e ) {
 			System.out.println("Error " + e);
 		}finally{

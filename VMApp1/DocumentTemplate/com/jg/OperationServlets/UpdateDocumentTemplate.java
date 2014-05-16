@@ -22,7 +22,7 @@ public class UpdateDocumentTemplate extends HttpServlet {
 	public UpdateDocumentTemplate() {
 		super();
 	}
-	
+
 	@SuppressWarnings("incomplete-switch")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
@@ -61,27 +61,34 @@ public class UpdateDocumentTemplate extends HttpServlet {
 			response.sendRedirect("NewDocumentTemplate");
 		}
 		DocumentTemplateController dc = new DocumentTemplateController();
-		dc.startSession();
-		switch(dc.update(id,name,description,format,url)){
-		case SUCCESS:
-			session.setAttribute("alertMessage","Template Created.");
-			session.setAttribute("alertType","success" );
-			response.sendRedirect("ViewDocumentTemplates");
-			break;
-		case FAIL:
-			session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Volume not created.");
-			session.setAttribute("alertType","danger" );
-			response.sendRedirect("ViewDocumentTemplates");
-			break;
-		case DB_ERROR:
-			session.setAttribute("user","false");
-			session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
-			session.setAttribute("alertType","danger" );
-			response.sendRedirect("EditDocumentTemplate?id="+id);
-			break;
+		try{
+			dc.startSession();
+			switch(dc.update(id,name,description,format,url)){
+			case SUCCESS:
+				session.setAttribute("alertMessage","Template Created.");
+				session.setAttribute("alertType","success" );
+				response.sendRedirect("ViewDocumentTemplates");
+				break;
+			case FAIL:
+				session.setAttribute("alertMessage","<Strong>Sorry!!</strong> Volume not created.");
+				session.setAttribute("alertType","danger" );
+				response.sendRedirect("ViewDocumentTemplates");
+				break;
+			case DB_ERROR:
+				session.setAttribute("user","false");
+				session.setAttribute("alertMessage","<Strong>Oops!!</strong> Something went wrong. Try Again");
+				session.setAttribute("alertType","danger" );
+				response.sendRedirect("EditDocumentTemplate?id="+id);
+				break;
+			}
 		}
-		if(dc.isSessionReady())
-			dc.endSession();
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			if(dc.isSessionReady())
+				dc.endSession();
+		}
 	}
 }
 

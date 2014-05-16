@@ -22,10 +22,15 @@
 								<input type="text" name="description" class="form-control" /><br />
 								<input type="hidden" name="volume_id" value="$volume_id" />
 								<label>Articles to include:</label><br />
+								#if($articles.size() > 0)
 								#foreach ($article in $articles)
 									<input type="checkbox" name="articles" value="$article.getId()"> $article.getLatestVersion().getTitle()<br />
 								#end
+								#else
+									No new articles are ready for publishing.<br><br>
+								#end
 								<label>Letter to include:</label><br />
+								#if($letters.size() > 0)
 								#foreach ($letter in $letters)
 									<input type="checkbox" name="letters" value="$letter.getId()">
 									#if ($letter.getText().length() >= 40)
@@ -33,6 +38,9 @@
 									#else
 										$letter.getText()
 									#end<br />
+								#end
+								#else
+									No new letters are available for publishing.<br><br>
 								#end
 								<input type="submit" value="Create" class="btn btn-primary"/ ><br />
 							</form>

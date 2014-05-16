@@ -26,6 +26,7 @@
 									<th></th>
 								</tr>
 								#foreach($updated in $updated_articles)
+									#if($updated)
 									<tr>
 										<td>
 											$updated.getLatestVersion().getTitle()
@@ -37,6 +38,7 @@
 											<a href="ReviewerEditReview?id=$reviewing.getId()">Update Review</a>
 										</td>
 									</tr>
+									#end
 								#end
 							</table>
 						#end

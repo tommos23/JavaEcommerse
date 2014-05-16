@@ -57,6 +57,7 @@ public class ViewDocumentTemplates extends VelocityViewServlet
 			if (session.getAttribute("user_id") != null) 
 				thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 			session.setAttribute("thisuser", thisUser);
+			uc.endSession();
 			vc.startSession();
 			context.put("templates", vc.getAllTemplates());
 			vc.endSession();

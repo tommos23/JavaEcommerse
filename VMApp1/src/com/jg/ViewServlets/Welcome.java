@@ -37,30 +37,14 @@ public class Welcome extends VelocityViewServlet
 		/* get the template */
 		Template template = null;
 		if (!session.isNew()){
-			if(session.getAttribute("user") != null){
-				if(session.getAttribute("user").equals("true")){
+			if(session.getAttribute("thisuser") != null){
+				session.setAttribute("user", "true");
 					try {
 						response.sendRedirect("home");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				}
-				if(session.getAttribute("fname")!=null){
-					context.put("fname", session.getAttribute("fname").toString());					
-					session.removeAttribute("fname");
-				}
-				if(session.getAttribute("lname")!=null){
-					context.put("lname", session.getAttribute("lname").toString());
-					session.removeAttribute("lname");
-				}
-				if(session.getAttribute("email")!=null){
-					context.put("email", session.getAttribute("email").toString());
-					session.removeAttribute("email");
-				}
-				if(session.getAttribute("existemail")!=null){
-					context.put("existemail", session.getAttribute("existemail").toString());
-					session.removeAttribute("existemail");
-				}
+				
 			}
 			else{
 				session.setAttribute("user", "false");

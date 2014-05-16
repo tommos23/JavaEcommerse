@@ -59,27 +59,35 @@ public class EditDocumentTemplate extends VelocityViewServlet {
 		/* get the template */
 		
 		UserController uc = new UserController();
-		uc.startSession();
+		DocumentTemplateController dtc = new DocumentTemplateController();
 		User thisUser = null;
+		try{
+		uc.startSession();
 		if (session.getAttribute("user_id") != null) {
 			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
 		}
-		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
-			try {
-				DocumentTemplateController dtc = new DocumentTemplateController();
-				dtc.startSession();
-				context.put("template", dtc.get(Integer.parseInt(id)));
-				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
-				dtc.endSession();
-			} catch(Exception e ) {
-				System.out.println("Error " + e);
-			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
 			if (uc.isSessionReady())
 				uc.endSession();
 		}
+		if (thisUser != null && (thisUser.getRole().getName().equals("editor") || thisUser.getRole().getName().equals("publisher"))) {
+			session.setAttribute("thisuser", thisUser);
+			try {
+				dtc.startSession();
+				context.put("template", dtc.get(Integer.parseInt(id)));
+				dtc.endSession();
+			} catch(Exception e ) {
+				e.printStackTrace();
+			}
+			finally{
+				if (dtc.isSessionReady())
+					dtc.endSession();
+			}
+		}
 		else {
-			if (uc.isSessionReady())
-				uc.endSession();
 			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
 			String alertType = "danger";
 			session.setAttribute("alertMessage",alertMessage);

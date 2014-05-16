@@ -34,7 +34,7 @@ public class ReviewerViewArticle extends VelocityViewServlet
 			System.out.println("false");
 		}
 		else if(session.getAttribute("user") == null){
-				session.setAttribute("user", "false");
+			session.setAttribute("user", "false");
 		}
 		//------Code to display alert message------
 		if(session.getAttribute("alertMessage")!=null){
@@ -50,11 +50,23 @@ public class ReviewerViewArticle extends VelocityViewServlet
 		//-----End of Alert Message Code---------
 		Template template = null;
 		UserController uc = new UserController();
-		uc.startSession();
+		ArticleController ac = new ArticleController();
 		User thisUser = null;
-		if (session.getAttribute("user_id") != null) {
-			thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+		try{
+			uc.startSession();
+			if (session.getAttribute("user_id") != null) {
+				thisUser = uc.get(Integer.parseInt(session.getAttribute("user_id").toString()));
+			}
 		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally{
+			if (uc.isSessionReady())
+				uc.endSession();
+		}
+
 		if (thisUser != null && (thisUser.getRole().getName().equals("activeauthor") || thisUser.getRole().getName().equals("passiveauthor"))) {
 			String article_id = request.getParameter("id");
 			if (article_id == null || article_id.equals("")) {
@@ -66,7 +78,7 @@ public class ReviewerViewArticle extends VelocityViewServlet
 					e.printStackTrace();
 				}
 			}
-			
+
 			boolean user = false;		
 			if(session.getAttribute("user") != null){
 				if(session.getAttribute("user").equals("true"))
@@ -81,19 +93,21 @@ public class ReviewerViewArticle extends VelocityViewServlet
 			} else {
 				int id = Integer.parseInt(session.getAttribute("user_id").toString());
 				/* get the template */
-				ArticleController ac = new ArticleController();
-				ac.startSession();
-				context.put("article", ac.get(Integer.parseInt(article_id)));
-				session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
-				context.put("user_id",id);
-				ac.endSession();					
-				if (uc.isSessionReady())
-					uc.endSession();
+				try{
+					ac.startSession();
+					context.put("article", ac.get(Integer.parseInt(article_id)));
+					session.setAttribute("thisuser", uc.get(Integer.parseInt(session.getAttribute("user_id").toString())));
+					context.put("user_id",id);
+					ac.endSession();
+				}
+				catch(Exception e){e.printStackTrace();}
+				finally{
+					if (ac.isSessionReady())
+						ac.endSession();
+				}
 			}
 		}
 		else {
-			if (uc.isSessionReady())
-				uc.endSession();
 			String alertMessage = "<Strong>Oops!!</strong> You do not have permission to do that.";
 			String alertType = "danger";
 			session.setAttribute("alertMessage",alertMessage);

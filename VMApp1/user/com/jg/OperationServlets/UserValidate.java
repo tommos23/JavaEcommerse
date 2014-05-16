@@ -58,6 +58,7 @@ public class UserValidate extends HttpServlet {
 				session.setAttribute("user_lname",uc.getUser().getSurname());
 				session.setAttribute("user_email",uc.getUser().getEmail());
 				session.setAttribute("last_login", uc.getUser().getOldLastlogin().toLocaleString());
+				session.setAttribute("thisuser",  uc.getUser());
 				session.setAttribute("alertMessage","<Strong>Welcome!!</strong> You have successfully logged in.");
 				session.setAttribute("alertType","success" );
 				response.sendRedirect("home");
